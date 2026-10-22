@@ -2,8 +2,37 @@ const cds = require('@sap/cds');
 
 module.exports = class AssetManagerService extends cds.ApplicationService {
   init() {
-    const { Asset, MaintenanceRecord, AssetAssignment, Employee, ReportLog } = cds.entities('asset.lifecycle.db');
+    const { Asset, MaintenanceRecord, AssetAssignment, Employee, AssetCategory, AssetRequest, ReportLog } = cds.entities('asset.lifecycle.db');
     const day = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+
+    // FR-030: Managers may submit requests and view only requests they submitted.
+    this.on('READ', 'AssetRequests', async req => {
+      req.query.where({ requested_by: req.user.id });
+      return cds.run(req.query);
+    });
+
+    this.on('requestAsset', async req => {
+      if (!req.user.is('Manager')) req.reject(403, 'Only Managers can submit asset requests');
+      const { employeeId, categoryId, reason } = req.data;
+      if (!employeeId || !categoryId || !reason || !reason.trim())
+        req.reject(400, 'Employee, asset category, and business reason are required');
+      const employee = await SELECT.one.from(Employee).where({ employee_id: employeeId });
+      if (!employee) req.reject(404, 'Employee not found');
+      if (employee.status !== 'ACTIVE') req.reject(400, 'Assets can only be requested for active employees');
+      const category = await SELECT.one.from(AssetCategory).where({ asset_category_id: categoryId });
+      if (!category) req.reject(404, 'Asset category not found');
+      if (category.is_active === false) req.reject(400, 'Selected asset category is inactive');
+      const existing = await SELECT.one.from(AssetRequest).where({
+        requested_by: req.user.id, employee_employee_id: employeeId,
+        category_asset_category_id: categoryId, status: 'PENDING'
+      });
+      if (existing) req.reject(409, 'A pending request already exists for this employee and category');
+      await INSERT.into(AssetRequest).entries({
+        requested_by: req.user.id, employee_employee_id: employeeId,
+        category_asset_category_id: categoryId, reason: reason.trim(), status: 'PENDING'
+      });
+      return 'Asset request submitted to Admin for review.';
+    });
 
     // ================= Operational attention (list of real items) =================
     this.on('READ', 'AttentionItems', async () => {
