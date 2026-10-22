@@ -90,8 +90,11 @@
     },
     "routing": {
       "config": {
+        "routerClass": "sap.f.routing.Router",
         "viewType": "XML",
         "viewPath": "managerdashboard.home.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
         "async": true
       },
       "routes": [
