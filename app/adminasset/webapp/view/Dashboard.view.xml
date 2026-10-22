@@ -1,0 +1,102 @@
+ <mvc:View
+  controllerName="adminasset.controller.Dashboard"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <Page id="adminDashboardPage" title="Asset Administration" showNavButton="false">
+    <content>
+      <VBox class="adminDashboard" width="100%" renderType="Bare">
+        <VBox class="adminHero sapUiResponsiveContentPadding" width="100%">
+          <Title text="Admin dashboard" level="H1"/>
+          <Text text="Manage assets, maintenance, and organizational master data from one place."/>
+          <HBox wrap="Wrap" class="sapUiSmallMarginTop" alignItems="Center">
+            <Button text="Manage assets" icon="sap-icon://laptop" type="Emphasized" press=".onOpenAssets"/>
+            <Button text="Review maintenance" icon="sap-icon://wrench" press=".onOpenMaintenance" class="sapUiTinyMarginBegin"/>
+            <Button text="Refresh data" icon="sap-icon://refresh" press=".onRefresh" class="sapUiTinyMarginBegin"/>
+          </HBox>
+        </VBox>
+        <VBox class="sapUiResponsiveContentPadding" width="100%">
+          <Title text="Asset overview" level="H2" class="sapUiSmallMarginBottom"/>
+          <HBox wrap="Wrap" width="100%" class="adminKpiRow">
+            <VBox class="adminKpiCard" width="15rem">
+              <Text text="Total assets" class="adminKpiLabel"/>
+              <Title text="{summary>/total}" level="H1" class="adminKpiNumber"/>
+              <Text text="All registered assets"/>
+            </VBox>
+            <VBox class="adminKpiCard" width="15rem">
+              <Text text="Available" class="adminKpiLabel"/>
+              <Title text="{summary>/available}" level="H1" class="adminKpiNumber"/>
+              <ObjectStatus text="Ready to assign" state="Success"/>
+            </VBox>
+            <VBox class="adminKpiCard" width="15rem">
+              <Text text="Assigned" class="adminKpiLabel"/>
+              <Title text="{summary>/assigned}" level="H1" class="adminKpiNumber"/>
+              <ObjectStatus text="Currently in use" state="Information"/>
+            </VBox>
+            <VBox class="adminKpiCard" width="15rem">
+              <Text text="Maintenance" class="adminKpiLabel"/>
+              <Title text="{summary>/maintenance}" level="H1" class="adminKpiNumber"/>
+              <ObjectStatus text="Needs attention" state="Warning"/>
+            </VBox>
+            <VBox class="adminKpiCard" width="15rem">
+              <Text text="Retired" class="adminKpiLabel"/>
+              <Title text="{summary>/retired}" level="H1" class="adminKpiNumber"/>
+              <ObjectStatus text="End-of-life assets" state="Error"/>
+            </VBox>
+          </HBox>
+
+          <Title text="Lifecycle distribution" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
+          <VBox class="adminPanel" width="100%">
+            <VBox class="adminStatusLine">
+              <HBox justifyContent="SpaceBetween"><Text text="Available"/><Text text="{summary>/available} / {summary>/total}"/></HBox>
+              <ProgressIndicator percentValue="{summary>/availablePercent}" displayValue="{summary>/availablePercent}% available" state="Success"/>
+            </VBox>
+            <VBox class="adminStatusLine">
+              <HBox justifyContent="SpaceBetween"><Text text="Assigned"/><Text text="{summary>/assigned} / {summary>/total}"/></HBox>
+              <ProgressIndicator percentValue="{summary>/assignedPercent}" displayValue="{summary>/assignedPercent}% assigned" state="Information"/>
+            </VBox>
+            <VBox class="adminStatusLine">
+              <HBox justifyContent="SpaceBetween"><Text text="Maintenance"/><Text text="{summary>/maintenance} / {summary>/total}"/></HBox>
+              <ProgressIndicator percentValue="{summary>/maintenancePercent}" displayValue="{summary>/maintenancePercent}% in maintenance" state="Warning"/>
+            </VBox>
+            <VBox class="adminStatusLine">
+              <HBox justifyContent="SpaceBetween"><Text text="Retired"/><Text text="{summary>/retired} / {summary>/total}"/></HBox>
+              <ProgressIndicator percentValue="{summary>/retiredPercent}" displayValue="{summary>/retiredPercent}% retired" state="Error"/>
+            </VBox>
+          </VBox>
+
+          <Title text="Maintenance requests" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
+          <Text text="Open requests are shown here so the Admin can follow up on issues raised by users." class="sapUiTinyMarginBottom"/>
+          <Table id="maintenanceTable" items="{summary>/openRequests}" noDataText="No open maintenance requests." growing="true" growingThreshold="10">
+            <columns>
+              <Column><Text text="Asset"/></Column>
+              <Column><Text text="Type"/></Column>
+              <Column><Text text="Description"/></Column>
+              <Column><Text text="Reported date"/></Column>
+              <Column><Text text="Status"/></Column>
+            </columns>
+            <items>
+              <ColumnListItem>
+                <cells>
+                  <Text text="{summary>assetTag}"/>
+                  <Text text="{summary>type}"/>
+                  <Text text="{summary>description}" maxLines="2"/>
+                  <Text text="{summary>reportedDate}"/>
+                  <ObjectStatus text="{summary>status}" state="{summary>state}"/>
+                </cells>
+              </ColumnListItem>
+            </items>
+          </Table>
+
+          <Title text="Master data" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
+          <HBox wrap="Wrap" class="adminMasterGrid">
+            <Button text="Employees" icon="sap-icon://employee" width="12rem" press=".onOpenEmployees"/>
+            <Button text="Departments" icon="sap-icon://org-chart" width="12rem" press=".onOpenDepartments"/>
+            <Button text="Asset categories" icon="sap-icon://tag" width="12rem" press=".onOpenCategories"/>
+            <Button text="Vendors" icon="sap-icon://shipping-status" width="12rem" press=".onOpenVendors"/>
+          </HBox>
+        </VBox>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>
