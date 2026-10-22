@@ -21,6 +21,8 @@ service AssetAdminService @(path: '/odata/v4/admin', requires: 'Admin', impl: '.
   @readonly entity OwnershipLedgers   as projection on db.OwnershipLedger;   // FR-007
   @readonly entity MaintenanceRecords as projection on db.MaintenanceRecord;
   @readonly entity ArchiveRecords     as projection on db.ArchiveRecord;
+  function exportPdf() returns LargeString;
+  action emailReport(to : String) returns String;
   //@readonly entity KPIs as select from db.Asset {
     //key status, count(*) as total : Integer, sum(purchase_cost) as value : Decimal(15,2) } group by status;
 }
