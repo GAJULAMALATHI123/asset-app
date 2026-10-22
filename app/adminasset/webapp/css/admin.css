@@ -1,33 +1,45 @@
-/* Admin Asset Management — visual refinements for SAP Fiori Elements */
-.sapUiBody .sapMPageHeader,
-.sapUiBody .sapMIBar.sapMHeader-CTX {
-  box-shadow: 0 1px 4px rgba(22, 45, 70, 0.08);
+/* Admin Asset Management dashboard and Fiori Elements pages */
+.adminDashboard { background: var(--sapBackgroundColor); }
+.adminHero {
+  background: linear-gradient(115deg, var(--sapBrandColor) 0%, var(--sapShellColor) 100%);
+  color: var(--sapTextColor);
+  border-bottom: 1px solid var(--sapGroup_ContentBorderColor);
 }
-
+.adminHero .sapMTitle { font-weight: 700; }
+.adminKpiRow { gap: 0.75rem; }
+.adminKpiCard {
+  box-sizing: border-box;
+  min-height: 8.5rem;
+  padding: 1rem 1.1rem;
+  margin: 0 0 0.5rem 0;
+  border: 1px solid var(--sapGroup_ContentBorderColor);
+  border-radius: 0.75rem;
+  background: var(--sapTile_Background, var(--sapGroup_ContentBackground));
+  box-shadow: 0 2px 8px rgba(22, 45, 70, 0.06);
+}
+.adminKpiLabel { color: var(--sapContent_LabelColor); font-size: 0.875rem; }
+.adminKpiNumber { margin: 0.3rem 0; font-weight: 700; }
+.adminPanel {
+  box-sizing: border-box;
+  padding: 1.25rem;
+  border: 1px solid var(--sapGroup_ContentBorderColor);
+  border-radius: 0.75rem;
+  background: var(--sapGroup_ContentBackground);
+}
+.adminStatusLine { margin-bottom: 1rem; }
+.adminStatusLine:last-child { margin-bottom: 0; }
+.adminMasterGrid { gap: 0.75rem; }
+.adminMasterGrid .sapMBtn { margin: 0 0 0.25rem 0; }
 .sapUiBody .sapMListTblHeaderCell {
   background: var(--sapList_HeaderBackground, #f5f7f9);
   font-weight: 600;
 }
-
 .sapUiBody .sapMListTblRow:hover > .sapMListTblCell {
   background: var(--sapList_Hover_Background, #f2f7fc);
 }
-
 .sapUiBody .sapMListTblCell,
 .sapUiBody .sapMListTblHeaderCell {
   border-bottom-color: var(--sapList_BorderColor, #d9dfe5);
 }
-
-.sapUiBody .sapMFilterBar,
-.sapUiBody .sapUiAFLayout {
-  border-radius: 0.5rem;
-}
-
 .sapUiBody .sapMObjectHeaderTitle .sapMTitle,
-.sapUiBody .sapUxAPObjectPageSectionTitle {
-  font-weight: 600;
-}
-
-.sapUiBody .sapMMessageStrip {
-  border-radius: 0.375rem;
-}
+.sapUiBody .sapUxAPObjectPageSectionTitle { font-weight: 600; }
