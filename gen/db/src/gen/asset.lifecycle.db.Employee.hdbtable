@@ -1,0 +1,14 @@
+COLUMN TABLE asset_lifecycle_db_Employee (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  employee_id NVARCHAR(36) NOT NULL,
+  full_name NVARCHAR(100),
+  email NVARCHAR(100),
+  phone NVARCHAR(20),
+  department_dept_id NVARCHAR(36),
+  location NVARCHAR(100),
+  status NVARCHAR(5000) DEFAULT 'ACTIVE',
+  PRIMARY KEY(employee_id)
+)

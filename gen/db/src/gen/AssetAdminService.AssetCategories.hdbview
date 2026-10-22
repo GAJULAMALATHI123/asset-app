@@ -1,0 +1,10 @@
+VIEW AssetAdminService_AssetCategories AS SELECT
+  AssetCategory_0.createdAt,
+  AssetCategory_0.createdBy,
+  AssetCategory_0.modifiedAt,
+  AssetCategory_0.modifiedBy,
+  AssetCategory_0.asset_category_id,
+  AssetCategory_0.name,
+  AssetCategory_0.lifespan_months,
+  AssetCategory_0.is_active
+FROM asset_lifecycle_db_AssetCategory AS AssetCategory_0

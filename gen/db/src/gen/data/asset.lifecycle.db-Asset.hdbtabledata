@@ -1,0 +1,43 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "ASSET_LIFECYCLE_DB_ASSET",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "asset.lifecycle.db-Asset.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ASSET_ID",
+          "ASSET_TAG",
+          "SERIAL_NUMBER",
+          "ASSETCATEGORY_ASSET_CATEGORY_ID",
+          "VENDOR_VENDOR_ID",
+          "MODEL",
+          "LOCATION",
+          "PURCHASE_DATE",
+          "PURCHASE_COST",
+          "STATUS"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ASSET_ID": "asset_id",
+        "ASSET_TAG": "asset_tag",
+        "SERIAL_NUMBER": "serial_number",
+        "ASSETCATEGORY_ASSET_CATEGORY_ID": "assetCategory_asset_category_id",
+        "VENDOR_VENDOR_ID": "vendor_vendor_id",
+        "MODEL": "model",
+        "LOCATION": "location",
+        "PURCHASE_DATE": "purchase_date",
+        "PURCHASE_COST": "purchase_cost",
+        "STATUS": "status"
+      }
+    }
+  ]
+}

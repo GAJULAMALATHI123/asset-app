@@ -1,0 +1,20 @@
+COLUMN TABLE asset_lifecycle_db_MaintenanceRecord (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  maintenance_id NVARCHAR(36) NOT NULL,
+  asset_asset_id NVARCHAR(36),
+  type NVARCHAR(5000),
+  reported_by_employee_id NVARCHAR(36),
+  service_vendor_vendor_id NVARCHAR(36),
+  reported_date DATE,
+  completed_date DATE,
+  status NVARCHAR(5000),
+  outcome NVARCHAR(5000),
+  cost DECIMAL(10, 2),
+  covered_by_warranty BOOLEAN,
+  next_due_date DATE,
+  description NCLOB,
+  PRIMARY KEY(maintenance_id)
+)

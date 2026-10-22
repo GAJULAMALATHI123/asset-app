@@ -1,0 +1,11 @@
+COLUMN TABLE asset_lifecycle_db_AssetCategory (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  asset_category_id NVARCHAR(36) NOT NULL,
+  name NVARCHAR(50),
+  lifespan_months INTEGER,
+  is_active BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY(asset_category_id)
+)

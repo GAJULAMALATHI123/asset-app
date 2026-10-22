@@ -1,0 +1,35 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "ASSET_LIFECYCLE_DB_EMPLOYEE",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "asset.lifecycle.db-Employee.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "EMPLOYEE_ID",
+          "FULL_NAME",
+          "EMAIL",
+          "DEPARTMENT_DEPT_ID",
+          "LOCATION",
+          "STATUS"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "EMPLOYEE_ID": "employee_id",
+        "FULL_NAME": "full_name",
+        "EMAIL": "email",
+        "DEPARTMENT_DEPT_ID": "department_dept_id",
+        "LOCATION": "location",
+        "STATUS": "status"
+      }
+    }
+  ]
+}

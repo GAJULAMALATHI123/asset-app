@@ -1,0 +1,14 @@
+VIEW AssetAdminService_ArchiveRecords AS SELECT
+  ArchiveRecord_0.createdAt,
+  ArchiveRecord_0.createdBy,
+  ArchiveRecord_0.modifiedAt,
+  ArchiveRecord_0.modifiedBy,
+  ArchiveRecord_0.archive_id,
+  ArchiveRecord_0.asset_asset_id,
+  ArchiveRecord_0.archived_at,
+  ArchiveRecord_0.archived_by,
+  ArchiveRecord_0.reason,
+  ArchiveRecord_0.disposal_method,
+  ArchiveRecord_0.disposal_cert_no,
+  ArchiveRecord_0.compliance_ref
+FROM asset_lifecycle_db_ArchiveRecord AS ArchiveRecord_0

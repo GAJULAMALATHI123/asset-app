@@ -1,0 +1,15 @@
+COLUMN TABLE asset_lifecycle_db_OwnershipLedger (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  ledger_id NVARCHAR(36) NOT NULL,
+  asset_asset_id NVARCHAR(36),
+  from_employee_employee_id NVARCHAR(36),
+  to_employee_employee_id NVARCHAR(36),
+  action NVARCHAR(5000),
+  transition_date DATE,
+  recorded_by NVARCHAR(100),
+  notes NCLOB,
+  PRIMARY KEY(ledger_id)
+)

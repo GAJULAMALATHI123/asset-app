@@ -1,0 +1,1 @@
+// using AssetAdminService as service from '../../srv/services';

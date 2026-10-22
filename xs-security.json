@@ -1,0 +1,45 @@
+{
+  "xsappname": "asset-lifecycle",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Admin"
+    },
+    {
+      "name": "$XSAPPNAME.Manager",
+      "description": "Manager"
+    },
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "User"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Admin",
+      "scope-references": [
+        "$XSAPPNAME.Admin"
+      ],
+      "description": "generated",
+      "attribute-references": []
+    },
+    {
+      "name": "Manager",
+      "scope-references": [
+        "$XSAPPNAME.Manager"
+      ],
+      "description": "generated",
+      "attribute-references": []
+    },
+    {
+      "name": "User",
+      "scope-references": [
+        "$XSAPPNAME.User"
+      ],
+      "description": "generated",
+      "attribute-references": []
+    }
+  ],
+  "attributes": []
+}

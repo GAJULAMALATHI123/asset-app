@@ -1,0 +1,15 @@
+COLUMN TABLE AssetAdminService_Departments_drafts (
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  dept_id NVARCHAR(36) NOT NULL,
+  name NVARCHAR(80) NULL,
+  cost_center NVARCHAR(20) NULL,
+  is_active BOOLEAN NULL DEFAULT TRUE,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(dept_id)
+)

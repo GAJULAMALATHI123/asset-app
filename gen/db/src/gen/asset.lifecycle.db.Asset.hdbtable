@@ -1,0 +1,22 @@
+COLUMN TABLE asset_lifecycle_db_Asset (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  asset_id NVARCHAR(36) NOT NULL,
+  asset_tag NVARCHAR(20),
+  serial_number NVARCHAR(50),
+  assetCategory_asset_category_id NVARCHAR(36),
+  vendor_vendor_id NVARCHAR(36),
+  model NVARCHAR(100),
+  location NVARCHAR(100),
+  purchase_date DATE NOT NULL,
+  purchase_cost DECIMAL(10, 2),
+  warranty_expiry DATE,
+  first_distribution_date DATE,
+  status NVARCHAR(5000) DEFAULT 'AVAILABLE',
+  current_holder_employee_id NVARCHAR(36),
+  retirement_reason NVARCHAR(255),
+  retirement_date DATE,
+  PRIMARY KEY(asset_id)
+)

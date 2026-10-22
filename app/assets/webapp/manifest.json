@@ -1,0 +1,17 @@
+{ "_version": "1.60.0",
+  "sap.app": { "id": "itam.assets", "type": "application", "title": "{{appTitle}}", "applicationVersion": { "version": "1.0.0" },
+    "dataSources": { "mainService": { "uri": "/odata/v4/admin/", "type": "OData", "settings": { "odataVersion": "4.0" } } } },
+  "sap.ui": { "deviceTypes": { "desktop": true, "tablet": true, "phone": false } },
+  "sap.ui5": { "dependencies": { "minUI5Version": "1.120.0", "libs": { "sap.fe.templates": {} } },
+    "models": { "": { "dataSource": "mainService", "settings": { "operationMode": "Server", "autoExpandSelect": true, "earlyRequests": true } },
+                "i18n": { "type": "sap.ui.model.resource.ResourceModel", "settings": { "bundleName": "itam.assets.i18n.i18n" } } },
+    "routing": {
+      "routes": [ { "name": "AssetsList", "pattern": ":?query:", "target": "AssetsList" },
+                  { "name": "AssetsObjectPage", "pattern": "Assets({key}):?query:", "target": "AssetsObjectPage" } ],
+      "targets": {
+        "AssetsList": { "type": "Component", "id": "AssetsList", "name": "sap.fe.templates.ListReport",
+          "options": { "settings": { "contextPath": "/Assets", "variantManagement": "Page",
+            "navigation": { "Assets": { "detail": { "route": "AssetsObjectPage" } } } } } },
+        "AssetsObjectPage": { "type": "Component", "id": "AssetsObjectPage", "name": "sap.fe.templates.ObjectPage",
+          "options": { "settings": { "contextPath": "/Assets" } } } } } },
+  "sap.fiori": { "registrationIds": [], "archeType": "transactional" } }

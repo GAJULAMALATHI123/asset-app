@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "ASSET_LIFECYCLE_DB_VENDOR",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "asset.lifecycle.db-Vendor.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "VENDOR_ID",
+          "NAME",
+          "EMAIL",
+          "IS_ACTIVE"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "VENDOR_ID": "vendor_id",
+        "NAME": "name",
+        "EMAIL": "email",
+        "IS_ACTIVE": "is_active"
+      }
+    }
+  ]
+}

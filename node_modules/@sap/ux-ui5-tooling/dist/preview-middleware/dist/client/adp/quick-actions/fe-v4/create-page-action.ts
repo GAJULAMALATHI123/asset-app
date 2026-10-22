@@ -1,0 +1,98 @@
+import OverlayRegistry from 'sap/ui/dt/OverlayRegistry';
+import FlexCommand from 'sap/ui/rta/command/FlexCommand';
+
+import { DialogFactory, DialogNames } from '../../dialog-factory.js';
+import { QuickActionContext, SimpleQuickActionDefinition } from '../../../cpe/quick-actions/quick-action-definition.js';
+import { SimpleQuickActionDefinitionBase } from '../simple-quick-action-base.js';
+import { getUi5Version, isLowerThanMinimalUi5Version } from '../../../utils/version.js';
+import { DIALOG_ENABLEMENT_VALIDATOR } from '../dialog-enablement-validator.js';
+import { getExistingController } from '../../api-handler.js';
+import { getControllerInfoForControl } from '../../utils.js';
+import { isA } from '../../../utils/core.js';
+import DynamicPageTitle from 'sap/f/DynamicPageTitle';
+import ObjectPageLayout from 'sap/uxap/ObjectPageLayout';
+import ObjectPageDynamicHeaderTitle from 'sap/uxap/ObjectPageDynamicHeaderTitle';
+import { getAppDescriptorBase } from './utils.js';
+
+export const ADD_PAGE_ACTION = 'add-page-action';
+const CONTROL_TYPES = ['sap.f.DynamicPageTitle', 'sap.uxap.ObjectPageLayout'];
+/**
+ * Quick Action for adding a custom page action.
+ */
+export class AddPageActionQuickAction extends SimpleQuickActionDefinitionBase implements SimpleQuickActionDefinition {
+    protected appDescriptor: ReturnType<typeof getAppDescriptorBase>;
+    constructor(context: QuickActionContext) {
+        super(ADD_PAGE_ACTION, CONTROL_TYPES, 'QUICK_ACTION_ADD_CUSTOM_PAGE_ACTION', context, [
+            DIALOG_ENABLEMENT_VALIDATOR
+        ]);
+    }
+
+    async initialize(): Promise<void> {
+        this.appDescriptor = getAppDescriptorBase(this.context);
+        const version = await getUi5Version();
+        if (isLowerThanMinimalUi5Version(version, { major: 1, minor: 120 })) {
+            return;
+        }
+        await super.initialize();
+    }
+
+    async execute(): Promise<FlexCommand[]> {
+        if (!this.appDescriptor) {
+            return [];
+        }
+        if (this.control) {
+            const overlay = OverlayRegistry.getOverlay(this.control) || [];
+            const controlInfo = getControllerInfoForControl(this.control);
+            const data = await getExistingController(controlInfo.controllerName, controlInfo.viewId);
+            const controllerPathFromRoot = data.baseControllerPathFromRoot || data.instanceControllerPathFromRoot || '';
+            const controllerPath = controllerPathFromRoot.replaceAll('/', '.').replace(/\.[^.]+$/, '');
+            await DialogFactory.createDialog(
+                overlay,
+                this.context.rta,
+                DialogNames.ADD_ACTION,
+                undefined,
+                {
+                    title: 'QUICK_ACTION_ADD_CUSTOM_PAGE_ACTION',
+                    controllerReference: controllerPath
+                        ? `.extension.${controllerPath}.<REPLACE_WITH_YOUR_HANDLER_NAME>`
+                        : '.extension.<ApplicationId.FolderName.ScriptFilename.methodName>',
+                    appDescriptor: {
+                        ...this.appDescriptor,
+                        appType: 'fe-v4',
+                        projectId: this.context.flexSettings.projectId
+                    },
+                    validateActionId: (actionId) => {
+                        const headerActions = [...this.context.changeService.getAllPendingConfigPropertyPath()].filter(
+                            (path) => path.includes('content/header/actions/')
+                        );
+                        const idInPendingChanges =
+                            headerActions.length && headerActions.includes(`content/header/actions/${actionId}`);
+                        if (idInPendingChanges) {
+                            return false;
+                        }
+                        if (
+                            isA('sap.f.DynamicPageTitle', this.control) &&
+                            (this.control as DynamicPageTitle)
+                                .getActions()
+                                .every((action) => !action.getId().endsWith(`CustomAction::${actionId}`))
+                        ) {
+                            return true;
+                        }
+                        if (
+                            isA('sap.uxap.ObjectPageLayout', this.control) &&
+                            ((this.control as ObjectPageLayout).getHeaderTitle() as ObjectPageDynamicHeaderTitle)
+                                ?.getActions()
+                                .every((action) => !action.getId().endsWith(`CustomAction::${actionId}`))
+                        ) {
+                            return true;
+                        }
+                        return false;
+                    },
+                    propertyPath: 'content/header/actions/'
+                },
+                { actionName: this.type, telemetryEventIdentifier: this.getTelemetryIdentifier() }
+            );
+        }
+        return [];
+    }
+}

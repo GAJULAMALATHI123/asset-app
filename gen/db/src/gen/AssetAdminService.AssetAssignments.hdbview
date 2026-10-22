@@ -1,0 +1,15 @@
+VIEW AssetAdminService_AssetAssignments AS SELECT
+  AssetAssignment_0.createdAt,
+  AssetAssignment_0.createdBy,
+  AssetAssignment_0.modifiedAt,
+  AssetAssignment_0.modifiedBy,
+  AssetAssignment_0.assignment_id,
+  AssetAssignment_0.asset_asset_id,
+  AssetAssignment_0.employee_employee_id,
+  AssetAssignment_0.assigned_by,
+  AssetAssignment_0.assigned_date,
+  AssetAssignment_0.expected_return_date,
+  AssetAssignment_0.actual_return_date,
+  AssetAssignment_0.assignment_status,
+  AssetAssignment_0.remarks
+FROM asset_lifecycle_db_AssetAssignment AS AssetAssignment_0

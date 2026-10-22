@@ -1,0 +1,15 @@
+COLUMN TABLE asset_lifecycle_db_ArchiveRecord (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  archive_id NVARCHAR(36) NOT NULL,
+  asset_asset_id NVARCHAR(36),
+  archived_at TIMESTAMP,
+  archived_by NVARCHAR(100),
+  reason NVARCHAR(5000),
+  disposal_method NVARCHAR(5000),
+  disposal_cert_no NVARCHAR(40),
+  compliance_ref NVARCHAR(60),
+  PRIMARY KEY(archive_id)
+)

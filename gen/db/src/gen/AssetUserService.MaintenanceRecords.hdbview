@@ -1,0 +1,19 @@
+VIEW AssetUserService_MaintenanceRecords AS SELECT
+  MaintenanceRecord_0.createdAt,
+  MaintenanceRecord_0.createdBy,
+  MaintenanceRecord_0.modifiedAt,
+  MaintenanceRecord_0.modifiedBy,
+  MaintenanceRecord_0.maintenance_id,
+  MaintenanceRecord_0.asset_asset_id,
+  MaintenanceRecord_0.type,
+  MaintenanceRecord_0.reported_by_employee_id,
+  MaintenanceRecord_0.service_vendor_vendor_id,
+  MaintenanceRecord_0.reported_date,
+  MaintenanceRecord_0.completed_date,
+  MaintenanceRecord_0.status,
+  MaintenanceRecord_0.outcome,
+  MaintenanceRecord_0.cost,
+  MaintenanceRecord_0.covered_by_warranty,
+  MaintenanceRecord_0.next_due_date,
+  MaintenanceRecord_0.description
+FROM asset_lifecycle_db_MaintenanceRecord AS MaintenanceRecord_0

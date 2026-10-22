@@ -1,0 +1,1 @@
+UNIQUE INVERTED INDEX asset_lifecycle_db_Asset_tag ON asset_lifecycle_db_Asset (asset_tag)

@@ -1,0 +1,11 @@
+COLUMN TABLE asset_lifecycle_db_Department (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  dept_id NVARCHAR(36) NOT NULL,
+  name NVARCHAR(80),
+  cost_center NVARCHAR(20),
+  is_active BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY(dept_id)
+)

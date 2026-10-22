@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "ASSET_LIFECYCLE_DB_DEPARTMENT",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "asset.lifecycle.db-Department.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "DEPT_ID",
+          "NAME",
+          "COST_CENTER",
+          "IS_ACTIVE"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "DEPT_ID": "dept_id",
+        "NAME": "name",
+        "COST_CENTER": "cost_center",
+        "IS_ACTIVE": "is_active"
+      }
+    }
+  ]
+}

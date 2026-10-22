@@ -1,0 +1,31 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "ASSET_LIFECYCLE_DB_ASSETCATEGORY",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "asset.lifecycle.db-AssetCategory.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ASSET_CATEGORY_ID",
+          "NAME",
+          "LIFESPAN_MONTHS",
+          "IS_ACTIVE"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ASSET_CATEGORY_ID": "asset_category_id",
+        "NAME": "name",
+        "LIFESPAN_MONTHS": "lifespan_months",
+        "IS_ACTIVE": "is_active"
+      }
+    }
+  ]
+}

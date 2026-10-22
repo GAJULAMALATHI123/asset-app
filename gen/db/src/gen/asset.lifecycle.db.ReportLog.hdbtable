@@ -1,0 +1,14 @@
+COLUMN TABLE asset_lifecycle_db_ReportLog (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  action NVARCHAR(20),
+  filterText NVARCHAR(1000),
+  recipient NVARCHAR(120),
+  rowCount INTEGER,
+  outcome NVARCHAR(20),
+  message NVARCHAR(300),
+  PRIMARY KEY(ID)
+)

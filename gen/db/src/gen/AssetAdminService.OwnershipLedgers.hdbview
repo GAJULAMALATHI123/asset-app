@@ -1,0 +1,14 @@
+VIEW AssetAdminService_OwnershipLedgers AS SELECT
+  OwnershipLedger_0.createdAt,
+  OwnershipLedger_0.createdBy,
+  OwnershipLedger_0.modifiedAt,
+  OwnershipLedger_0.modifiedBy,
+  OwnershipLedger_0.ledger_id,
+  OwnershipLedger_0.asset_asset_id,
+  OwnershipLedger_0.from_employee_employee_id,
+  OwnershipLedger_0.to_employee_employee_id,
+  OwnershipLedger_0.action,
+  OwnershipLedger_0.transition_date,
+  OwnershipLedger_0.recorded_by,
+  OwnershipLedger_0.notes
+FROM asset_lifecycle_db_OwnershipLedger AS OwnershipLedger_0

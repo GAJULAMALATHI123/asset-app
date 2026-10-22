@@ -1,0 +1,16 @@
+COLUMN TABLE asset_lifecycle_db_AssetAssignment (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  assignment_id NVARCHAR(36) NOT NULL,
+  asset_asset_id NVARCHAR(36),
+  employee_employee_id NVARCHAR(36),
+  assigned_by NVARCHAR(100),
+  assigned_date DATE,
+  expected_return_date DATE,
+  actual_return_date DATE,
+  assignment_status NVARCHAR(5000),
+  remarks NCLOB,
+  PRIMARY KEY(assignment_id)
+)

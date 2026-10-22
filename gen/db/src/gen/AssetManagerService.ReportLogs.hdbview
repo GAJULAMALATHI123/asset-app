@@ -1,0 +1,13 @@
+VIEW AssetManagerService_ReportLogs AS SELECT
+  ReportLog_0.ID,
+  ReportLog_0.createdAt,
+  ReportLog_0.createdBy,
+  ReportLog_0.modifiedAt,
+  ReportLog_0.modifiedBy,
+  ReportLog_0.action,
+  ReportLog_0.filterText,
+  ReportLog_0.recipient,
+  ReportLog_0.rowCount,
+  ReportLog_0.outcome,
+  ReportLog_0.message
+FROM asset_lifecycle_db_ReportLog AS ReportLog_0

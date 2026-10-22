@@ -1,0 +1,20 @@
+COLUMN TABLE AssetAdminService_AssetAssignments_drafts (
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  assignment_id NVARCHAR(36) NOT NULL,
+  asset_asset_id NVARCHAR(36) NULL,
+  employee_employee_id NVARCHAR(36) NULL,
+  assigned_by NVARCHAR(100) NULL,
+  assigned_date DATE NULL,
+  expected_return_date DATE NULL,
+  actual_return_date DATE NULL,
+  assignment_status NVARCHAR(5000) NULL,
+  remarks NCLOB NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(assignment_id)
+)

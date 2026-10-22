@@ -1,0 +1,10 @@
+VIEW AssetAdminService_Vendors AS SELECT
+  Vendor_0.createdAt,
+  Vendor_0.createdBy,
+  Vendor_0.modifiedAt,
+  Vendor_0.modifiedBy,
+  Vendor_0.vendor_id,
+  Vendor_0.name,
+  Vendor_0.email,
+  Vendor_0.is_active
+FROM asset_lifecycle_db_Vendor AS Vendor_0

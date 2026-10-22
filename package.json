@@ -1,0 +1,72 @@
+{
+  "name": "asset-lifecycle",
+  "version": "1.0.0",
+  "dependencies": {
+    "@cap-js/hana": "^3.1.2",
+    "@sap/cds": "^10.1.1",
+    "@sap/xssec": "^4.15.0",
+    "better": "^0.1.0",
+    "express": "^4",
+    "nodemailer": "^10.1.7",
+    "pdfkit": "^0.20.2"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^3.1.2",
+    "@sap/cds-dk": "^8",
+    "cds-plugin-ui5": "^0.17.0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "watch-adminasset": "cds watch --open adminasset/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-manager-dashboard": "cds watch --open managerdashboard/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "cds": {
+    "requires": {
+      "auth": {
+        "[development]": {
+          "kind": "mocked",
+          "users": {
+            "alice": {
+              "roles": [
+                "Admin",
+                "Manager",
+                "User"
+              ]
+            },
+            "admin": {
+              "roles": [
+                "Admin"
+              ]
+            },
+            "manager": {
+              "roles": [
+                "Manager"
+              ]
+            },
+            "user": {
+              "roles": [
+                "User"
+              ]
+            }
+          }
+        },
+        "[production]": {
+          "kind": "xsuaa"
+        }
+      },
+      "db": {
+        "[production]": {
+          "kind": "hana"
+        }
+      }
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/adminasset",
+    "app/manager-dashboard"
+  ]
+}

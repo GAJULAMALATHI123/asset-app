@@ -1,0 +1,14 @@
+VIEW AssetAdminService_DraftAdministrativeData AS SELECT
+  DraftAdministrativeData.DraftUUID,
+  DraftAdministrativeData.CreationDateTime,
+  DraftAdministrativeData.CreatedByUser,
+  DraftAdministrativeData.CreatedByUserDescription,
+  DraftAdministrativeData.DraftIsCreatedByMe,
+  DraftAdministrativeData.LastChangeDateTime,
+  DraftAdministrativeData.LastChangedByUser,
+  DraftAdministrativeData.LastChangedByUserDescription,
+  DraftAdministrativeData.InProcessByUser,
+  DraftAdministrativeData.InProcessByUserDescription,
+  DraftAdministrativeData.DraftIsProcessedByMe,
+  DraftAdministrativeData.DraftMessages
+FROM DRAFT_DraftAdministrativeData AS DraftAdministrativeData

@@ -1,0 +1,11 @@
+COLUMN TABLE asset_lifecycle_db_Vendor (
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  vendor_id NVARCHAR(36) NOT NULL,
+  name NVARCHAR(100),
+  email NVARCHAR(100),
+  is_active BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY(vendor_id)
+)

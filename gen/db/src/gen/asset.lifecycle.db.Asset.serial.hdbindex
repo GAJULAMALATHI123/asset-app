@@ -1,0 +1,1 @@
+UNIQUE INVERTED INDEX asset_lifecycle_db_Asset_serial ON asset_lifecycle_db_Asset (serial_number)

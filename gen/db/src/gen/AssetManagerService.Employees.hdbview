@@ -1,0 +1,13 @@
+VIEW AssetManagerService_Employees AS SELECT
+  Employee_0.createdAt,
+  Employee_0.createdBy,
+  Employee_0.modifiedAt,
+  Employee_0.modifiedBy,
+  Employee_0.employee_id,
+  Employee_0.full_name,
+  Employee_0.email,
+  Employee_0.phone,
+  Employee_0.department_dept_id,
+  Employee_0.location,
+  Employee_0.status
+FROM asset_lifecycle_db_Employee AS Employee_0

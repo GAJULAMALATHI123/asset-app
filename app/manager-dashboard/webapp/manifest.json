@@ -1,0 +1,190 @@
+{
+  "_version": "1.89.0",
+  "sap.app": {
+    "id": "managerdashboard",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:alp",
+      "version": "1.33.0",
+      "toolsId": "f98bcbda-b75f-417b-a5e7-c9bef0c6e1d3"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/manager/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.153.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "managerdashboard.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "kpi":{
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode":"Server",
+          "autoExpandSelect":true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "AssetFactsList",
+          "target": "AssetFactsList"
+        },
+        {
+          "pattern": "AssetFacts({key}):?query:",
+          "name": "AssetFactsObjectPage",
+          "target": "AssetFactsObjectPage"
+        },
+        { "name": "AttentionList", "pattern": "Attention:?query:", "target": "AttentionList" }
+      ],
+      "targets": {
+        "AssetFactsList": {
+          "type": "Component",
+          "id": "AssetFactsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/AssetFacts",
+              "keyPerformanceIndicators": {
+  "Total":       { "model": "kpi","entitySet":"AssetFacts","qualifier":"Total" },
+  "Available":   { "model": "kpi","entitySet":"AssetFacts","qualifier":"Available"},
+  "Assigned":    { "model": "kpi","entitySet":"AssetFacts","qualifier":"Assigned"},
+  "Maintenance": { "model": "kpi","entitySet":"AssetFacts","qualifier":"Maintenance" },
+  "Retired":     { "model": "kpi","entitySet":"AssetFacts","qualifier":"Retired" }
+},
+              "initialLoad":"Enabled",
+              "variantManagement": "Page",
+              "navigation": {
+                "AssetFacts": {
+                  "detail": {
+                    "route": "AssetFactsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "AnalyticalTable",
+                    "selectionMode": "None"
+                  },
+                  "actions": {
+  "GoAttention": { "press": "managerdashboard.ext.Nav.goAttention", "text": "Operational attention", "enabled": true },
+  "DownloadPdf": { "press": "managerdashboard.ext.Nav.downloadPdf", "text": "Download PDF", "enabled": true },
+  "EmailReport": { "press": "managerdashboard.ext.Nav.emailReport", "text": "Email Report", "enabled": true }
+}
+                }
+              },
+              "views": {
+                "paths": [
+                  {
+                    "primary": [
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant"
+                      }
+                    ],
+                    "secondary": [
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                      }
+                    ],
+                    "defaultPath": "both"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "AssetFactsObjectPage": {
+          "type": "Component",
+          "id": "AssetFactsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/AssetFacts"
+            }
+          }
+        },
+        "AttentionList": { "type": "Component", "id": "AttentionList", "name": "sap.fe.templates.ListReport",
+  "options": { "settings": { "contextPath": "/AttentionItems", "initialLoad": "Enabled", "variantManagement": "None", "hideFilterBar": true,
+    "controlConfiguration": { "@com.sap.vocabularies.UI.v1.LineItem": { "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" } } } } } }
+
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "analytical"
+  },
+  "sap.fe": {
+    "app": {
+      "enableLazyLoading": true
+    }
+  }
+}

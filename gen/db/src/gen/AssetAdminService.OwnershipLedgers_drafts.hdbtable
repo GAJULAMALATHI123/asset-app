@@ -1,0 +1,19 @@
+COLUMN TABLE AssetAdminService_OwnershipLedgers_drafts (
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  ledger_id NVARCHAR(36) NOT NULL,
+  asset_asset_id NVARCHAR(36) NULL,
+  from_employee_employee_id NVARCHAR(36) NULL,
+  to_employee_employee_id NVARCHAR(36) NULL,
+  action NVARCHAR(5000) NULL,
+  transition_date DATE NULL,
+  recorded_by NVARCHAR(100) NULL,
+  notes NCLOB NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ledger_id)
+)

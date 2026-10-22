@@ -1,0 +1,19 @@
+COLUMN TABLE AssetAdminService_ArchiveRecords_drafts (
+  createdAt TIMESTAMP NULL,
+  createdBy NVARCHAR(255) NULL,
+  modifiedAt TIMESTAMP NULL,
+  modifiedBy NVARCHAR(255) NULL,
+  archive_id NVARCHAR(36) NOT NULL,
+  asset_asset_id NVARCHAR(36) NULL,
+  archived_at TIMESTAMP NULL,
+  archived_by NVARCHAR(100) NULL,
+  reason NVARCHAR(5000) NULL,
+  disposal_method NVARCHAR(5000) NULL,
+  disposal_cert_no NVARCHAR(40) NULL,
+  compliance_ref NVARCHAR(60) NULL,
+  IsActiveEntity BOOLEAN,
+  HasActiveEntity BOOLEAN,
+  HasDraftEntity BOOLEAN,
+  DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(archive_id)
+)

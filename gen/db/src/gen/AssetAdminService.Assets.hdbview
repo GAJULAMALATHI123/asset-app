@@ -1,0 +1,21 @@
+VIEW AssetAdminService_Assets AS SELECT
+  Asset_0.createdAt,
+  Asset_0.createdBy,
+  Asset_0.modifiedAt,
+  Asset_0.modifiedBy,
+  Asset_0.asset_id,
+  Asset_0.asset_tag,
+  Asset_0.serial_number,
+  Asset_0.assetCategory_asset_category_id,
+  Asset_0.vendor_vendor_id,
+  Asset_0.model,
+  Asset_0.location,
+  Asset_0.purchase_date,
+  Asset_0.purchase_cost,
+  Asset_0.warranty_expiry,
+  Asset_0.first_distribution_date,
+  Asset_0.status,
+  Asset_0.current_holder_employee_id,
+  Asset_0.retirement_reason,
+  Asset_0.retirement_date
+FROM asset_lifecycle_db_Asset AS Asset_0

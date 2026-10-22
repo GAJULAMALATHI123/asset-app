@@ -1,0 +1,10 @@
+VIEW AssetAdminService_Departments AS SELECT
+  Department_0.createdAt,
+  Department_0.createdBy,
+  Department_0.modifiedAt,
+  Department_0.modifiedBy,
+  Department_0.dept_id,
+  Department_0.name,
+  Department_0.cost_center,
+  Department_0.is_active
+FROM asset_lifecycle_db_Department AS Department_0
