@@ -50,6 +50,22 @@
             <ObjectNumber number="{dash>/kpis/maintenance}" state="Warning" emphasized="true" class="kpiNumber"/>
             <Text text="Assets being serviced" class="kpiHint"/>
           </VBox>
+          <VBox class="kpiCard" width="23%">
+            <HBox justifyContent="SpaceBetween" alignItems="Center">
+              <Text text="Retired" class="kpiLabel"/>
+              <core:Icon src="sap-icon://decline" class="kpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/kpis/retired}" state="Error" emphasized="true" class="kpiNumber"/>
+            <Text text="Retired from active use" class="kpiHint"/>
+          </VBox>
+          <VBox class="kpiCard" width="23%">
+            <HBox justifyContent="SpaceBetween" alignItems="Center">
+              <Text text="Archived" class="kpiLabel"/>
+              <core:Icon src="sap-icon://archive" class="kpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/kpis/archived}" emphasized="true" class="kpiNumber"/>
+            <Text text="Archived inventory records" class="kpiHint"/>
+          </VBox>
         </HBox>
 
         <HBox class="insightRow" wrap="Wrap" width="100%">
@@ -128,10 +144,13 @@
             <Title text="Assets by Category" level="H3"/>
             <List items="{dash>/categoryRows}" showSeparators="Inner" noDataText="No category data available">
               <CustomListItem>
-                <HBox class="simpleDataRow" justifyContent="SpaceBetween" alignItems="Center">
-                  <Text text="{dash>label}"/>
-                  <ObjectNumber number="{dash>count}"/>
-                </HBox>
+                <VBox class="chartRow">
+                  <HBox justifyContent="SpaceBetween" alignItems="Center">
+                    <Text text="{dash>label}" class="chartLabel"/>
+                    <ObjectNumber number="{dash>count}"/>
+                  </HBox>
+                  <ProgressIndicator percentValue="{dash>percent}" displayValue="" state="Information" height="0.55rem"/>
+                </VBox>
               </CustomListItem>
             </List>
           </VBox>
