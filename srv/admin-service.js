@@ -4,7 +4,7 @@ const { today, db, idOf, getAsset, reload, ledger, openMaintenance } = require('
 module.exports = class AssetAdminService extends cds.ApplicationService {
   init() {
     const { Assets, Departments } = this.entities;
-    const { Asset, AssetAssignment, MaintenanceRecord, Employee, Vendor, ArchiveRecord, AssetCategory } = db();
+    const { Asset, AssetAssignment, MaintenanceRecord, OwnershipLedger, Employee, Vendor, ArchiveRecord, AssetCategory } = db();
     const need = (req, cond, msg) => { if (!cond) req.reject(400, msg); };
     const activeEmployee = async (req, id) => {
       const e = id && await SELECT.one.from(Employee).where({ employee_id: id });
@@ -19,7 +19,27 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
       if (c) { const cat = await SELECT.one.from(AssetCategory).where({ asset_category_id: c });
         if (cat && cat.is_active === false) req.reject(400, 'Category is inactive'); }
     });
-    this.before('DELETE', Assets, req => req.reject(405, 'Assets cannot be deleted; retire and archive instead'));
+    // Only unused assets may be deleted. Preserve assignment, maintenance, archive and
+    // ownership history; the Admin role is enforced by AssetAdminService at the service boundary.
+    this.before('DELETE', Assets, async req => {
+      // Deleting an unsaved draft must not be blocked by the active asset's history.
+      if (req.data && req.data.IsActiveEntity === false) return;
+      const id = (req.data && req.data.asset_id) || idOf(req.params && req.params[0]);
+      if (!id) req.reject(400, 'Could not identify the asset to delete');
+      const a = await SELECT.one.from(Asset).where({ asset_id: id });
+      if (!a) return; // Let CAP return its normal not-found response.
+      need(req, a.status === 'AVAILABLE' && !a.current_holder_employee_id,
+        'Only AVAILABLE assets that are not assigned can be deleted. Retire or archive assets that have been used.');
+
+      const [assignments, maintenance, history, archives] = await Promise.all([
+        SELECT.one.from(AssetAssignment).columns('count(*) as c').where({ asset_asset_id: id }),
+        SELECT.one.from(MaintenanceRecord).columns('count(*) as c').where({ asset_asset_id: id }),
+        SELECT.one.from(OwnershipLedger).columns('count(*) as c').where({ asset_asset_id: id }),
+        SELECT.one.from(ArchiveRecord).columns('count(*) as c').where({ asset_asset_id: id })
+      ]);
+      need(req, !assignments.c && !maintenance.c && !history.c && !archives.c,
+        'This asset has lifecycle records and cannot be deleted. Keep its audit history and use Retire/Archive instead.');
+    });
     this.before('DELETE', Departments, async req => {                // FR-027
       const n = await SELECT.one.from(Employee).columns('count(*) as c').where({ department_dept_id: req.data.dept_id });
       if (n.c) req.reject(400, 'Department is used by employees; deactivate it instead');
