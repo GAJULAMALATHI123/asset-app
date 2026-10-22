@@ -152,6 +152,11 @@
           "pattern": "MaintenanceRecords:?query:",
           "name": "MaintenanceList",
           "target": "MaintenanceList"
+        },
+        {
+          "pattern": "AssetRequests:?query:",
+          "name": "AssetRequestsList",
+          "target": "AssetRequestsList"
         }
       ],
       "targets": {
@@ -349,6 +354,35 @@
               "contextPath": "/MaintenanceRecords",
               "initialLoad": "Enabled",
               "variantManagement": "Page"
+            }
+          }
+        },
+        "AssetRequestsList": {
+          "type": "Component",
+          "id": "AssetRequestsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/AssetRequests",
+              "initialLoad": "Enabled",
+              "variantManagement": "Page",
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": { "type": "ResponsiveTable", "selectionMode": "Single" },
+                  "actions": {
+                    "FulfillRequest": {
+                      "press": "adminasset.ext.RequestActions.fulfill",
+                      "text": "Approve & assign",
+                      "enabled": "adminasset.ext.RequestActions.enabledForSingleSelect"
+                    },
+                    "RejectRequest": {
+                      "press": "adminasset.ext.RequestActions.reject",
+                      "text": "Reject request",
+                      "enabled": "adminasset.ext.RequestActions.enabledForSingleSelect"
+                    }
+                  }
+                }
+              }
             }
           }
         }
