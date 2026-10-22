@@ -181,26 +181,6 @@
                     "type": "ResponsiveTable"
                   },
                   "actions": {
-                    "GoEmployees": {
-                      "press": "adminasset.ext.Nav.goEmployees",
-                      "text": "Employees",
-                      "enabled": true
-                    },
-                    "GoDepartments": {
-                      "press": "adminasset.ext.Nav.goDepartments",
-                      "text": "Departments",
-                      "enabled": true
-                    },
-                    "GoCategories": {
-                      "press": "adminasset.ext.Nav.goCategories",
-                      "text": "Categories",
-                      "enabled": true
-                    },
-                    "GoVendors": {
-                      "press": "adminasset.ext.Nav.goVendors",
-                      "text": "Vendors",
-                      "enabled": true
-                    },
                     "AssignAsset": {
                       "press": "adminasset.ext.AssetActions.assign",
                       "text": "Assign asset",
