@@ -90,6 +90,11 @@ function (Component, Element, Dialog, Button, Input, Label, MessageToast, Messag
         MessageBox.error("Could not load employees or asset categories. " + (e.message || ""));
       });
     },
+    goMaintenance: function () {
+      var comp = Component.registry.filter(function (c) { return c.getRouter && c.getRouter() && c.getRouter().getRoute("MaintenanceRecordsList"); })[0];
+      if (comp) { comp.getRouter().navTo("MaintenanceRecordsList"); }
+      else { MessageBox.error("The Maintenance Tracking page is not available."); }
+    },
     goAttention: function () {
       var comp = Component.registry.filter(function (c) { return c.getRouter && c.getRouter() && c.getRouter().getRoute("AttentionList"); })[0];
       if (comp) { comp.getRouter().navTo("AttentionList"); }
