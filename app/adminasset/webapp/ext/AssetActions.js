@@ -13,8 +13,22 @@ sap.ui.define([
 ], function (Dialog, Button, Label, Input, DatePicker, Select, Item, TextArea, MessageBox, MessageToast, VBox) {
   "use strict";
 
-  function selectedContext(aSelectedContexts) {
-    return Array.isArray(aSelectedContexts) && aSelectedContexts.length ? aSelectedContexts[0] : null;
+  function selectedContext(oFirstArg, aSelectedContexts) {
+    if (Array.isArray(aSelectedContexts) && aSelectedContexts.length) {
+      if (aSelectedContexts.length > 1) {
+        MessageBox.information("Select only one asset row at a time.");
+        return null;
+      }
+      return aSelectedContexts[0];
+    }
+    // Some Fiori elements handler configurations provide the selected context as the first argument.
+    if (oFirstArg && typeof oFirstArg.getObject === "function" && typeof oFirstArg.getModel === "function") {
+      return oFirstArg;
+    }
+    if (oFirstArg && typeof oFirstArg.getBoundContext === "function") {
+      return oFirstArg.getBoundContext();
+    }
+    return null;
   }
 
   function today() {
@@ -34,8 +48,8 @@ sap.ui.define([
     });
   }
 
-  function openAction(oEvent, aSelectedContexts, sAction, aFields) {
-    var oContext = selectedContext(aSelectedContexts);
+  function openAction(oFirstArg, aSelectedContexts, sAction, aFields) {
+    var oContext = selectedContext(oFirstArg, aSelectedContexts);
     if (!oContext) {
       MessageBox.information("Select one asset row first.");
       return;
@@ -84,7 +98,7 @@ sap.ui.define([
           var mParams = {};
           var bInvalid = false;
           aFields.forEach(function (f) {
-            var v = mControls[f.name].getValue ? mControls[f.name].getValue() : mControls[f.name].getSelectedKey();
+            var v = f.kind === "select" ? mControls[f.name].getSelectedKey() : mControls[f.name].getValue();
             if (f.required && !v) { bInvalid = true; }
             mParams[f.name] = v;
           });
@@ -99,7 +113,11 @@ sap.ui.define([
           oOperation.execute().then(function () {
             oDialog.close();
             MessageToast.show("Asset action completed.");
-            oModel.refresh();
+            // Refresh the selected row's list binding (OData V4 models themselves do not expose refresh()).
+            var oListBinding = oContext.getBinding && oContext.getBinding();
+            if (oListBinding && oListBinding.refresh) {
+              oListBinding.refresh();
+            }
           }).catch(function (e) {
             MessageBox.error("The action could not be completed. " + (e.message || e));
           }).finally(function () { oDialog.setBusy(false); });
@@ -112,34 +130,34 @@ sap.ui.define([
   }
 
   return {
-    assign: function (oEvent, aSelectedContexts) {
-      openAction(oEvent, aSelectedContexts, "assign", [
+    assign: function (oFirstArg, aSelectedContexts) {
+      openAction(oFirstArg, aSelectedContexts, "assign", [
         { name: "employeeId", label: "Employee", dialogTitle: "Assign asset", required: true, kind: "select", path: "/Employees", key: "employee_id", text: "full_name" },
         { name: "distributionDate", label: "Distribution date", required: true, kind: "date" },
         { name: "remarks", label: "Remarks", kind: "textarea" }
       ]);
     },
-    transfer: function (oEvent, aSelectedContexts) {
-      openAction(oEvent, aSelectedContexts, "transfer", [
+    transfer: function (oFirstArg, aSelectedContexts) {
+      openAction(oFirstArg, aSelectedContexts, "transfer", [
         { name: "toEmployeeId", label: "Transfer to employee", dialogTitle: "Transfer asset", required: true, kind: "select", path: "/Employees", key: "employee_id", text: "full_name" },
         { name: "transferDate", label: "Transfer date", required: true, kind: "date" },
         { name: "remarks", label: "Remarks", kind: "textarea" }
       ]);
     },
-    returnAsset: function (oEvent, aSelectedContexts) {
-      openAction(oEvent, aSelectedContexts, "returnAsset", [
+    returnAsset: function (oFirstArg, aSelectedContexts) {
+      openAction(oFirstArg, aSelectedContexts, "returnAsset", [
         { name: "returnDate", label: "Return date", dialogTitle: "Return asset", required: true, kind: "date" },
         { name: "remarks", label: "Remarks", kind: "textarea" }
       ]);
     },
-    createMaintenance: function (oEvent, aSelectedContexts) {
-      openAction(oEvent, aSelectedContexts, "createMaintenance", [
+    createMaintenance: function (oFirstArg, aSelectedContexts) {
+      openAction(oFirstArg, aSelectedContexts, "createMaintenance", [
         { name: "maintenanceType", label: "Maintenance type", dialogTitle: "Start maintenance", required: true, kind: "select", choices: [{ key: "PREVENTIVE", text: "Preventive" }, { key: "CORRECTIVE", text: "Corrective" }] },
         { name: "description", label: "Description", required: true, kind: "textarea" }
       ]);
     },
-    retire: function (oEvent, aSelectedContexts) {
-      openAction(oEvent, aSelectedContexts, "retire", [
+    retire: function (oFirstArg, aSelectedContexts) {
+      openAction(oFirstArg, aSelectedContexts, "retire", [
         { name: "reason", label: "Retirement reason", dialogTitle: "Retire asset", required: true, kind: "textarea" },
         { name: "retirementDate", label: "Retirement date", required: true, kind: "date" }
       ]);
