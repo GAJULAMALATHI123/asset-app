@@ -153,6 +153,7 @@ sap.ui.define([
     onOpenDepartments: function () { this._go("DepartmentsList"); },
     onOpenCategories: function () { this._go("AssetCategoriesList"); },
     onOpenVendors: function () { this._go("VendorsList"); },
-    onOpenMaintenance: function () { this._go("MaintenanceList"); }
+    onOpenMaintenance: function () { this._go("MaintenanceList"); },
+    onOpenRequests: function () { this._go("AssetRequestsList"); }
   });
 });
