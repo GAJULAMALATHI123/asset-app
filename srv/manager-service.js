@@ -5,7 +5,7 @@ module.exports = class AssetManagerService extends cds.ApplicationService {
     const { Asset, MaintenanceRecord, AssetAssignment, Employee, AssetCategory, AssetRequest, ReportLog } = cds.entities('asset.lifecycle.db');
     const day = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
 
-    // FR-030: Managers may submit requests and view only requests they submitted.
+    // Manager asset request workflow: Managers may submit requests and view only their own requests.
     this.on('READ', 'AssetRequests', async req => {
       req.query.where({ requested_by: req.user.id });
       return cds.run(req.query);
