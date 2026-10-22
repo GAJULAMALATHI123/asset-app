@@ -1,6 +1,6 @@
 sap.ui.define(["sap/ui/core/Component", "sap/ui/core/Element", "sap/m/Dialog", "sap/m/Button", "sap/m/Input",
-  "sap/m/Label", "sap/m/MessageToast", "sap/m/MessageBox"],
-function (Component, Element, Dialog, Button, Input, Label, MessageToast, MessageBox) {
+  "sap/m/Label", "sap/m/MessageToast", "sap/m/MessageBox", "sap/m/Select", "sap/ui/core/Item", "sap/m/TextArea", "sap/m/VBox"],
+function (Component, Element, Dialog, Button, Input, Label, MessageToast, MessageBox, Select, Item, TextArea, VBox) {
   "use strict";
   var appComponent = function () {
     return Component.registry.filter(function (c) { return c.getRouter && c.getRouter() && c.getModel && c.getModel(); })[0];
@@ -24,6 +24,70 @@ function (Component, Element, Dialog, Button, Input, Label, MessageToast, Messag
   };
 
   return {
+    goRequests: function () {
+      var comp = Component.registry.filter(function (c) { return c.getRouter && c.getRouter() && c.getRouter().getRoute("AssetRequestsList"); })[0];
+      if (comp) { comp.getRouter().navTo("AssetRequestsList"); }
+    },
+    requestAsset: function () {
+      var comp = appComponent();
+      if (!comp) { MessageBox.error("The Manager application is not ready yet."); return; }
+      var model = comp.getModel();
+      var employeeSelect = new Select({ width: "100%" });
+      var categorySelect = new Select({ width: "100%" });
+      var reasonInput = new TextArea({ width: "100%", rows: 3, growing: true, maxLength: 1000, placeholder: "Explain why this asset is needed" });
+      var dialog;
+      Promise.all([
+        model.bindList("/Employees").requestContexts(0, 500),
+        model.bindList("/AssetCategories").requestContexts(0, 500)
+      ]).then(function (results) {
+        results[0].forEach(function (ctx) {
+          var employee = ctx.getObject();
+          employeeSelect.addItem(new Item({ key: employee.employee_id, text: employee.full_name || employee.employee_id }));
+        });
+        results[1].forEach(function (ctx) {
+          var category = ctx.getObject();
+          if (category.is_active !== false) {
+            categorySelect.addItem(new Item({ key: category.asset_category_id, text: category.name || category.asset_category_id }));
+          }
+        });
+        if (employeeSelect.getItems().length) { employeeSelect.setSelectedKey(employeeSelect.getItems()[0].getKey()); }
+        if (categorySelect.getItems().length) { categorySelect.setSelectedKey(categorySelect.getItems()[0].getKey()); }
+        dialog = new Dialog({
+          title: "Request an asset",
+          contentWidth: "32rem",
+          resizable: true,
+          content: [new VBox({ width: "100%", items: [
+            new Label({ text: "Employee", required: true }), employeeSelect,
+            new Label({ text: "Asset category", required: true }), categorySelect,
+            new Label({ text: "Business reason", required: true }), reasonInput
+          ]})],
+          beginButton: new Button({ text: "Submit request", type: "Emphasized", press: function () {
+            var employeeId = employeeSelect.getSelectedKey();
+            var categoryId = categorySelect.getSelectedKey();
+            var reason = reasonInput.getValue().trim();
+            if (!employeeId || !categoryId || !reason) {
+              MessageBox.warning("Select an employee and category, and enter a business reason.");
+              return;
+            }
+            dialog.setBusy(true);
+            callOp("/requestAsset(...)", { employeeId: employeeId, categoryId: categoryId, reason: reason }).then(function (res) {
+              dialog.close();
+              MessageToast.show(res && res.value ? res.value : "Asset request submitted to Admin.");
+              var router = comp.getRouter && comp.getRouter();
+              if (router && router.getRoute("AssetRequestsList")) { router.navTo("AssetRequestsList"); }
+            }).catch(function (e) {
+              dialog.setBusy(false);
+              MessageBox.error(e.message || "Could not submit the asset request.");
+            });
+          }}),
+          endButton: new Button({ text: "Cancel", press: function () { dialog.close(); } }),
+          afterClose: function () { dialog.destroy(); }
+        });
+        dialog.open();
+      }).catch(function (e) {
+        MessageBox.error("Could not load employees or asset categories. " + (e.message || ""));
+      });
+    },
     goAttention: function () {
       var comp = Component.registry.filter(function (c) { return c.getRouter && c.getRouter() && c.getRouter().getRoute("AttentionList"); })[0];
       if (comp) { comp.getRouter().navTo("AttentionList"); }
