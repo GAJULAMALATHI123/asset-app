@@ -4,7 +4,9 @@
     "id": "adminasset",
     "type": "application",
     "i18n": "i18n/i18n.properties",
-    "applicationVersion": { "version": "0.0.1" },
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "resources": "resources.json",
@@ -17,98 +19,338 @@
       "mainService": {
         "uri": "/odata/v4/admin/",
         "type": "OData",
-        "settings": { "annotations": [], "odataVersion": "4.0" }
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
       }
     }
   },
   "sap.ui": {
     "technology": "UI5",
     "icons": {
-      "icon": "", "favIcon": "", "phone": "", "phone@2": "", "tablet": "", "tablet@2": ""
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
     },
-    "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
   },
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.120.0",
-      "libs": { "sap.m": {}, "sap.ui.core": {}, "sap.fe.templates": {} }
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
     },
-    "contentDensities": { "compact": true, "cozy": true },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
     "models": {
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
-        "settings": { "bundleName": "adminasset.i18n.i18n" }
+        "settings": {
+          "bundleName": "adminasset.i18n.i18n"
+        }
       },
       "": {
         "dataSource": "mainService",
         "preload": true,
-        "settings": { "operationMode": "Server", "autoExpandSelect": true, "earlyRequests": true }
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
       },
-      "@i18n": { "type": "sap.ui.model.resource.ResourceModel", "uri": "i18n/i18n.properties" }
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
     },
-    "resources": { "css": [{ "uri": "css/admin.css" }] },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/admin.css"
+        }
+      ]
+    },
     "routing": {
       "config": {},
       "routes": [
-        { "pattern": ":?query:", "name": "AssetsList", "target": "AssetsList" },
-        { "pattern": "Assets({key}):?query:", "name": "AssetsObjectPage", "target": "AssetsObjectPage" },
-        { "name": "EmployeesList", "pattern": "Employees:?query:", "target": "EmployeesList" },
-        { "name": "EmployeesObjectPage", "pattern": "Employees({key}):?query:", "target": "EmployeesObjectPage" },
-        { "name": "DepartmentsList", "pattern": "Departments:?query:", "target": "DepartmentsList" },
-        { "name": "DepartmentsObjectPage", "pattern": "Departments({key}):?query:", "target": "DepartmentsObjectPage" },
-        { "name": "AssetCategoriesList", "pattern": "AssetCategories:?query:", "target": "AssetCategoriesList" },
-        { "name": "AssetCategoriesObjectPage", "pattern": "AssetCategories({key}):?query:", "target": "AssetCategoriesObjectPage" },
-        { "name": "VendorsList", "pattern": "Vendors:?query:", "target": "VendorsList" },
-        { "name": "VendorsObjectPage", "pattern": "Vendors({key}):?query:", "target": "VendorsObjectPage" }
+        {
+          "pattern": "",
+          "name": "Dashboard",
+          "target": "Dashboard"
+        },
+        {
+          "pattern": "Assets:?query:",
+          "name": "AssetsList",
+          "target": "AssetsList"
+        },
+        {
+          "pattern": "Assets({key}):?query:",
+          "name": "AssetsObjectPage",
+          "target": "AssetsObjectPage"
+        },
+        {
+          "name": "EmployeesList",
+          "pattern": "Employees:?query:",
+          "target": "EmployeesList"
+        },
+        {
+          "name": "EmployeesObjectPage",
+          "pattern": "Employees({key}):?query:",
+          "target": "EmployeesObjectPage"
+        },
+        {
+          "name": "DepartmentsList",
+          "pattern": "Departments:?query:",
+          "target": "DepartmentsList"
+        },
+        {
+          "name": "DepartmentsObjectPage",
+          "pattern": "Departments({key}):?query:",
+          "target": "DepartmentsObjectPage"
+        },
+        {
+          "name": "AssetCategoriesList",
+          "pattern": "AssetCategories:?query:",
+          "target": "AssetCategoriesList"
+        },
+        {
+          "name": "AssetCategoriesObjectPage",
+          "pattern": "AssetCategories({key}):?query:",
+          "target": "AssetCategoriesObjectPage"
+        },
+        {
+          "name": "VendorsList",
+          "pattern": "Vendors:?query:",
+          "target": "VendorsList"
+        },
+        {
+          "name": "VendorsObjectPage",
+          "pattern": "Vendors({key}):?query:",
+          "target": "VendorsObjectPage"
+        },
+        {
+          "pattern": "MaintenanceRecords:?query:",
+          "name": "MaintenanceList",
+          "target": "MaintenanceList"
+        }
       ],
       "targets": {
+        "Dashboard": {
+          "type": "View",
+          "viewType": "XML",
+          "viewName": "adminasset.view.Dashboard",
+          "id": "Dashboard"
+        },
         "AssetsList": {
-          "type": "Component", "id": "AssetsList", "name": "sap.fe.templates.ListReport",
-          "options": { "settings": {
-            "contextPath": "/Assets",
-            "variantManagement": "Page",
-            "navigation": { "Assets": { "detail": { "route": "AssetsObjectPage" } } },
-            "controlConfiguration": {
-              "@com.sap.vocabularies.UI.v1.LineItem": {
-                "tableSettings": { "type": "ResponsiveTable" },
-                "actions": {
-                  "GoEmployees": { "press": "adminasset.ext.Nav.goEmployees", "text": "Employees", "enabled": true },
-                  "GoDepartments": { "press": "adminasset.ext.Nav.goDepartments", "text": "Departments", "enabled": true },
-                  "GoCategories": { "press": "adminasset.ext.Nav.goCategories", "text": "Categories", "enabled": true },
-                  "GoVendors": { "press": "adminasset.ext.Nav.goVendors", "text": "Vendors", "enabled": true }
+          "type": "Component",
+          "id": "AssetsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Assets",
+              "variantManagement": "Page",
+              "navigation": {
+                "Assets": {
+                  "detail": {
+                    "route": "AssetsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "GoEmployees": {
+                      "press": "adminasset.ext.Nav.goEmployees",
+                      "text": "Employees",
+                      "enabled": true
+                    },
+                    "GoDepartments": {
+                      "press": "adminasset.ext.Nav.goDepartments",
+                      "text": "Departments",
+                      "enabled": true
+                    },
+                    "GoCategories": {
+                      "press": "adminasset.ext.Nav.goCategories",
+                      "text": "Categories",
+                      "enabled": true
+                    },
+                    "GoVendors": {
+                      "press": "adminasset.ext.Nav.goVendors",
+                      "text": "Vendors",
+                      "enabled": true
+                    }
+                  }
                 }
               }
             }
-          } }
+          }
         },
         "AssetsObjectPage": {
-          "type": "Component", "id": "AssetsObjectPage", "name": "sap.fe.templates.ObjectPage",
-          "options": { "settings": { "editableHeaderContent": false, "contextPath": "/Assets" } }
+          "type": "Component",
+          "id": "AssetsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Assets"
+            }
+          }
         },
-        "EmployeesList": { "type": "Component", "id": "EmployeesList", "name": "sap.fe.templates.ListReport",
-          "options": { "settings": { "contextPath": "/Employees", "initialLoad": "Enabled", "variantManagement": "Page",
-            "navigation": { "Employees": { "detail": { "route": "EmployeesObjectPage" } } } } } },
-        "EmployeesObjectPage": { "type": "Component", "id": "EmployeesObjectPage", "name": "sap.fe.templates.ObjectPage",
-          "options": { "settings": { "contextPath": "/Employees" } } },
-        "DepartmentsList": { "type": "Component", "id": "DepartmentsList", "name": "sap.fe.templates.ListReport",
-          "options": { "settings": { "contextPath": "/Departments", "initialLoad": "Enabled", "variantManagement": "Page",
-            "navigation": { "Departments": { "detail": { "route": "DepartmentsObjectPage" } } } } } },
-        "DepartmentsObjectPage": { "type": "Component", "id": "DepartmentsObjectPage", "name": "sap.fe.templates.ObjectPage",
-          "options": { "settings": { "contextPath": "/Departments" } } },
-        "AssetCategoriesList": { "type": "Component", "id": "AssetCategoriesList", "name": "sap.fe.templates.ListReport",
-          "options": { "settings": { "contextPath": "/AssetCategories", "initialLoad": "Enabled", "variantManagement": "Page",
-            "navigation": { "AssetCategories": { "detail": { "route": "AssetCategoriesObjectPage" } } } } } },
-        "AssetCategoriesObjectPage": { "type": "Component", "id": "AssetCategoriesObjectPage", "name": "sap.fe.templates.ObjectPage",
-          "options": { "settings": { "contextPath": "/AssetCategories" } } },
-        "VendorsList": { "type": "Component", "id": "VendorsList", "name": "sap.fe.templates.ListReport",
-          "options": { "settings": { "contextPath": "/Vendors", "initialLoad": "Enabled", "variantManagement": "Page",
-            "navigation": { "Vendors": { "detail": { "route": "VendorsObjectPage" } } } } } },
-        "VendorsObjectPage": { "type": "Component", "id": "VendorsObjectPage", "name": "sap.fe.templates.ObjectPage",
-          "options": { "settings": { "contextPath": "/Vendors" } } }
+        "EmployeesList": {
+          "type": "Component",
+          "id": "EmployeesList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Employees",
+              "initialLoad": "Enabled",
+              "variantManagement": "Page",
+              "navigation": {
+                "Employees": {
+                  "detail": {
+                    "route": "EmployeesObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "EmployeesObjectPage": {
+          "type": "Component",
+          "id": "EmployeesObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Employees"
+            }
+          }
+        },
+        "DepartmentsList": {
+          "type": "Component",
+          "id": "DepartmentsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Departments",
+              "initialLoad": "Enabled",
+              "variantManagement": "Page",
+              "navigation": {
+                "Departments": {
+                  "detail": {
+                    "route": "DepartmentsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "DepartmentsObjectPage": {
+          "type": "Component",
+          "id": "DepartmentsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Departments"
+            }
+          }
+        },
+        "AssetCategoriesList": {
+          "type": "Component",
+          "id": "AssetCategoriesList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/AssetCategories",
+              "initialLoad": "Enabled",
+              "variantManagement": "Page",
+              "navigation": {
+                "AssetCategories": {
+                  "detail": {
+                    "route": "AssetCategoriesObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "AssetCategoriesObjectPage": {
+          "type": "Component",
+          "id": "AssetCategoriesObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/AssetCategories"
+            }
+          }
+        },
+        "VendorsList": {
+          "type": "Component",
+          "id": "VendorsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Vendors",
+              "initialLoad": "Enabled",
+              "variantManagement": "Page",
+              "navigation": {
+                "Vendors": {
+                  "detail": {
+                    "route": "VendorsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VendorsObjectPage": {
+          "type": "Component",
+          "id": "VendorsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "contextPath": "/Vendors"
+            }
+          }
+        },
+        "MaintenanceList": {
+          "type": "Component",
+          "id": "MaintenanceList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/MaintenanceRecords",
+              "initialLoad": "Enabled",
+              "variantManagement": "Page"
+            }
+          }
+        }
       }
     }
   },
-  "sap.fiori": { "registrationIds": [], "archeType": "transactional" },
-  "sap.fe": { "app": { "enableLazyLoading": true } }
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  },
+  "sap.fe": {
+    "app": {
+      "enableLazyLoading": true
+    }
+  }
 }
