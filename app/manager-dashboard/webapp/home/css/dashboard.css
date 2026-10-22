@@ -1,0 +1,106 @@
+.managerDashboardPage {
+  background: var(--sapBackgroundColor);
+}
+.dashboardContent {
+  box-sizing: border-box;
+  padding: 1.5rem 2rem 2rem;
+  gap: 1rem;
+}
+.dashboardTopBar {
+  margin-bottom: .5rem;
+  gap: 1rem;
+}
+.dashboardTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.dashboardSubtitle, .panelSubtitle {
+  color: var(--sapContent_LabelColor);
+}
+.dashboardActions {
+  gap: .5rem;
+}
+.kpiRow, .insightRow, .bottomRow {
+  gap: 1rem;
+  align-items: stretch;
+}
+.kpiCard {
+  box-sizing: border-box;
+  min-width: 13rem;
+  flex: 1 1 13rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--sapGroup_ContentBorderColor);
+  border-radius: .75rem;
+  background: var(--sapTile_Background);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  gap: .35rem;
+}
+.kpiLabel {
+  font-size: .9rem;
+  font-weight: 600;
+}
+.kpiIcon {
+  color: var(--sapContent_IconColor);
+  font-size: 1.15rem;
+}
+.kpiNumber .sapMObjectNumberText {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.kpiHint {
+  color: var(--sapContent_LabelColor);
+  font-size: .8rem;
+}
+.dashboardPanel {
+  box-sizing: border-box;
+  min-width: 18rem;
+  flex: 1 1 24rem;
+  padding: 1.25rem;
+  border: 1px solid var(--sapGroup_ContentBorderColor);
+  border-radius: .75rem;
+  background: var(--sapGroup_ContentBackground);
+}
+.dashboardPanel .sapMTitle {
+  margin-bottom: .25rem;
+}
+.chartRow {
+  padding: .5rem 0;
+  gap: .35rem;
+}
+.chartLabel {
+  font-size: .875rem;
+}
+.maintenanceSummary {
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.maintenanceMetric {
+  min-width: 5.5rem;
+  gap: .2rem;
+}
+.maintenanceMetric .sapMObjectNumberText {
+  font-size: 1.65rem;
+}
+.panelAction {
+  margin-top: .25rem;
+}
+.simpleDataRow {
+  padding: .7rem 0;
+}
+.requestNumber {
+  padding: 1rem 0;
+}
+.lastUpdated {
+  color: var(--sapContent_LabelColor);
+  font-size: .75rem;
+  text-align: right;
+}
+@media (max-width: 900px) {
+  .dashboardContent { padding: 1rem; }
+  .dashboardPanel { min-width: 100%; width: 100% !important; }
+  .kpiCard { min-width: calc(50% - .5rem); }
+}
+@media (max-width: 560px) {
+  .dashboardTopBar { align-items: flex-start; }
+  .kpiCard { min-width: 100%; }
+}

@@ -93,6 +93,11 @@
       "routes": [
         {
           "pattern": ":?query:",
+          "name": "ManagerHome",
+          "target": "ManagerHome"
+        },
+        {
+          "pattern": "Assets:?query:",
           "name": "AssetFactsList",
           "target": "AssetFactsList"
         },
@@ -308,6 +313,11 @@
               }
             }
           }
+        },
+        "ManagerHome": {
+          "type": "Component",
+          "id": "ManagerHome",
+          "name": "managerdashboard.home"
         }
       }
     }
