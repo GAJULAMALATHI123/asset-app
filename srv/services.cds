@@ -31,7 +31,7 @@ service AssetAdminService @(path: '/odata/v4/admin', requires: 'Admin', impl: '.
 }
 
 /** MANAGER: dashboards, reports, read-only (FR-014/021/025). No lifecycle actions. */
-service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','Admin']) {
+service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','Admin'], impl: './manager-service.js') {
   @readonly entity Employees          as projection on db.Employee;
   @readonly entity AssetCategories   as projection on db.AssetCategory;
   @readonly entity AssetRequests      as projection on db.AssetRequest;
