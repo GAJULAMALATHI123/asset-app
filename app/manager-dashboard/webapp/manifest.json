@@ -93,11 +93,6 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "ManagerHome",
-          "target": "ManagerHome"
-        },
-        {
-          "pattern": "Assets:?query:",
           "name": "AssetFactsList",
           "target": "AssetFactsList"
         },
@@ -131,38 +126,102 @@
             "settings": {
               "contextPath": "/AssetFacts",
               "keyPerformanceIndicators": {
-                "Total": { "model": "kpi", "entitySet": "AssetFacts", "qualifier": "Total" },
-                "Available": { "model": "kpi", "entitySet": "AssetFacts", "qualifier": "Available" },
-                "Assigned": { "model": "kpi", "entitySet": "AssetFacts", "qualifier": "Assigned" },
-                "Maintenance": { "model": "kpi", "entitySet": "AssetFacts", "qualifier": "Maintenance" },
-                "Retired": { "model": "kpi", "entitySet": "AssetFacts", "qualifier": "Retired" },
-                "Archived": { "model": "kpi", "entitySet": "AssetFacts", "qualifier": "Archived" }
+                "Total": {
+                  "model": "kpi",
+                  "entitySet": "AssetFacts",
+                  "qualifier": "Total"
+                },
+                "Available": {
+                  "model": "kpi",
+                  "entitySet": "AssetFacts",
+                  "qualifier": "Available"
+                },
+                "Assigned": {
+                  "model": "kpi",
+                  "entitySet": "AssetFacts",
+                  "qualifier": "Assigned"
+                },
+                "Maintenance": {
+                  "model": "kpi",
+                  "entitySet": "AssetFacts",
+                  "qualifier": "Maintenance"
+                },
+                "Retired": {
+                  "model": "kpi",
+                  "entitySet": "AssetFacts",
+                  "qualifier": "Retired"
+                },
+                "Archived": {
+                  "model": "kpi",
+                  "entitySet": "AssetFacts",
+                  "qualifier": "Archived"
+                }
               },
               "initialLoad": "Enabled",
               "variantManagement": "Page",
               "navigation": {
                 "AssetFacts": {
-                  "detail": { "route": "AssetFactsObjectPage" }
+                  "detail": {
+                    "route": "AssetFactsObjectPage"
+                  }
                 }
               },
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": { "type": "AnalyticalTable", "selectionMode": "None" },
+                  "tableSettings": {
+                    "type": "AnalyticalTable",
+                    "selectionMode": "None"
+                  },
                   "actions": {
-                    "GoAttention": { "press": "managerdashboard.ext.Nav.goAttention", "text": "Operational attention", "enabled": true },
-                    "DownloadPdf": { "press": "managerdashboard.ext.Nav.downloadPdf", "text": "Download PDF", "enabled": true },
-                    "EmailReport": { "press": "managerdashboard.ext.Nav.emailReport", "text": "Email Report", "enabled": true },
-                    "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true, "requiresSelection": false },
-                    "MyAssetRequests": { "press": "managerdashboard.ext.Nav.goRequests", "text": "My asset requests", "enabled": true, "requiresSelection": false },
-                    "MaintenanceTracking": { "press": "managerdashboard.ext.Nav.goMaintenance", "text": "Maintenance tracking", "enabled": true, "requiresSelection": false }
+                    "GoAttention": {
+                      "press": "managerdashboard.ext.Nav.goAttention",
+                      "text": "Operational attention",
+                      "enabled": true
+                    },
+                    "DownloadPdf": {
+                      "press": "managerdashboard.ext.Nav.downloadPdf",
+                      "text": "Download PDF",
+                      "enabled": true
+                    },
+                    "EmailReport": {
+                      "press": "managerdashboard.ext.Nav.emailReport",
+                      "text": "Email Report",
+                      "enabled": true
+                    },
+                    "RequestAsset": {
+                      "press": "managerdashboard.ext.Nav.requestAsset",
+                      "text": "Request asset",
+                      "enabled": true,
+                      "requiresSelection": false
+                    },
+                    "MyAssetRequests": {
+                      "press": "managerdashboard.ext.Nav.goRequests",
+                      "text": "My asset requests",
+                      "enabled": true,
+                      "requiresSelection": false
+                    },
+                    "MaintenanceTracking": {
+                      "press": "managerdashboard.ext.Nav.goMaintenance",
+                      "text": "Maintenance tracking",
+                      "enabled": true,
+                      "requiresSelection": false
+                    }
                   }
                 }
               },
               "views": {
                 "paths": [
                   {
-                    "primary": [{ "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant" }],
-                    "secondary": [{ "annotationPath": "com.sap.vocabularies.UI.v1.LineItem" }],
+                    "primary": [
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant"
+                      }
+                    ],
+                    "secondary": [
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
+                      }
+                    ],
                     "defaultPath": "both"
                   }
                 ]
@@ -174,7 +233,12 @@
           "type": "Component",
           "id": "AssetFactsObjectPage",
           "name": "sap.fe.templates.ObjectPage",
-          "options": { "settings": { "editableHeaderContent": false, "contextPath": "/AssetFacts" } }
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/AssetFacts"
+            }
+          }
         },
         "AttentionList": {
           "type": "Component",
@@ -188,7 +252,10 @@
               "hideFilterBar": true,
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" }
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None"
+                  }
                 }
               }
             }
@@ -205,7 +272,10 @@
               "variantManagement": "Page",
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" }
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None"
+                  }
                 }
               }
             }
@@ -222,19 +292,22 @@
               "variantManagement": "Page",
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" },
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None"
+                  },
                   "actions": {
-                    "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true, "requiresSelection": false }
+                    "RequestAsset": {
+                      "press": "managerdashboard.ext.Nav.requestAsset",
+                      "text": "Request asset",
+                      "enabled": true,
+                      "requiresSelection": false
+                    }
                   }
                 }
               }
             }
           }
-        },
-        "ManagerHome": {
-          "type": "Component",
-          "id": "ManagerHome",
-          "name": "managerdashboard.home"
         }
       }
     }
