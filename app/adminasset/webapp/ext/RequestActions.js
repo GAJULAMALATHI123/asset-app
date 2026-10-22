@@ -69,10 +69,12 @@ sap.ui.define([
       var remarks = new TextArea({ width: "100%", rows: 3, growing: true, maxLength: 1000,
         placeholder: "Optional assignment notes" });
       model.bindList("/Assets").requestContexts(0, 5000).then(function (contexts) {
+        var requestedCategoryId = request.category_asset_category_id ||
+          (request.category && request.category.asset_category_id);
         contexts.forEach(function (assetContext) {
           var asset = assetContext.getObject();
-          if (asset.status === "AVAILABLE" &&
-              asset.assetCategory_asset_category_id === request.category_asset_category_id) {
+          if (asset.status === "AVAILABLE" && requestedCategoryId &&
+              asset.assetCategory_asset_category_id === requestedCategoryId) {
             assetSelect.addItem(new Item({ key: asset.asset_id, text: (asset.asset_tag || asset.asset_id) + " — " + (asset.model || "Asset") }));
           }
         });
