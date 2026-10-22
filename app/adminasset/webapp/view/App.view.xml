@@ -1,0 +1,34 @@
+<mvc:View
+  controllerName="adminasset.controller.App"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.tnt"
+  xmlns:m="sap.m">
+  <ToolPage id="shell" sideExpanded="true">
+    <header>
+      <m:ToolHeader>
+        <m:Button icon="sap-icon://menu2" type="Transparent" tooltip="Toggle navigation" press=".onToggleSideNav"/>
+        <m:Title text="Asset Management" level="H2"/>
+        <m:ToolbarSpacer/>
+        <m:ObjectStatus text="ADMIN WORKSPACE" state="Information"/>
+      </m:ToolHeader>
+    </header>
+    <sideContent>
+      <SideNavigation id="adminSideNavigation" itemSelect=".onItemSelect">
+        <NavigationList>
+          <NavigationListItem text="Dashboard" icon="sap-icon://home" key="Dashboard"/>
+          <NavigationListItem text="Asset Management" icon="sap-icon://laptop" key="AssetsList"/>
+          <NavigationListItem text="Maintenance" icon="sap-icon://wrench" key="MaintenanceList"/>
+          <NavigationListItem text="Master Data" icon="sap-icon://folder" expanded="true">
+            <NavigationListItem text="Employees" icon="sap-icon://employee" key="EmployeesList"/>
+            <NavigationListItem text="Departments" icon="sap-icon://org-chart" key="DepartmentsList"/>
+            <NavigationListItem text="Asset Categories" icon="sap-icon://tag" key="AssetCategoriesList"/>
+            <NavigationListItem text="Vendors" icon="sap-icon://shipping-status" key="VendorsList"/>
+          </NavigationListItem>
+        </NavigationList>
+      </SideNavigation>
+    </sideContent>
+    <mainContents>
+      <m:App id="adminMainApp"/>
+    </mainContents>
+  </ToolPage>
+</mvc:View>
