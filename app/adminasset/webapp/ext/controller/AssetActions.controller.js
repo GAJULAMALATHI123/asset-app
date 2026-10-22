@@ -5,6 +5,10 @@ sap.ui.define([
   "use strict";
 
   return ControllerExtension.extend("adminasset.ext.controller.AssetActions", {
+    enabledForSingleSelect: function (_oBindingContext, aSelectedContexts) {
+      return Array.isArray(aSelectedContexts) && aSelectedContexts.length === 1;
+    },
+
     _getSelectedContexts: function () {
       var oExtensionAPI = this.base.getExtensionAPI();
       return oExtensionAPI.getSelectedContexts();
