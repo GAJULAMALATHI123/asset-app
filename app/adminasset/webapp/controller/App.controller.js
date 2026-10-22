@@ -1,6 +1,6 @@
-sap.ui.define(["sap/ui/core/mvc/Controller"], function (Controller) {
+sap.ui.define(["sap/fe/core/rootView/NavContainer.controller"], function (NavContainerController) {
   "use strict";
-  return Controller.extend("adminasset.controller.App", {
+  return NavContainerController.extend("adminasset.controller.App", {
     onToggleSideNav: function () {
       var oShell = this.byId("shell");
       oShell.setSideExpanded(!oShell.getSideExpanded());
