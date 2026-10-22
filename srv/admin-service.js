@@ -155,7 +155,7 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
     });
 
 
-    // FR-030: Admin reviews manager asset requests and fulfills approved requests by assigning an available asset.
+    // Admin reviews Manager asset requests and fulfills pending requests by assigning an available asset.
     this.on('fulfillAssetRequest', async req => {
       const { requestId, assetId, distributionDate, remarks } = req.data;
       need(req, requestId && assetId && distributionDate, 'Request, asset, and distribution date are mandatory');
