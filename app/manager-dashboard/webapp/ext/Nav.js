@@ -42,7 +42,9 @@ function (Component, Element, Dialog, Button, Input, Label, MessageToast, Messag
       ]).then(function (results) {
         results[0].forEach(function (ctx) {
           var employee = ctx.getObject();
-          employeeSelect.addItem(new Item({ key: employee.employee_id, text: employee.full_name || employee.employee_id }));
+          if (employee.status === "ACTIVE") {
+            employeeSelect.addItem(new Item({ key: employee.employee_id, text: employee.full_name || employee.employee_id }));
+          }
         });
         results[1].forEach(function (ctx) {
           var category = ctx.getObject();
