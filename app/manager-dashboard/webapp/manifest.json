@@ -179,6 +179,10 @@
         "AttentionList": { "type": "Component", "id": "AttentionList", "name": "sap.fe.templates.ListReport",
   "options": { "settings": { "contextPath": "/AttentionItems", "initialLoad": "Enabled", "variantManagement": "None", "hideFilterBar": true,
     "controlConfiguration": { "@com.sap.vocabularies.UI.v1.LineItem": { "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" } } } } } },
+        "MaintenanceRecordsList": { "type": "Component", "id": "MaintenanceRecordsList", "name": "sap.fe.templates.ListReport",
+  "options": { "settings": { "contextPath": "/MaintenanceRecords", "initialLoad": "Enabled", "variantManagement": "Page",
+    "controlConfiguration": { "@com.sap.vocabularies.UI.v1.LineItem": { "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" } } }
+  } } },
         "AssetRequestsList": { "type": "Component", "id": "AssetRequestsList", "name": "sap.fe.templates.ListReport",
   "options": { "settings": { "contextPath": "/AssetRequests", "initialLoad": "Enabled", "variantManagement": "Page",
     "controlConfiguration": { "@com.sap.vocabularies.UI.v1.LineItem": { "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" },
