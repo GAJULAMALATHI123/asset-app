@@ -61,3 +61,20 @@ annotate AssetAdminService.Departments     with @odata.draft.enabled;
 annotate AssetAdminService.Employees       with @odata.draft.enabled;
 annotate AssetAdminService.AssetCategories with @odata.draft.enabled;
 annotate AssetAdminService.Vendors         with @odata.draft.enabled;
+
+
+annotate AssetAdminService.AssetRequests with @(
+  UI.HeaderInfo: { TypeName: 'Asset request', TypeNamePlural: 'Manager asset requests',
+    Title: { Value: status }, Description: { Value: reason } },
+  UI.SelectionFields: [ status, requested_by, employee_employee_id, category_asset_category_id, createdAt ],
+  UI.LineItem: [
+    { Value: createdAt, Label: 'Requested on' },
+    { Value: requested_by, Label: 'Requested by' },
+    { Value: employee.full_name, Label: 'Employee' },
+    { Value: category.name, Label: 'Asset category' },
+    { Value: reason, Label: 'Business reason' },
+    { Value: status, Label: 'Request status' },
+    { Value: fulfilled_asset.asset_tag, Label: 'Assigned asset' },
+    { Value: review_notes, Label: 'Admin notes' }
+  ]
+);
