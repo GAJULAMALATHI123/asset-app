@@ -14,6 +14,17 @@ sap.ui.define([
         openRequests: []
       }), "summary");
       this.onRefresh();
+      var that = this;
+      this._refreshTimer = setInterval(function () {
+        that.onRefresh();
+      }, 30000);
+    },
+
+    onExit: function () {
+      if (this._refreshTimer) {
+        clearInterval(this._refreshTimer);
+        this._refreshTimer = null;
+      }
     },
 
     onRefresh: function () {
