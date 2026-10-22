@@ -185,3 +185,19 @@ extend service AssetManagerService with {
   function exportPdf(filter : String) returns LargeString;                     // base64 PDF (FR-022)
   action   emailReport(filter : String, to : String) returns String;           // PDF by email (FR-023)
 }
+
+annotate AssetManagerService.AssetRequests with @(
+  UI.HeaderInfo: { TypeName: 'Asset request', TypeNamePlural: 'My asset requests',
+    Title: { Value: status }, Description: { Value: reason } },
+  UI.SelectionFields: [ status, category_asset_category_id, employee_employee_id, createdAt ],
+  UI.LineItem: [
+    { Value: createdAt, Label: 'Requested on' },
+    { Value: category.name, Label: 'Asset category' },
+    { Value: employee.full_name, Label: 'Employee' },
+    { Value: reason, Label: 'Business reason' },
+    { Value: status, Label: 'Request status' },
+    { Value: fulfilled_asset.asset_tag, Label: 'Assigned asset' },
+    { Value: reviewed_by, Label: 'Reviewed by' },
+    { Value: review_notes, Label: 'Admin notes' }
+  ]
+);
