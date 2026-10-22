@@ -114,7 +114,7 @@ sap.ui.define([
           statusRows: withPercent(statusRows),
           departmentRows: withPercent(groupCount(assets, "department", 6)),
           locationRows: withPercent(groupCount(assets, "location", 6)),
-          categoryRows: groupCount(assets, "category", 8),
+          categoryRows: withPercent(groupCount(assets, "category", 8)),
           maintenance: maintenanceCounts,
           requests: { pending: pendingRequests },
           lastUpdated: "Last updated " + new Date().toLocaleString()
