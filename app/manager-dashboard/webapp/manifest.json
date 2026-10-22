@@ -181,8 +181,7 @@
   "options": { "settings": { "contextPath": "/AssetRequests", "initialLoad": "Enabled", "variantManagement": "Page",
     "controlConfiguration": { "@com.sap.vocabularies.UI.v1.LineItem": { "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" },
       "actions": {
-        "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true, "requiresSelection": false },
-        "RefreshRequests": { "press": "managerdashboard.ext.Nav.goRequests", "text": "Refresh requests", "enabled": true, "requiresSelection": false }
+        "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true, "requiresSelection": false }
       }
     } }
   } } }
