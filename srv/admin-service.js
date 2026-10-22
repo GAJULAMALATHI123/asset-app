@@ -154,6 +154,131 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
       return reload(id);
     });
 
+
+    // FR-022/023/024: Admin dashboard report (all records visible to the Admin role).
+    const createAdminReportPdf = async () => {
+      const [assets, categories, employees, vendors, maintenance] = await Promise.all([
+        SELECT.from(Asset).columns('asset_id', 'asset_tag', 'serial_number', 'model', 'status', 'location',
+          'purchase_date', 'assetCategory_asset_category_id', 'current_holder_employee_id', 'vendor_vendor_id'),
+        SELECT.from(AssetCategory).columns('asset_category_id', 'name'),
+        SELECT.from(Employee).columns('employee_id', 'full_name'),
+        SELECT.from(Vendor).columns('vendor_id', 'name'),
+        SELECT.from(MaintenanceRecord).columns('maintenance_id', 'asset_asset_id', 'type', 'status',
+          'reported_date', 'completed_date', 'description')
+      ]);
+      const categoryById = Object.fromEntries(categories.map(x => [x.asset_category_id, x.name]));
+      const employeeById = Object.fromEntries(employees.map(x => [x.employee_id, x.full_name]));
+      const vendorById = Object.fromEntries(vendors.map(x => [x.vendor_id, x.name]));
+      const assetById = Object.fromEntries(assets.map(x => [x.asset_id, x]));
+      const assetRows = assets.map(a => ({
+        tag: a.asset_tag || '', serial: a.serial_number || '', model: a.model || '',
+        category: categoryById[a.assetCategory_asset_category_id] || '',
+        status: a.status || '', owner: employeeById[a.current_holder_employee_id] || '',
+        location: a.location || '', vendor: vendorById[a.vendor_vendor_id] || '',
+        purchased: a.purchase_date || ''
+      }));
+      const maintenanceRows = maintenance.map(m => ({
+        asset: (assetById[m.asset_asset_id] && assetById[m.asset_asset_id].asset_tag) || 'Unknown asset',
+        type: m.type || '', status: m.status || '', reported: m.reported_date || '',
+        completed: m.completed_date || '', description: m.description || ''
+      }));
+      return new Promise((resolve, reject) => {
+        const PDFDocument = require('pdfkit');
+        const doc = new PDFDocument({ size: 'A4', layout: 'landscape', margin: 36 });
+        const chunks = [];
+        doc.on('data', chunk => chunks.push(chunk));
+        doc.on('end', () => resolve(Buffer.concat(chunks)));
+        doc.on('error', reject);
+        const generated = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+        doc.fontSize(18).fillColor('#111111').text('Asset Lifecycle — Admin Dashboard Report');
+        doc.moveDown(0.3).fontSize(9).fillColor('#555555')
+          .text('Generated: ' + generated)
+          .text('Filters: none — full Admin dashboard report');
+        const counts = {};
+        assetRows.forEach(row => { counts[row.status] = (counts[row.status] || 0) + 1; });
+        doc.moveDown(0.5).fontSize(11).fillColor('#111111')
+          .text('Asset summary: ' + assetRows.length + ' total | ' +
+            Object.entries(counts).map(([status, count]) => status + ': ' + count).join(' | '));
+        doc.moveDown(0.5).fontSize(13).text('Asset inventory');
+        const assetCols = [
+          ['Asset tag', 'tag', 70], ['Serial number', 'serial', 90], ['Model', 'model', 80],
+          ['Category', 'category', 80], ['Status', 'status', 65], ['Owner', 'owner', 90],
+          ['Location', 'location', 85], ['Vendor', 'vendor', 85], ['Purchase date', 'purchased', 75]
+        ];
+        const drawTableHeader = cols => {
+          let x = 36; const y = doc.y;
+          doc.fontSize(8.5).fillColor('#111111');
+          cols.forEach(([label, , width]) => { doc.text(label, x, y, { width: width - 3, height: 12, ellipsis: true }); x += width; });
+          doc.moveTo(36, y + 14).lineTo(806, y + 14).stroke();
+          doc.y = y + 18;
+        };
+        drawTableHeader(assetCols);
+        assetRows.forEach(row => {
+          if (doc.y > 525) { doc.addPage(); doc.fontSize(12).text('Asset inventory (continued)'); doc.moveDown(0.3); drawTableHeader(assetCols); }
+          let x = 36; const y = doc.y; doc.fontSize(7.5).fillColor('#222222');
+          assetCols.forEach(([, key, width]) => { doc.text(String(row[key] ?? ''), x, y, { width: width - 3, height: 12, ellipsis: true }); x += width; });
+          doc.y = y + 14;
+        });
+        doc.addPage();
+        doc.fontSize(15).fillColor('#111111').text('Maintenance requests');
+        doc.moveDown(0.3).fontSize(9).text('Total maintenance records: ' + maintenanceRows.length);
+        const maintenanceCols = [
+          ['Asset', 'asset', 100], ['Type', 'type', 95], ['Status', 'status', 85],
+          ['Reported', 'reported', 85], ['Completed', 'completed', 85], ['Description', 'description', 320]
+        ];
+        drawTableHeader(maintenanceCols);
+        maintenanceRows.forEach(row => {
+          if (doc.y > 525) { doc.addPage(); doc.fontSize(12).text('Maintenance requests (continued)'); doc.moveDown(0.3); drawTableHeader(maintenanceCols); }
+          let x = 36; const y = doc.y; doc.fontSize(8).fillColor('#222222');
+          maintenanceCols.forEach(([, key, width]) => { doc.text(String(row[key] ?? ''), x, y, { width: width - 3, height: 12, ellipsis: true }); x += width; });
+          doc.y = y + 14;
+        });
+        doc.end();
+      });
+    };
+    const logAdminReport = (action, recipient, rowCount, outcome, message) =>
+      INSERT.into(db().ReportLog).entries({
+        action, filterText: 'Admin dashboard: full report', recipient, rowCount, outcome,
+        message: (message || '').slice(0, 300)
+      }).catch(() => {});
+
+    this.on('exportPdf', async req => {
+      try {
+        const pdf = await createAdminReportPdf();
+        await logAdminReport('PDF_DOWNLOAD', null, pdf.length, 'OK', 'Admin dashboard PDF generated');
+        return pdf.toString('base64');
+      } catch (e) {
+        await logAdminReport('PDF_DOWNLOAD', null, 0, 'FAILED', e.message);
+        req.reject(500, 'Could not generate the Admin PDF report: ' + e.message);
+      }
+    });
+
+    this.on('emailReport', async req => {
+      const to = (req.data.to || '').trim();
+      if (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(to)) req.reject(400, 'Please enter a valid email address');
+      const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_FROM } = process.env;
+      if (!SMTP_USER || !SMTP_PASS) req.reject(500, 'Email is not configured on the server (SMTP_USER / SMTP_PASS)');
+      try {
+        const pdf = await createAdminReportPdf();
+        const mail = require('nodemailer').createTransport({
+          host: SMTP_HOST || 'smtp-mail.outlook.com',
+          port: Number(SMTP_PORT || 587), secure: false, requireTLS: true,
+          auth: { user: SMTP_USER, pass: SMTP_PASS }
+        });
+        await mail.sendMail({
+          from: MAIL_FROM || SMTP_USER, to,
+          subject: 'Asset Lifecycle Admin Report - ' + new Date().toISOString().slice(0, 10),
+          text: 'Attached is the Admin dashboard report. It includes the full asset inventory and maintenance records visible to the Admin role. Filters: none.',
+          attachments: [{ filename: 'asset-admin-report.pdf', content: pdf }]
+        });
+        await logAdminReport('EMAIL', to, pdf.length, 'OK', 'Admin dashboard report emailed');
+        return 'Report sent to ' + to;
+      } catch (e) {
+        await logAdminReport('EMAIL', to, 0, 'FAILED', e.message);
+        req.reject(502, 'Email could not be sent: ' + e.message);
+      }
+    });
+
     return super.init();
   }
 };
