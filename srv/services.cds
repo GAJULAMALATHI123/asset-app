@@ -23,7 +23,7 @@ service AssetAdminService @(path: '/odata/v4/admin', requires: 'Admin', impl: '.
   @readonly entity ArchiveRecords     as projection on db.ArchiveRecord;
   //@readonly entity KPIs as select from db.Asset {
     //key status, count(*) as total : Integer, sum(purchase_cost) as value : Decimal(15,2) } group by status;
-}//
+}
 
 /** MANAGER: dashboards, reports, read-only (FR-014/021/025). No lifecycle actions. */
 service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','Admin']) {
@@ -34,7 +34,7 @@ service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','A
   @readonly entity MaintenanceRecords as projection on db.MaintenanceRecord;
   //@readonly entity KPIs as select from db.Asset {
    // key status, count(*) as total : Integer, sum(purchase_cost) as value : Decimal(15,2) } group by status;
-}//
+}
 
 /** USER: read-only + raise maintenance request */
 service AssetUserService @(path: '/odata/v4/user', requires: ['User','Manager','Admin'], impl: './user-service.js') {
@@ -45,7 +45,7 @@ service AssetUserService @(path: '/odata/v4/user', requires: ['User','Manager','
   action RaiseMaintenanceRequest(assetId : UUID, description : String) returns String;
 }
 
-annotate AssetAdminService.Assets with @odata.draft.enabled @(Capabilities.DeleteRestrictions.Deletable: false) {
+annotate AssetAdminService.Assets with @odata.draft.enabled {
   status @readonly; current_holder @readonly; first_distribution_date @readonly;
   retirement_reason @readonly; retirement_date @readonly;
 };
