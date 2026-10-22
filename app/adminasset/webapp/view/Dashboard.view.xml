@@ -88,13 +88,6 @@
             </items>
           </Table>
 
-          <Title text="Master data" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
-          <HBox wrap="Wrap" class="adminMasterGrid">
-            <Button text="Employees" icon="sap-icon://employee" width="12rem" press=".onOpenEmployees"/>
-            <Button text="Departments" icon="sap-icon://org-chart" width="12rem" press=".onOpenDepartments"/>
-            <Button text="Asset categories" icon="sap-icon://tag" width="12rem" press=".onOpenCategories"/>
-            <Button text="Vendors" icon="sap-icon://shipping-status" width="12rem" press=".onOpenVendors"/>
-          </HBox>
         </VBox>
       </VBox>
     </content>
