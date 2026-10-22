@@ -89,14 +89,7 @@
       "css": []
     },
     "routing": {
-      "config": {
-        "routerClass": "sap.f.routing.Router",
-        "viewType": "XML",
-        "viewPath": "managerdashboard.home.view",
-        "controlId": "app",
-        "controlAggregation": "pages",
-        "async": true
-      },
+      "config": {},
       "routes": [
         {
           "pattern": ":?query:",
@@ -239,10 +232,9 @@
           }
         },
         "ManagerHome": {
-          "type": "View",
+          "type": "Component",
           "id": "ManagerHome",
-          "viewName": "managerdashboard.home.view.Dashboard",
-          "viewLevel": 1
+          "name": "managerdashboard.home"
         }
       }
     }
