@@ -172,13 +172,6 @@ annotate AssetManagerService.AssetFacts with @(
 
 
 annotate AssetManagerService.AssetFacts with @(
-  UI.Chart #Category: {
-    Title: 'Assets by category', ChartType: #Bar,
-    Dimensions: [ category ],
-    DimensionAttributes: [ { Dimension: category, Role: #Category } ],
-    Measures: [ assetCount ],
-    MeasureAttributes: [ { Measure: assetCount, Role: #Axis1, DataPoint: '@UI.DataPoint#Count' } ]
-  },
   UI.KPI #Archived: {
     DataPoint: { Title: 'Archived assets', Value: assetCount },
     SelectionVariant: { SelectOptions: [ { PropertyName: status, Ranges: [ { Sign: #I, Option: #EQ, Low: 'ARCHIVED' } ] } ] },
@@ -188,27 +181,12 @@ annotate AssetManagerService.AssetFacts with @(
     Text: 'By status',
     Visualizations: [ '@UI.Chart#Status', '@UI.LineItem' ]
   },
-  UI.PresentationVariant #ByCategory: {
-    Text: 'By category',
-    Visualizations: [ '@UI.Chart#Category', '@UI.LineItem' ]
-  },
-  UI.Chart #Department: {
-    Title: 'Assets by department', ChartType: #Bar,
-    Dimensions: [ department ],
-    DimensionAttributes: [ { Dimension: department, Role: #Category } ],
-    Measures: [ assetCount ],
-    MeasureAttributes: [ { Measure: assetCount, Role: #Axis1, DataPoint: '@UI.DataPoint#Count' } ]
-  },
   UI.Chart #Location: {
     Title: 'Assets by location', ChartType: #Bar,
     Dimensions: [ location ],
     DimensionAttributes: [ { Dimension: location, Role: #Category } ],
     Measures: [ assetCount ],
     MeasureAttributes: [ { Measure: assetCount, Role: #Axis1, DataPoint: '@UI.DataPoint#Count' } ]
-  },
-  UI.PresentationVariant #ByDepartment: {
-    Text: 'By department',
-    Visualizations: [ '@UI.Chart#Department', '@UI.LineItem' ]
   },
   UI.PresentationVariant #ByLocation: {
     Text: 'By location',
