@@ -148,15 +148,46 @@
               "views": {
                 "paths": [
                   {
+                    "key": "ByStatus",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByStatus",
                     "primary": [
-                      {
-                        "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant"
-                      }
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.Chart#Status" }
                     ],
                     "secondary": [
-                      {
-                        "annotationPath": "com.sap.vocabularies.UI.v1.LineItem"
-                      }
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.LineItem" }
+                    ],
+                    "defaultPath": "both"
+                  },
+                  {
+                    "key": "ByCategory",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByCategory",
+                    "primary": [
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.Chart#Category" }
+                    ],
+                    "secondary": [
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.LineItem" }
+                    ],
+                    "defaultPath": "both"
+                  },
+                  {
+                    "key": "ByDepartment",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByDepartment",
+                    "primary": [
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.Chart#Department" }
+                    ],
+                    "secondary": [
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.LineItem" }
+                    ],
+                    "defaultPath": "both"
+                  },
+                  {
+                    "key": "ByLocation",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByLocation",
+                    "primary": [
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.Chart#Location" }
+                    ],
+                    "secondary": [
+                      { "annotationPath": "com.sap.vocabularies.UI.v1.LineItem" }
                     ],
                     "defaultPath": "both"
                   }
