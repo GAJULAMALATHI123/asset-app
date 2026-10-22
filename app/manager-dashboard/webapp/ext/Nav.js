@@ -9,9 +9,13 @@ function (Component, Element, Dialog, Button, Input, Label, MessageToast, Messag
   var currentFilter = function () {
     try {
       var table = Element.registry.filter(function (e) { return e.isA && e.isA("sap.ui.mdc.Table") && e.getRowBinding && e.getRowBinding(); })[0];
-      var url = table.getRowBinding().getDownloadUrl();
+      if (!table) { return null; }
+      var binding = table.getRowBinding();
+      if (!binding || typeof binding.getDownloadUrl !== "function") { return null; }
+      var url = binding.getDownloadUrl();
+      if (typeof url !== "string") { return null; }
       return new URLSearchParams(url.split("?")[1] || "").get("$filter") || "";
-    } catch (e) { return ""; }
+    } catch (e) { return null; }
   };
   var callOp = function (path, params) {
     var op = appComponent().getModel().bindContext(path);
@@ -25,7 +29,12 @@ function (Component, Element, Dialog, Button, Input, Label, MessageToast, Messag
       if (comp) { comp.getRouter().navTo("AttentionList"); }
     },
     downloadPdf: function () {
-      callOp("/exportPdf(...)", { filter: currentFilter() }).then(function (res) {
+      var filter = currentFilter();
+      if (filter === null) {
+        MessageBox.error("Could not read the current dashboard filters. Please wait for the asset table to load and try again.");
+        return;
+      }
+      callOp("/exportPdf(...)", { filter: filter }).then(function (res) {
         var bin = atob(res.value), bytes = new Uint8Array(bin.length);
         for (var i = 0; i < bin.length; i++) { bytes[i] = bin.charCodeAt(i); }
         var a = document.createElement("a");
@@ -36,6 +45,10 @@ function (Component, Element, Dialog, Button, Input, Label, MessageToast, Messag
     },
     emailReport: function () {
       var filter = currentFilter();
+      if (filter === null) {
+        MessageBox.error("Could not read the current dashboard filters. Please wait for the asset table to load and try again.");
+        return;
+      }
       var input = new Input({ placeholder: "name@company.com", type: "Email", width: "100%" });
       var dlg = new Dialog({ title: "Email report", contentWidth: "22rem",
         content: [new Label({ text: "Send the report to" }), input],
