@@ -65,6 +65,19 @@
             </VBox>
           </VBox>
 
+          <Title text="Maintenance request status" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
+          <VBox class="adminPanel" width="100%" items="{summary>/maintenanceStatus}">
+            <items>
+              <VBox class="adminStatusLine">
+                <HBox justifyContent="SpaceBetween" alignItems="Center">
+                  <Text text="{summary>label}"/>
+                  <ObjectStatus text="{summary>count}" state="{summary>state}"/>
+                </HBox>
+                <ProgressIndicator percentValue="{summary>percent}" displayValue="{summary>percent}% of maintenance records" state="{summary>state}"/>
+              </VBox>
+            </items>
+          </VBox>
+
           <Title text="Maintenance requests" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
           <Text text="Open requests are shown here so the Admin can follow up on issues raised by users." class="sapUiTinyMarginBottom"/>
           <Table id="maintenanceTable" items="{summary>/openRequests}" noDataText="No open maintenance requests." growing="true" growingThreshold="10">
