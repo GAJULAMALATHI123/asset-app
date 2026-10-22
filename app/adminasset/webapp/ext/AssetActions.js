@@ -48,12 +48,17 @@ sap.ui.define([
       if (f.kind === "select") {
         var oSelect = new Select({ width: "100%", selectedKey: "" });
         mControls[f.name] = oSelect;
-        loadChoices(oModel, f.path, f.key, f.text, function (aChoices) {
+        var addChoices = function (aChoices) {
           aChoices.forEach(function (choice) {
             oSelect.addItem(new Item({ key: choice.key, text: choice.text }));
           });
           if (aChoices.length) { oSelect.setSelectedKey(aChoices[0].key); }
-        });
+        };
+        if (f.choices) {
+          addChoices(f.choices);
+        } else {
+          loadChoices(oModel, f.path, f.key, f.text, addChoices);
+        }
         aItems.push(oSelect);
       } else if (f.kind === "date") {
         mControls[f.name] = new DatePicker({ width: "100%", value: today(), valueFormat: "yyyy-MM-dd", displayFormat: "medium" });
@@ -129,7 +134,7 @@ sap.ui.define([
     },
     createMaintenance: function (oEvent, aSelectedContexts) {
       openAction(oEvent, aSelectedContexts, "createMaintenance", [
-        { name: "maintenanceType", label: "Maintenance type", dialogTitle: "Start maintenance", required: true, kind: "select", path: "/AssetCategories", key: "name", text: "name" },
+        { name: "maintenanceType", label: "Maintenance type", dialogTitle: "Start maintenance", required: true, kind: "select", choices: [{ key: "PREVENTIVE", text: "Preventive" }, { key: "CORRECTIVE", text: "Corrective" }] },
         { name: "description", label: "Description", required: true, kind: "textarea" }
       ]);
     },
