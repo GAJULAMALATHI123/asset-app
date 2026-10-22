@@ -12,7 +12,8 @@ module.exports = class AssetManagerService extends cds.ApplicationService {
     });
 
     this.on('requestAsset', async req => {
-      if (!req.user.is('Manager')) req.reject(403, 'Only Managers can submit asset requests');
+      // Authorization is enforced by AssetManagerService's requires: ['Manager','Admin'].
+      // Avoid a second req.user.is('Manager') check, which can reject valid BTP role-collection users.
       const { employeeId, categoryId, reason } = req.data;
       if (!employeeId || !categoryId || !reason || !reason.trim())
         req.reject(400, 'Employee, asset category, and business reason are required');
