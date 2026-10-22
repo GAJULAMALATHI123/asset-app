@@ -182,29 +182,29 @@
                   },
                   "actions": {
                     "AssignAsset": {
-                      "press": "adminasset.ext.controller.AssetActions.assign",
+                      "press": "adminasset.ext.AssetActions.assign",
                       "text": "Assign asset",
-                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
+                      "enabled": "adminasset.ext.AssetActions.enabledForSingleSelect"
                     },
                     "TransferAsset": {
-                      "press": "adminasset.ext.controller.AssetActions.transfer",
+                      "press": "adminasset.ext.AssetActions.transfer",
                       "text": "Transfer asset",
-                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
+                      "enabled": "adminasset.ext.AssetActions.enabledForSingleSelect"
                     },
                     "ReturnAsset": {
-                      "press": "adminasset.ext.controller.AssetActions.returnAsset",
+                      "press": "adminasset.ext.AssetActions.returnAsset",
                       "text": "Return asset",
-                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
+                      "enabled": "adminasset.ext.AssetActions.enabledForSingleSelect"
                     },
                     "CreateMaintenance": {
-                      "press": "adminasset.ext.controller.AssetActions.createMaintenance",
+                      "press": "adminasset.ext.AssetActions.createMaintenance",
                       "text": "Start maintenance",
-                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
+                      "enabled": "adminasset.ext.AssetActions.enabledForSingleSelect"
                     },
                     "RetireAsset": {
-                      "press": "adminasset.ext.controller.AssetActions.retire",
+                      "press": "adminasset.ext.AssetActions.retire",
                       "text": "Retire asset",
-                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
+                      "enabled": "adminasset.ext.AssetActions.enabledForSingleSelect"
                     }
                   }
                 }
@@ -358,15 +358,6 @@
       "type": "XML",
       "id": "App",
       "async": true
-    },
-    "extends": {
-      "extensions": {
-        "sap.ui.controllerExtensions": {
-          "sap.fe.templates.ListReport.ListReportController#adminasset::AssetsList": {
-            "controllerName": "adminasset.ext.controller.AssetActions"
-          }
-        }
-      }
     }
   },
   "sap.fiori": {
