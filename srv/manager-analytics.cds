@@ -179,6 +179,11 @@ annotate AssetManagerService.AssetFacts with @(
     Measures: [ assetCount ],
     MeasureAttributes: [ { Measure: assetCount, Role: #Axis1, DataPoint: '@UI.DataPoint#Count' } ]
   },
+  UI.KPI #Archived: {
+    DataPoint: { Title: 'Archived assets', Value: assetCount },
+    SelectionVariant: { SelectOptions: [ { PropertyName: status, Ranges: [ { Sign: #I, Option: #EQ, Low: 'ARCHIVED' } ] } ] },
+    Detail: { DefaultPresentationVariant: { Visualizations: ['@UI.Chart#Status'] } }
+  },
   UI.PresentationVariant #ByStatus: {
     Text: 'By status',
     Visualizations: [ '@UI.Chart#Status', '@UI.LineItem' ]
