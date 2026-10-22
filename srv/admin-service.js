@@ -4,7 +4,7 @@ const { today, db, idOf, getAsset, reload, ledger, openMaintenance } = require('
 module.exports = class AssetAdminService extends cds.ApplicationService {
   init() {
     const { Assets, Departments } = this.entities;
-    const { Asset, AssetAssignment, MaintenanceRecord, OwnershipLedger, Employee, Vendor, ArchiveRecord, AssetCategory } = db();
+    const { Asset, AssetAssignment, MaintenanceRecord, OwnershipLedger, Employee, Vendor, ArchiveRecord, AssetCategory, AssetRequest } = db();
     const need = (req, cond, msg) => { if (!cond) req.reject(400, msg); };
     const activeEmployee = async (req, id) => {
       const e = id && await SELECT.one.from(Employee).where({ employee_id: id });
@@ -154,6 +154,53 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
       return reload(id);
     });
 
+
+    // FR-030: Admin reviews manager asset requests and fulfills approved requests by assigning an available asset.
+    this.on('fulfillAssetRequest', async req => {
+      const { requestId, assetId, distributionDate, remarks } = req.data;
+      need(req, requestId && assetId && distributionDate, 'Request, asset, and distribution date are mandatory');
+      const request = await SELECT.one.from(AssetRequest).where({ request_id: requestId });
+      if (!request) req.reject(404, 'Asset request not found');
+      need(req, request.status === 'PENDING', 'Only pending requests can be fulfilled');
+      const asset = await getAsset(req, assetId);
+      need(req, asset.status === 'AVAILABLE', 'Only AVAILABLE assets can be assigned');
+      need(req, asset.assetCategory_asset_category_id === request.category_asset_category_id,
+        'Selected asset does not match the requested category');
+      const employee = await activeEmployee(req, request.employee_employee_id);
+      need(req, distributionDate >= asset.purchase_date, 'Distribution date cannot be earlier than procurement date');
+      await INSERT.into(AssetAssignment).entries({
+        asset_asset_id: assetId, employee_employee_id: employee.employee_id,
+        assigned_date: distributionDate, assigned_by: req.user.id, assignment_status: 'ACTIVE',
+        remarks: remarks || request.reason
+      });
+      await UPDATE(Asset).set({
+        status: 'ASSIGNED', current_holder_employee_id: employee.employee_id,
+        first_distribution_date: asset.first_distribution_date ?? distributionDate
+      }).where({ asset_id: assetId });
+      await ledger(req, {
+        asset_asset_id: assetId, action: 'ASSIGNED', to_employee_employee_id: employee.employee_id,
+        transition_date: distributionDate, notes: remarks || ('Fulfilled request ' + requestId)
+      });
+      await UPDATE(AssetRequest).set({
+        status: 'FULFILLED', reviewed_by: req.user.id, reviewed_at: new Date(),
+        review_notes: remarks || 'Request fulfilled and asset assigned', fulfilled_asset_asset_id: assetId
+      }).where({ request_id: requestId });
+      return 'Request fulfilled. Asset ' + (asset.asset_tag || assetId) + ' assigned to ' + employee.full_name + '.';
+    });
+
+    this.on('rejectAssetRequest', async req => {
+      const { requestId, reviewNotes } = req.data;
+      need(req, requestId, 'Request ID is mandatory');
+      need(req, reviewNotes && reviewNotes.trim(), 'Please provide a reason for rejection');
+      const request = await SELECT.one.from(AssetRequest).where({ request_id: requestId });
+      if (!request) req.reject(404, 'Asset request not found');
+      need(req, request.status === 'PENDING', 'Only pending requests can be rejected');
+      await UPDATE(AssetRequest).set({
+        status: 'REJECTED', reviewed_by: req.user.id, reviewed_at: new Date(),
+        review_notes: reviewNotes.trim()
+      }).where({ request_id: requestId });
+      return 'Asset request rejected.';
+    });
 
     // FR-022/023/024: Admin dashboard report (all records visible to the Admin role).
     const createAdminReportPdf = async () => {
