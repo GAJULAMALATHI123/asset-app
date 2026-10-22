@@ -106,6 +106,19 @@ entity ArchiveRecord : managed {
   compliance_ref   : String(60);
 }
 
+entity AssetRequest : managed {
+  key request_id : UUID;
+  requested_by : String(100) @mandatory;
+  employee : Association to Employee @mandatory;
+  category : Association to AssetCategory @mandatory;
+  reason : LargeString @mandatory;
+  status : AssetRequestStatus default #PENDING;
+  reviewed_by : String(100);
+  reviewed_at : Timestamp;
+  review_notes : LargeString;
+  fulfilled_asset : Association to Asset;
+}
+
 entity ReportLog : cuid, managed {
   action     : String(20);     // PDF_DOWNLOAD | EMAIL
   filterText : String(1000);   // the filters that were applied
