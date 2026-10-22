@@ -101,7 +101,8 @@
           "name": "AssetFactsObjectPage",
           "target": "AssetFactsObjectPage"
         },
-        { "name": "AttentionList", "pattern": "Attention:?query:", "target": "AttentionList" }
+        { "name": "AttentionList", "pattern": "Attention:?query:", "target": "AttentionList" },
+        { "name": "AssetRequestsList", "pattern": "AssetRequests:?query:", "target": "AssetRequestsList" }
       ],
       "targets": {
         "AssetFactsList": {
@@ -136,7 +137,9 @@
                   "actions": {
   "GoAttention": { "press": "managerdashboard.ext.Nav.goAttention", "text": "Operational attention", "enabled": true },
   "DownloadPdf": { "press": "managerdashboard.ext.Nav.downloadPdf", "text": "Download PDF", "enabled": true },
-  "EmailReport": { "press": "managerdashboard.ext.Nav.emailReport", "text": "Email Report", "enabled": true }
+  "EmailReport": { "press": "managerdashboard.ext.Nav.emailReport", "text": "Email Report", "enabled": true },
+  "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true },
+  "MyAssetRequests": { "press": "managerdashboard.ext.Nav.goRequests", "text": "My asset requests", "enabled": true }
 }
                 }
               },
@@ -173,7 +176,9 @@
         },
         "AttentionList": { "type": "Component", "id": "AttentionList", "name": "sap.fe.templates.ListReport",
   "options": { "settings": { "contextPath": "/AttentionItems", "initialLoad": "Enabled", "variantManagement": "None", "hideFilterBar": true,
-    "controlConfiguration": { "@com.sap.vocabularies.UI.v1.LineItem": { "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" } } } } } }
+    "controlConfiguration": { "@com.sap.vocabularies.UI.v1.LineItem": { "tableSettings": { "type": "ResponsiveTable", "selectionMode": "None" } } } } } },
+        "AssetRequestsList": { "type": "Component", "id": "AssetRequestsList", "name": "sap.fe.templates.ListReport",
+  "options": { "settings": { "contextPath": "/AssetRequests", "initialLoad": "Enabled", "variantManagement": "Page" } } }
 
       }
     }
