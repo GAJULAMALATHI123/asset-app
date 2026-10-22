@@ -1,0 +1,82 @@
+<mvc:View
+  controllerName="managerdashboard.preview.controller.Dashboard"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <Page showHeader="false" enableScrolling="true" class="managerPreviewPage">
+    <content>
+      <VBox class="managerPreviewContent" width="100%">
+        <HBox class="managerPreviewHeader" alignItems="Center" justifyContent="SpaceBetween" wrap="Wrap">
+          <VBox>
+            <Title text="Manager Dashboard" level="H1" class="managerPreviewTitle"/>
+            <Text text="Asset overview and operational insights" class="managerPreviewSubtitle"/>
+          </VBox>
+          <Button text="Refresh" icon="sap-icon://refresh" press=".onRefresh" type="Emphasized"/>
+        </HBox>
+
+        <Title text="Asset Overview" level="H2" class="sectionTitle"/>
+        <Text text="Live inventory totals from the Manager service" class="sectionSubtitle"/>
+
+        <HBox class="managerKpiGrid" wrap="Wrap" width="100%">
+          <VBox class="managerKpiCard">
+            <HBox alignItems="Center" justifyContent="SpaceBetween">
+              <Text text="Total Assets" class="managerKpiLabel"/>
+              <core:Icon src="sap-icon://laptop" class="managerKpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/total}" emphasized="true" class="managerKpiNumber"/>
+            <Text text="Registered inventory" class="managerKpiHint"/>
+          </VBox>
+          <VBox class="managerKpiCard">
+            <HBox alignItems="Center" justifyContent="SpaceBetween">
+              <Text text="Available" class="managerKpiLabel"/>
+              <core:Icon src="sap-icon://accept" class="managerKpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/available}" state="Success" emphasized="true" class="managerKpiNumber"/>
+            <Text text="Ready to assign" class="managerKpiHint"/>
+          </VBox>
+          <VBox class="managerKpiCard">
+            <HBox alignItems="Center" justifyContent="SpaceBetween">
+              <Text text="Assigned" class="managerKpiLabel"/>
+              <core:Icon src="sap-icon://employee" class="managerKpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/assigned}" state="Information" emphasized="true" class="managerKpiNumber"/>
+            <Text text="Currently in use" class="managerKpiHint"/>
+          </VBox>
+          <VBox class="managerKpiCard">
+            <HBox alignItems="Center" justifyContent="SpaceBetween">
+              <Text text="Maintenance" class="managerKpiLabel"/>
+              <core:Icon src="sap-icon://wrench" class="managerKpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/maintenance}" state="Warning" emphasized="true" class="managerKpiNumber"/>
+            <Text text="Being serviced" class="managerKpiHint"/>
+          </VBox>
+          <VBox class="managerKpiCard">
+            <HBox alignItems="Center" justifyContent="SpaceBetween">
+              <Text text="Retired" class="managerKpiLabel"/>
+              <core:Icon src="sap-icon://decline" class="managerKpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/retired}" state="Error" emphasized="true" class="managerKpiNumber"/>
+            <Text text="Retired from use" class="managerKpiHint"/>
+          </VBox>
+          <VBox class="managerKpiCard">
+            <HBox alignItems="Center" justifyContent="SpaceBetween">
+              <Text text="Archived" class="managerKpiLabel"/>
+              <core:Icon src="sap-icon://archive" class="managerKpiIcon"/>
+            </HBox>
+            <ObjectNumber number="{dash>/archived}" emphasized="true" class="managerKpiNumber"/>
+            <Text text="Archived records" class="managerKpiHint"/>
+          </VBox>
+        </HBox>
+
+        <HBox class="managerPreviewInfo" alignItems="Center" wrap="Wrap">
+          <core:Icon src="sap-icon://information" class="infoIcon"/>
+          <Text text="{dash>/message}" class="infoText"/>
+        </HBox>
+        <HBox class="managerPreviewFooter" wrap="Wrap" alignItems="Center" justifyContent="SpaceBetween">
+          <Text text="Preview only — existing Manager and Admin pages have not been changed."/>
+          <Button text="Open existing Manager app" icon="sap-icon://open-in-new" press=".onOpenExisting" type="Transparent"/>
+        </HBox>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>
