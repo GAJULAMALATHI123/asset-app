@@ -50,7 +50,8 @@
         "sap.m": {},
         "sap.ui.core": {},
         "sap.fe.templates": {},
-        "sap.tnt": {}
+        "sap.tnt": {},
+        "sap.suite.ui.microchart": {}
       }
     },
     "contentDensities": {
