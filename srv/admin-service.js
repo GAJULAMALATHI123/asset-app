@@ -187,7 +187,7 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
         const doc = new PDFDocument({ size: 'A4', layout: 'landscape', margin: 36 });
         const chunks = [];
         doc.on('data', chunk => chunks.push(chunk));
-        doc.on('end', () => resolve(Buffer.concat(chunks)));
+        doc.on('end', () => resolve({ buffer: Buffer.concat(chunks), rowCount: assetRows.length + maintenanceRows.length }));
         doc.on('error', reject);
         const generated = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
         doc.fontSize(18).fillColor('#111111').text('Asset Lifecycle — Admin Dashboard Report');
@@ -245,8 +245,8 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
     this.on('exportPdf', async req => {
       try {
         const pdf = await createAdminReportPdf();
-        await logAdminReport('PDF_DOWNLOAD', null, pdf.length, 'OK', 'Admin dashboard PDF generated');
-        return pdf.toString('base64');
+        await logAdminReport('PDF_DOWNLOAD', null, pdf.rowCount, 'OK', 'Admin dashboard PDF generated');
+        return pdf.buffer.toString('base64');
       } catch (e) {
         await logAdminReport('PDF_DOWNLOAD', null, 0, 'FAILED', e.message);
         req.reject(500, 'Could not generate the Admin PDF report: ' + e.message);
@@ -255,7 +255,7 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
 
     this.on('emailReport', async req => {
       const to = (req.data.to || '').trim();
-      if (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(to)) req.reject(400, 'Please enter a valid email address');
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)) req.reject(400, 'Please enter a valid email address');
       const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_FROM } = process.env;
       if (!SMTP_USER || !SMTP_PASS) req.reject(500, 'Email is not configured on the server (SMTP_USER / SMTP_PASS)');
       try {
@@ -269,9 +269,9 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
           from: MAIL_FROM || SMTP_USER, to,
           subject: 'Asset Lifecycle Admin Report - ' + new Date().toISOString().slice(0, 10),
           text: 'Attached is the Admin dashboard report. It includes the full asset inventory and maintenance records visible to the Admin role. Filters: none.',
-          attachments: [{ filename: 'asset-admin-report.pdf', content: pdf }]
+          attachments: [{ filename: 'asset-admin-report.pdf', content: pdf.buffer }]
         });
-        await logAdminReport('EMAIL', to, pdf.length, 'OK', 'Admin dashboard report emailed');
+        await logAdminReport('EMAIL', to, pdf.rowCount, 'OK', 'Admin dashboard report emailed');
         return 'Report sent to ' + to;
       } catch (e) {
         await logAdminReport('EMAIL', to, 0, 'FAILED', e.message);
