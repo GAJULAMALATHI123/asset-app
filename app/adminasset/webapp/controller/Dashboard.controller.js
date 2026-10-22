@@ -11,7 +11,7 @@ sap.ui.define([
       this.getView().setModel(new JSONModel({
         total: 0, available: 0, assigned: 0, maintenance: 0, retired: 0,
         availablePercent: 0, assignedPercent: 0, maintenancePercent: 0, retiredPercent: 0,
-        openRequests: []
+        openRequests: [], maintenanceStatus: []
       }), "summary");
       this.onRefresh();
       var that = this;
@@ -65,12 +65,24 @@ sap.ui.define([
         var nAssigned = count("ASSIGNED");
         var nMaintenance = count("MAINTENANCE");
         var nRetired = count("RETIRED");
+        var maintenanceTotal = aMaintenance.length;
+        var maintenancePercent = function (n) {
+          return maintenanceTotal ? Math.round(n * 100 / maintenanceTotal) : 0;
+        };
+        var nOpenRequests = aMaintenance.filter(function (m) { return m.status === "OPEN"; }).length;
+        var nInProgressRequests = aMaintenance.filter(function (m) { return m.status === "IN_PROGRESS"; }).length;
+        var nCompletedRequests = aMaintenance.filter(function (m) { return m.status === "COMPLETED"; }).length;
+        var aMaintenanceStatus = [
+          { label: "Open", count: nOpenRequests, percent: maintenancePercent(nOpenRequests), state: "Warning" },
+          { label: "In progress", count: nInProgressRequests, percent: maintenancePercent(nInProgressRequests), state: "Information" },
+          { label: "Completed", count: nCompletedRequests, percent: maintenancePercent(nCompletedRequests), state: "Success" }
+        ];
         oSummary.setData({
           total: total, available: nAvailable, assigned: nAssigned,
           maintenance: nMaintenance, retired: nRetired,
           availablePercent: percent(nAvailable), assignedPercent: percent(nAssigned),
           maintenancePercent: percent(nMaintenance), retiredPercent: percent(nRetired),
-          openRequests: aOpen
+          openRequests: aOpen, maintenanceStatus: aMaintenanceStatus
         });
       }).catch(function (e) {
         MessageBox.error("The Admin dashboard could not load data. Check your Admin role and the /odata/v4/admin service. " +
