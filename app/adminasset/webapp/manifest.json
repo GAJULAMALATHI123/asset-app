@@ -200,6 +200,36 @@
                       "press": "adminasset.ext.Nav.goVendors",
                       "text": "Vendors",
                       "enabled": true
+                    },
+                    "AssignAsset": {
+                      "press": "adminasset.ext.AssetActions.assign",
+                      "text": "Assign asset",
+                      "enabled": true,
+                      "requiresSelection": true
+                    },
+                    "TransferAsset": {
+                      "press": "adminasset.ext.AssetActions.transfer",
+                      "text": "Transfer asset",
+                      "enabled": true,
+                      "requiresSelection": true
+                    },
+                    "ReturnAsset": {
+                      "press": "adminasset.ext.AssetActions.returnAsset",
+                      "text": "Return asset",
+                      "enabled": true,
+                      "requiresSelection": true
+                    },
+                    "CreateMaintenance": {
+                      "press": "adminasset.ext.AssetActions.createMaintenance",
+                      "text": "Start maintenance",
+                      "enabled": true,
+                      "requiresSelection": true
+                    },
+                    "RetireAsset": {
+                      "press": "adminasset.ext.AssetActions.retire",
+                      "text": "Retire asset",
+                      "enabled": true,
+                      "requiresSelection": true
                     }
                   }
                 }
