@@ -184,32 +184,27 @@
                     "AssignAsset": {
                       "press": "adminasset.ext.controller.AssetActions.assign",
                       "text": "Assign asset",
-                      "enabled": true,
-                      "requiresSelection": true
+                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
                     },
                     "TransferAsset": {
                       "press": "adminasset.ext.controller.AssetActions.transfer",
                       "text": "Transfer asset",
-                      "enabled": true,
-                      "requiresSelection": true
+                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
                     },
                     "ReturnAsset": {
                       "press": "adminasset.ext.controller.AssetActions.returnAsset",
                       "text": "Return asset",
-                      "enabled": true,
-                      "requiresSelection": true
+                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
                     },
                     "CreateMaintenance": {
                       "press": "adminasset.ext.controller.AssetActions.createMaintenance",
                       "text": "Start maintenance",
-                      "enabled": true,
-                      "requiresSelection": true
+                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
                     },
                     "RetireAsset": {
                       "press": "adminasset.ext.controller.AssetActions.retire",
                       "text": "Retire asset",
-                      "enabled": true,
-                      "requiresSelection": true
+                      "enabled": "adminasset.ext.controller.AssetActions.enabledForSingleSelect"
                     }
                   }
                 }
