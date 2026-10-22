@@ -80,8 +80,8 @@
           <Title text="Maintenance request status" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
           <VBox class="adminPanel" width="100%">
             <Text text="Requests by status" class="sapUiTinyMarginBottom"/>
-            <micro:ColumnMicroChart size="M" width="100%" columns="{summary>/maintenanceStatus}" class="sapUiSmallMarginBottom">
-              <micro:columns>
+            <micro:ColumnMicroChart size="M" width="100%" class="sapUiSmallMarginBottom">
+              <micro:columns path="summary>/maintenanceStatus">
                 <micro:ColumnMicroChartData label="{summary>label}" value="{summary>count}" color="Neutral"/>
               </micro:columns>
             </micro:ColumnMicroChart>
