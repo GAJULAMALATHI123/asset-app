@@ -109,9 +109,18 @@ module.exports = class AssetManagerService extends cds.ApplicationService {
       });
       doc.end();
     });
-    const log = (req, action, filter, recipient, rowCount, outcome, message) =>
-      INSERT.into(ReportLog).entries({ action, filterText: (filter || '').slice(0, 1000), recipient, rowCount, outcome,
-        message: (message || '').slice(0, 300) }).catch(() => {});
+    const log = async (req, action, filter, recipient, rowCount, outcome, message) => {
+      // CAP INSERT builders are executed with cds.run; the builder itself has no .catch().
+      // Report logging is best-effort and must not fail the PDF/email request.
+      try {
+        await cds.run(INSERT.into(ReportLog).entries({
+          action, filterText: (filter || '').slice(0, 1000), recipient, rowCount, outcome,
+          message: (message || '').slice(0, 300)
+        }));
+      } catch (err) {
+        console.warn('[AssetManagerService] Could not write report log:', err.message);
+      }
+    };
 
     this.on('exportPdf', async req => {                                         // FR-022, FR-026
       const rows = await loadRows(req, req.data.filter);
