@@ -5,12 +5,12 @@
   xmlns:m="sap.m">
   <ToolPage id="shell" sideExpanded="true">
     <header>
-      <m:ToolHeader>
+      <ToolHeader>
         <m:Button icon="sap-icon://menu2" type="Transparent" tooltip="Toggle navigation" press=".onToggleSideNav"/>
         <m:Title text="Asset Management" level="H2"/>
         <m:ToolbarSpacer/>
         <m:ObjectStatus text="ADMIN WORKSPACE" state="Information"/>
-      </m:ToolHeader>
+      </ToolHeader>
     </header>
     <sideContent>
       <SideNavigation id="adminSideNavigation" itemSelect=".onItemSelect">
