@@ -65,9 +65,18 @@ annotate AssetManagerService.AssetFacts with @(
 
   // ---- table ----
   UI.LineItem: [
-    { Value: asset_tag, Label: 'Asset' }, { Value: serial_number }, { Value: model },
-    { Value: category }, { Value: status }, { Value: owner }, { Value: location },
-    { Value: department }, { Value: vendor },{Value:vendor_id,Label:'Vendor ID'}
+    { Value: asset_tag, Label: 'Asset Tag' },
+    { Value: serial_number, Label: 'Serial Number' },
+    { Value: model, Label: 'Model' },
+    { Value: category, Label: 'Category' },
+    { Value: status, Label: 'Lifecycle Status' },
+    { Value: owner, Label: 'Assigned To' },
+    { Value: department, Label: 'Department' },
+    { Value: location, Label: 'Location' },
+    { Value: vendor, Label: 'Vendor' },
+    { Value: vendor_id, Label: 'Vendor ID' },
+    { Value: purchase_date, Label: 'Purchase Date' },
+    { Value: purchase_cost, Label: 'Purchase Cost' }
   ]
 );
 
