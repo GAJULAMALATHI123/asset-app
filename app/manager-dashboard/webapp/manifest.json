@@ -138,8 +138,8 @@
   "GoAttention": { "press": "managerdashboard.ext.Nav.goAttention", "text": "Operational attention", "enabled": true },
   "DownloadPdf": { "press": "managerdashboard.ext.Nav.downloadPdf", "text": "Download PDF", "enabled": true },
   "EmailReport": { "press": "managerdashboard.ext.Nav.emailReport", "text": "Email Report", "enabled": true },
-  "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true },
-  "MyAssetRequests": { "press": "managerdashboard.ext.Nav.goRequests", "text": "My asset requests", "enabled": true }
+  "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true, "requiresSelection": false },
+  "MyAssetRequests": { "press": "managerdashboard.ext.Nav.goRequests", "text": "My asset requests", "enabled": true, "requiresSelection": false }
 }
                 }
               },
