@@ -37,7 +37,7 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
         SELECT.one.from(OwnershipLedger).columns('count(*) as c').where({ asset_asset_id: id }),
         SELECT.one.from(ArchiveRecord).columns('count(*) as c').where({ asset_asset_id: id })
       ]);
-      need(req, !assignments.c && !maintenance.c && !history.c && !archives.c,
+      need(req, Number(assignments.c) === 0 && Number(maintenance.c) === 0 && Number(history.c) === 0 && Number(archives.c) === 0,
         'This asset has lifecycle records and cannot be deleted. Keep its audit history and use Retire/Archive instead.');
     });
     this.before('DELETE', Departments, async req => {                // FR-027
