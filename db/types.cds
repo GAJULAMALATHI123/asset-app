@@ -8,3 +8,4 @@ type MaintenanceStatus : String enum { OPEN; IN_PROGRESS; COMPLETED; }
 type MaintenanceOutcome : String enum { REPAIRED; REPLACED; SCRAPPED; }
 type ArchiveReason : String enum { END_OF_LIFE; DAMAGED; OBSOLETE; }
 type DisposalMethod : String enum { RECYCLED; SOLD; DESTROYED; RETURNED_TO_VENDOR; }
+type AssetRequestStatus : String enum { PENDING; FULFILLED; REJECTED; }
