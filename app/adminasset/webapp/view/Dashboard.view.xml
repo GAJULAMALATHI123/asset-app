@@ -3,7 +3,7 @@
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:core="sap.ui.core"
-  xmlns:micro="sap.suite.ui.microchart">
+>
   <Page id="adminDashboardPage" title="Asset Administration" showNavButton="false">
     <content>
       <VBox class="adminDashboard" width="100%" renderType="Bare">
@@ -52,14 +52,7 @@
           <Title text="Lifecycle distribution" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
           <VBox class="adminPanel" width="100%">
             <Text text="Asset status distribution chart" class="sapUiTinyMarginBottom"/>
-            <micro:DonutMicroChart size="M" total="{summary>/total}" showTotal="true" displayedSegments="4" class="sapUiSmallMarginBottom">
-              <micro:segments>
-                <micro:DonutMicroChartSegment value="{summary>/available}" label="Available" color="Good"/>
-                <micro:DonutMicroChartSegment value="{summary>/assigned}" label="Assigned" color="Neutral"/>
-                <micro:DonutMicroChartSegment value="{summary>/maintenance}" label="Maintenance" color="Critical"/>
-                <micro:DonutMicroChartSegment value="{summary>/retired}" label="Retired" color="Error"/>
-              </micro:segments>
-            </micro:DonutMicroChart>
+            <Text text="Available: {summary>/available}  |  Assigned: {summary>/assigned}  |  Maintenance: {summary>/maintenance}  |  Retired: {summary>/retired}" class="sapUiSmallMarginBottom"/>
             <VBox class="adminStatusLine">
               <HBox justifyContent="SpaceBetween"><Text text="Available"/><Text text="{summary>/available} / {summary>/total}"/></HBox>
               <ProgressIndicator percentValue="{summary>/availablePercent}" displayValue="{summary>/availablePercent}% available" state="Success"/>
@@ -81,11 +74,7 @@
           <Title text="Maintenance request status" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
           <VBox class="adminPanel" width="100%">
             <Text text="Requests by status" class="sapUiTinyMarginBottom"/>
-            <micro:ColumnMicroChart size="M" width="100%" class="sapUiSmallMarginBottom">
-              <micro:columns path="summary>/maintenanceStatus">
-                <micro:ColumnMicroChartData label="{summary>label}" value="{summary>count}" color="Neutral"/>
-              </micro:columns>
-            </micro:ColumnMicroChart>
+            <Text text="Open: {summary>/maintenanceStatus/0/count}  |  In progress: {summary>/maintenanceStatus/1/count}  |  Completed: {summary>/maintenanceStatus/2/count}" class="sapUiSmallMarginBottom"/>
           </VBox>
           <VBox class="adminPanel" width="100%" items="{summary>/maintenanceStatus}">
             <items>
