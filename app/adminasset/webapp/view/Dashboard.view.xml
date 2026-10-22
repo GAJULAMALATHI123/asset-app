@@ -14,6 +14,8 @@
             <Button text="Manage assets" icon="sap-icon://laptop" type="Emphasized" press=".onOpenAssets"/>
             <Button text="Review maintenance" icon="sap-icon://wrench" press=".onOpenMaintenance" class="sapUiTinyMarginBegin"/>
             <Button text="Refresh data" icon="sap-icon://refresh" press=".onRefresh" class="sapUiTinyMarginBegin"/>
+            <Button text="Download PDF" icon="sap-icon://pdf-attachment" press=".onDownloadReport" class="sapUiTinyMarginBegin"/>
+            <Button text="Email report" icon="sap-icon://email" press=".onEmailReport" class="sapUiTinyMarginBegin"/>
           </HBox>
         </VBox>
         <VBox class="sapUiResponsiveContentPadding" width="100%">
