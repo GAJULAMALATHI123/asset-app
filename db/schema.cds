@@ -1,7 +1,7 @@
 namespace asset.lifecycle.db;
 using { cuid,managed } from '@sap/cds/common';
 using { asset.lifecycle.db.EmployeeStatus, asset.lifecycle.db.AssetStatus, asset.lifecycle.db.AssignmentStatus, asset.lifecycle.db.LedgerAction, asset.lifecycle.db.MaintenanceType,
-        asset.lifecycle.db.MaintenanceStatus, asset.lifecycle.db.MaintenanceOutcome, asset.lifecycle.db.ArchiveReason, asset.lifecycle.db.DisposalMethod } from './types';
+        asset.lifecycle.db.MaintenanceStatus, asset.lifecycle.db.MaintenanceOutcome, asset.lifecycle.db.ArchiveReason, asset.lifecycle.db.DisposalMethod, asset.lifecycle.db.AssetRequestStatus } from './types';
 
 entity Department : managed {
   key dept_id : UUID;
