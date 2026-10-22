@@ -97,9 +97,19 @@ sap.ui.define([
     onDownloadReport: function () {
       var oOperation = this.getOwnerComponent().getModel().bindContext("/exportPdf()");
       oOperation.execute().then(function () {
-        var oResult = oOperation.getBoundContext().getObject();
-        var sBase64 = oResult && oResult.value ? oResult.value : oResult;
-        var sBinary = atob(sBase64);
+        var oContext = oOperation.getBoundContext();
+        var oResult = oContext && oContext.getObject();
+        var sBase64 = typeof oResult === "string" ? oResult :
+          (oResult && (oResult.value || oResult.exportPdf));
+        if (typeof sBase64 !== "string" || !sBase64.length) {
+          throw new Error("The server did not return PDF data. Check the Admin service response.");
+        }
+        var sBinary;
+        try {
+          sBinary = atob(sBase64);
+        } catch (decodeError) {
+          throw new Error("The server returned invalid PDF data. Please try again and check the server log.");
+        }
         var aBytes = new Uint8Array(sBinary.length);
         for (var i = 0; i < sBinary.length; i++) { aBytes[i] = sBinary.charCodeAt(i); }
         var oUrl = URL.createObjectURL(new Blob([aBytes], { type: "application/pdf" }));
@@ -109,8 +119,9 @@ sap.ui.define([
         document.body.appendChild(oLink);
         oLink.click();
         oLink.remove();
-        URL.revokeObjectURL(oUrl);
-        MessageToast.show("Admin report downloaded");
+        // Keep the object URL alive briefly so the browser can start the download.
+        setTimeout(function () { URL.revokeObjectURL(oUrl); }, 1000);
+        MessageToast.show("Admin report download started");
       }).catch(function (e) {
         MessageBox.error(e && e.message ? e.message : "Could not download the Admin report");
       });
