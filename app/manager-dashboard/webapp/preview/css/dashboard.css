@@ -1,0 +1,95 @@
+.managerPreviewPage {
+  background: #f5f7fa;
+}
+.managerPreviewContent {
+  box-sizing: border-box;
+  padding: 1.5rem 2rem 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.managerPreviewHeader {
+  padding: 0.5rem 0 1.25rem;
+  border-bottom: 1px solid #d9e0e8;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+.managerPreviewTitle {
+  color: #142c45;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.managerPreviewSubtitle,
+.sectionSubtitle {
+  color: #607286;
+  margin-top: 0.3rem;
+}
+.sectionTitle {
+  color: #142c45;
+  font-size: 1.25rem;
+  margin-bottom: 0.2rem;
+}
+.managerKpiGrid {
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: stretch;
+}
+.managerKpiCard {
+  box-sizing: border-box;
+  flex: 1 1 15rem;
+  min-width: 13rem;
+  min-height: 10rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid #dce3eb;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(30, 54, 78, 0.07);
+  gap: 0.7rem;
+}
+.managerKpiLabel {
+  color: #52677c;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.managerKpiIcon {
+  color: #2670a9;
+  font-size: 1.25rem;
+}
+.managerKpiNumber .sapMObjectNumberText {
+  font-size: 2.25rem;
+  line-height: 2.6rem;
+  font-weight: 700;
+}
+.managerKpiHint {
+  color: #708196;
+  font-size: 0.8rem;
+}
+.managerPreviewInfo {
+  gap: 0.65rem;
+  padding: 1rem 1.1rem;
+  margin-top: 1.5rem;
+  border: 1px solid #d8e5f0;
+  border-radius: 0.5rem;
+  background: #edf5fb;
+}
+.infoIcon {
+  color: #2670a9;
+}
+.infoText {
+  color: #405a70;
+}
+.managerPreviewFooter {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d9e0e8;
+  gap: 1rem;
+  color: #687b8e;
+}
+@media (max-width: 700px) {
+  .managerPreviewContent {
+    padding: 1rem;
+  }
+  .managerKpiCard {
+    flex-basis: 100%;
+    min-width: 100%;
+  }
+}
