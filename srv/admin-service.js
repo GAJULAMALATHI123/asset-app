@@ -283,11 +283,19 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
         doc.end();
       });
     };
-    const logAdminReport = (action, recipient, rowCount, outcome, message) =>
-      INSERT.into(db().ReportLog).entries({
-        action, filterText: 'Admin dashboard: full report', recipient, rowCount, outcome,
-        message: (message || '').slice(0, 300)
-      }).catch(() => {});
+    // Report logging is best-effort. Execute the CAP INSERT with cds.run;
+    // an INSERT query builder is not a Promise and does not support .catch().
+    // A logging failure must never make a valid PDF download or email fail.
+    const logAdminReport = async (action, recipient, rowCount, outcome, message) => {
+      try {
+        await cds.run(INSERT.into(db().ReportLog).entries({
+          action, filterText: 'Admin dashboard: full report', recipient, rowCount, outcome,
+          message: (message || '').slice(0, 300)
+        }));
+      } catch (err) {
+        console.warn('[AssetAdminService] Could not write report log:', err.message);
+      }
+    };
 
     this.on('exportPdf', async req => {
       try {
