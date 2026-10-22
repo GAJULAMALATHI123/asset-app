@@ -102,7 +102,8 @@
           "target": "AssetFactsObjectPage"
         },
         { "name": "AttentionList", "pattern": "Attention:?query:", "target": "AttentionList" },
-        { "name": "AssetRequestsList", "pattern": "AssetRequests:?query:", "target": "AssetRequestsList" }
+        { "name": "AssetRequestsList", "pattern": "AssetRequests:?query:", "target": "AssetRequestsList" },
+        { "name": "MaintenanceRecordsList", "pattern": "MaintenanceRecords:?query:", "target": "MaintenanceRecordsList" }
       ],
       "targets": {
         "AssetFactsList": {
@@ -139,7 +140,8 @@
   "DownloadPdf": { "press": "managerdashboard.ext.Nav.downloadPdf", "text": "Download PDF", "enabled": true },
   "EmailReport": { "press": "managerdashboard.ext.Nav.emailReport", "text": "Email Report", "enabled": true },
   "RequestAsset": { "press": "managerdashboard.ext.Nav.requestAsset", "text": "Request asset", "enabled": true, "requiresSelection": false },
-  "MyAssetRequests": { "press": "managerdashboard.ext.Nav.goRequests", "text": "My asset requests", "enabled": true, "requiresSelection": false }
+  "MyAssetRequests": { "press": "managerdashboard.ext.Nav.goRequests", "text": "My asset requests", "enabled": true, "requiresSelection": false },
+  "MaintenanceTracking": { "press": "managerdashboard.ext.Nav.goMaintenance", "text": "Maintenance tracking", "enabled": true, "requiresSelection": false }
 }
                 }
               },
