@@ -63,7 +63,7 @@ sap.ui.define([
     },
 
     onOpenExisting: function () {
-      window.open("../index.html?sap-ui-xx-viewCache=false", "_blank", "noopener");
+      window.open("./index.html?sap-ui-xx-viewCache=false", "_blank", "noopener");
     }
   });
 });
