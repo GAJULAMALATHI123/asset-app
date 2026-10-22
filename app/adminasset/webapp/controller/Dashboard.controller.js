@@ -2,8 +2,12 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageBox",
-  "sap/m/MessageToast"
-], function (Controller, JSONModel, MessageBox, MessageToast) {
+  "sap/m/MessageToast",
+  "sap/m/Dialog",
+  "sap/m/Button",
+  "sap/m/Input",
+  "sap/m/Label"
+], function (Controller, JSONModel, MessageBox, MessageToast, Dialog, Button, Input, Label) {
   "use strict";
 
   return Controller.extend("adminasset.controller.Dashboard", {
@@ -88,6 +92,57 @@ sap.ui.define([
         MessageBox.error("The Admin dashboard could not load data. Check your Admin role and the /odata/v4/admin service. " +
           (e && e.message ? e.message : ""));
       });
+    },
+
+    onDownloadReport: function () {
+      var oOperation = this.getOwnerComponent().getModel().bindContext("/exportPdf()");
+      oOperation.execute().then(function () {
+        var oResult = oOperation.getBoundContext().getObject();
+        var sBase64 = oResult && oResult.value ? oResult.value : oResult;
+        var sBinary = atob(sBase64);
+        var aBytes = new Uint8Array(sBinary.length);
+        for (var i = 0; i < sBinary.length; i++) { aBytes[i] = sBinary.charCodeAt(i); }
+        var oUrl = URL.createObjectURL(new Blob([aBytes], { type: "application/pdf" }));
+        var oLink = document.createElement("a");
+        oLink.href = oUrl;
+        oLink.download = "asset-admin-report.pdf";
+        document.body.appendChild(oLink);
+        oLink.click();
+        oLink.remove();
+        URL.revokeObjectURL(oUrl);
+        MessageToast.show("Admin report downloaded");
+      }).catch(function (e) {
+        MessageBox.error(e && e.message ? e.message : "Could not download the Admin report");
+      });
+    },
+
+    onEmailReport: function () {
+      var oInput = new Input({ placeholder: "name@company.com", type: "Email", width: "100%" });
+      var oDialog;
+      oDialog = new Dialog({
+        title: "Email Admin report",
+        contentWidth: "22rem",
+        content: [new Label({ text: "Send the PDF report to" }), oInput],
+        beginButton: new Button({
+          text: "Send", type: "Emphasized",
+          press: function () {
+            var oOperation = this.getOwnerComponent().getModel().bindContext("/emailReport(...)");
+            oOperation.setParameter("to", oInput.getValue());
+            oDialog.setBusy(true);
+            oOperation.execute().then(function () {
+              var oResult = oOperation.getBoundContext().getObject();
+              oDialog.close();
+              MessageToast.show(oResult && oResult.value ? oResult.value : "Report sent");
+            }).catch(function (e) {
+              oDialog.setBusy(false);
+              MessageBox.error(e && e.message ? e.message : "Could not email the Admin report");
+            });
+          }.bind(this)
+        }),
+        endButton: new Button({ text: "Cancel", press: function () { oDialog.close(); } }),
+        afterClose: function () { oDialog.destroy(); }
+      });
+      oDialog.open();
     },
 
     _go: function (sRoute) {
