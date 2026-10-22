@@ -21,6 +21,9 @@ service AssetAdminService @(path: '/odata/v4/admin', requires: 'Admin', impl: '.
   @readonly entity OwnershipLedgers   as projection on db.OwnershipLedger;   // FR-007
   @readonly entity MaintenanceRecords as projection on db.MaintenanceRecord;
   @readonly entity ArchiveRecords     as projection on db.ArchiveRecord;
+  @readonly entity AssetRequests      as projection on db.AssetRequest;
+  action fulfillAssetRequest(requestId : UUID, assetId : UUID, distributionDate : Date, remarks : String) returns String;
+  action rejectAssetRequest(requestId : UUID, reviewNotes : String) returns String;
   function exportPdf() returns LargeString;
   action emailReport(to : String) returns String;
   //@readonly entity KPIs as select from db.Asset {
@@ -30,6 +33,9 @@ service AssetAdminService @(path: '/odata/v4/admin', requires: 'Admin', impl: '.
 /** MANAGER: dashboards, reports, read-only (FR-014/021/025). No lifecycle actions. */
 service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','Admin']) {
   @readonly entity Employees          as projection on db.Employee;
+  @readonly entity AssetCategories   as projection on db.AssetCategory;
+  @readonly entity AssetRequests      as projection on db.AssetRequest;
+  action requestAsset(employeeId : UUID, categoryId : UUID, reason : String) returns String;
   @readonly entity Assets             as projection on db.Asset;
   @readonly entity AssetAssignments   as projection on db.AssetAssignment;
   @readonly entity OwnershipLedgers   as projection on db.OwnershipLedger;
