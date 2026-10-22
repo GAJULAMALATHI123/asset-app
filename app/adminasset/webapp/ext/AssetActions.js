@@ -130,6 +130,10 @@ sap.ui.define([
   }
 
   return {
+    enabledForSingleSelect: function (_oContext, aSelectedContexts) {
+      return Array.isArray(aSelectedContexts) && aSelectedContexts.length === 1;
+    },
+
     assign: function (oFirstArg, aSelectedContexts) {
       openAction(oFirstArg, aSelectedContexts, "assign", [
         { name: "employeeId", label: "Employee", dialogTitle: "Assign asset", required: true, kind: "select", path: "/Employees", key: "employee_id", text: "full_name" },
