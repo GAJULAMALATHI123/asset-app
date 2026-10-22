@@ -95,20 +95,34 @@ sap.ui.define([
     },
 
     onDownloadReport: function () {
-      var oOperation = this.getOwnerComponent().getModel().bindContext("/exportPdf()");
-      oOperation.execute().then(function () {
-        var oContext = oOperation.getBoundContext();
-        var oResult = oContext && oContext.getObject();
-        var sBase64 = typeof oResult === "string" ? oResult :
-          (oResult && (oResult.value || oResult.exportPdf));
-        if (typeof sBase64 !== "string" || !sBase64.length) {
-          throw new Error("The server did not return PDF data. Check the Admin service response.");
-        }
+      // Use the OData function endpoint directly. This avoids differences in how
+      // UI5 versions expose primitive LargeString function results.
+      fetch("/odata/v4/admin/exportPdf()", {
+        method: "GET",
+        headers: { "Accept": "application/json" },
+        credentials: "same-origin"
+      }).then(function (oResponse) {
+        return oResponse.text().then(function (sBody) {
+          var oPayload = null;
+          try { oPayload = sBody ? JSON.parse(sBody) : null; } catch (ignore) {}
+          if (!oResponse.ok) {
+            var sError = oPayload && oPayload.error && oPayload.error.message;
+            throw new Error(sError || ("PDF request failed with HTTP " + oResponse.status));
+          }
+          if (typeof oPayload === "string") { return oPayload; }
+          if (oPayload && typeof oPayload.value === "string") { return oPayload.value; }
+          if (oPayload && typeof oPayload.exportPdf === "string") { return oPayload.exportPdf; }
+          throw new Error("The Admin service returned no PDF data. Check the BAS terminal for the server error.");
+        });
+      }).then(function (sBase64) {
         var sBinary;
         try {
           sBinary = atob(sBase64);
         } catch (decodeError) {
-          throw new Error("The server returned invalid PDF data. Please try again and check the server log.");
+          throw new Error("The server response was not valid Base64 PDF data.");
+        }
+        if (sBinary.slice(0, 5) !== "%PDF-") {
+          throw new Error("The server response did not contain a valid PDF file.");
         }
         var aBytes = new Uint8Array(sBinary.length);
         for (var i = 0; i < sBinary.length; i++) { aBytes[i] = sBinary.charCodeAt(i); }
@@ -119,14 +133,13 @@ sap.ui.define([
         document.body.appendChild(oLink);
         oLink.click();
         oLink.remove();
-        // Keep the object URL alive briefly so the browser can start the download.
-        setTimeout(function () { URL.revokeObjectURL(oUrl); }, 1000);
+        // Keep the URL alive briefly so the browser can start the download.
+        setTimeout(function () { URL.revokeObjectURL(oUrl); }, 1500);
         MessageToast.show("Admin report download started");
       }).catch(function (e) {
         MessageBox.error(e && e.message ? e.message : "Could not download the Admin report");
       });
     },
-
     onEmailReport: function () {
       var oInput = new Input({ placeholder: "name@company.com", type: "Email", width: "100%" });
       var oDialog;
