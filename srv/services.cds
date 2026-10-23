@@ -43,13 +43,15 @@ service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','A
 
   // Computed by manager-service.js; no database table is required.
   @readonly @cds.persistence.skip entity AttentionItems {
-    key ID           : String(80);
-        category     : String(120);
-        asset_tag    : String(80);
-        model        : String(120);
-        detail       : String(500);
-        relevant_date: Date;
-        owner        : String(120);
+  
+
+    key ID            : String(80);
+        category      : String(120);
+        asset_tag     : String(80);
+        model         : String(120);
+        detail        : String(500);
+        relevant_date : Date;
+        owner         : String(120);
   };
 
   //@readonly entity KPIs as select from db.Asset {
@@ -90,7 +92,6 @@ annotate AssetAdminService.AssetRequests with @(
     { Value: review_notes, Label: 'Admin notes' }
   ]
 );
-
 
 annotate AssetManagerService.AttentionItems with @(
   UI.HeaderInfo: {

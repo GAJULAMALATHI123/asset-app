@@ -191,10 +191,7 @@ annotate AssetManagerService.AssetFacts with @(
   UI.PresentationVariant #ByLocation: {
     Text: 'By location',
     Visualizations: [ '@UI.Chart#Location', '@UI.LineItem' ]
-  }
-);
-
-
+  },
   // Additional Manager dashboard breakdowns
   UI.Chart #Category: {
     Title: 'Assets by category', ChartType: #Bar,
@@ -218,7 +215,7 @@ annotate AssetManagerService.AssetFacts with @(
     Text: 'By department',
     Visualizations: [ '@UI.Chart#Department', '@UI.LineItem' ]
   }
-
+);
 extend service AssetManagerService with {
   @readonly entity ReportLogs as projection on db.ReportLog;
   function exportPdf(filter : String) returns LargeString;                     // base64 PDF (FR-022)

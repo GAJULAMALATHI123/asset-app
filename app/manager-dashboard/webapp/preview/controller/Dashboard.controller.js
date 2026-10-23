@@ -1,69 +1,7 @@
-sap.ui.define([
-  "sap/ui/core/mvc/Controller",
-  "sap/ui/model/json/JSONModel",
-  "sap/m/MessageToast",
-  "sap/m/MessageBox"
-], function (Controller, JSONModel, MessageToast, MessageBox) {
-  "use strict";
-
-  function statusOf(row) {
-    return String(row.status || "").toUpperCase().replace(/[ -]/g, "_");
-  }
-
-  return Controller.extend("managerdashboard.preview.controller.Dashboard", {
-    onInit: function () {
-      this.getView().setModel(new JSONModel({
-        total: "—",
-        available: "—",
-        assigned: "—",
-        maintenance: "—",
-        retired: "—",
-        archived: "—",
-        message: "Loading inventory from the Manager OData service…"
-      }), "dash");
-      this.loadKpis();
-    },
-
-    loadKpis: function () {
-      var view = this.getView();
-      var model = this.getOwnerComponent().getModel();
-      view.setBusy(true);
-
-      return model.bindList("/AssetFacts").requestContexts(0, 5000).then(function (contexts) {
-        var rows = contexts.map(function (context) { return context.getObject(); });
-        var counts = { available: 0, assigned: 0, maintenance: 0, retired: 0, archived: 0 };
-        rows.forEach(function (row) {
-          var status = statusOf(row);
-          if (status === "AVAILABLE") { counts.available += 1; }
-          else if (status === "ASSIGNED") { counts.assigned += 1; }
-          else if (status === "MAINTENANCE" || status === "IN_MAINTENANCE") { counts.maintenance += 1; }
-          else if (status === "RETIRED") { counts.retired += 1; }
-          else if (status === "ARCHIVED") { counts.archived += 1; }
-        });
-        this.getView().getModel("dash").setData({
-          total: String(rows.length),
-          available: String(counts.available),
-          assigned: String(counts.assigned),
-          maintenance: String(counts.maintenance),
-          retired: String(counts.retired),
-          archived: String(counts.archived),
-          message: "Live KPI totals loaded • Updated " + new Date().toLocaleTimeString()
-        });
-      }.bind(this)).catch(function (error) {
-        this.getView().getModel("dash").setProperty("/message", "Could not load live totals. Check that the Manager OData service is running and that you are signed in as a permitted user.");
-        MessageBox.error("Manager KPI preview could not load AssetFacts. " +
-          (error && error.message ? error.message : "Check the Manager OData service."));
-      }.bind(this)).finally(function () {
-        view.setBusy(false);
-      });
-    },
-
-    onRefresh: function () {
-      this.loadKpis().then(function () { MessageToast.show("Manager KPI preview refreshed"); });
-    },
-
-    onOpenExisting: function () {
-      window.open("./index.html?sap-ui-xx-viewCache=false", "_blank", "noopener");
-    }
-  });
-});
+sap.ui.define(["sap/ui/core/mvc/Controller","sap/ui/model/json/JSONModel","sap/m/MessageToast","sap/m/MessageBox"],function(Controller,JSONModel,MessageToast,MessageBox){"use strict";
+function status(r){return String(r.status||"Unknown").toUpperCase().replace(/[ -]/g,"_");}
+function bars(rows,key){var c={};rows.forEach(function(r){var k=String(r[key]||"Unspecified");c[k]=(c[k]||0)+1;});var a=Object.keys(c).map(function(k){return{label:k,count:c[k]};}).sort(function(x,y){return y.count-x.count;}).slice(0,6),m=a.reduce(function(n,x){return Math.max(n,x.count);},1);return a.map(function(x){x.percent=Math.max(3,Math.round(x.count*100/m));return x;});}
+function date(v){return v?String(v).slice(0,10):"—";}
+return Controller.extend("managerdashboard.preview.controller.Dashboard",{onInit:function(){this.getView().setModel(new JSONModel({total:"—",available:"—",assigned:"—",maintenance:"—",retired:"—",archived:"—",statusBars:[],categoryBars:[],departmentBars:[],maintenanceRows:[],maintenanceSummary:"Loading",message:"Loading live data…"}),"dash");this.loadDashboard();},
+loadDashboard:function(){var v=this.getView(),m=this.getOwnerComponent().getModel();v.setBusy(true);var a=m.bindList("/AssetFacts").requestContexts(0,5000).then(function(x){return x.map(function(c){return c.getObject();});});var t=m.bindList("/MaintenanceRecords").requestContexts(0,100).then(function(x){return x.map(function(c){return c.getObject();});}).catch(function(){return[];});return Promise.all([a,t]).then(function(res){var rows=res[0],maint=res[1],n={available:0,assigned:0,maintenance:0,retired:0,archived:0};rows.forEach(function(r){var s=status(r);if(s==="AVAILABLE")n.available++;else if(s==="ASSIGNED"||s==="IN_USE")n.assigned++;else if(s.indexOf("MAINTENANCE")>=0)n.maintenance++;else if(s==="RETIRED")n.retired++;else if(s==="ARCHIVED")n.archived++;});var mb=maint.map(function(r){var s=String(r.status||"Unknown").toUpperCase();return{asset:r.asset_tag||(r.asset&&r.asset.asset_tag)||"—",type:r.type||"General",status:s,reported:date(r.reported_date),completed:date(r.completed_date),state:s==="COMPLETED"||s==="CLOSED"?"Success":s==="OPEN"||s==="IN_PROGRESS"?"Warning":"None"};});this.getView().getModel("dash").setData({total:String(rows.length),available:String(n.available),assigned:String(n.assigned),maintenance:String(n.maintenance),retired:String(n.retired),archived:String(n.archived),statusBars:bars(rows,"status"),categoryBars:bars(rows,"category"),departmentBars:bars(rows,"department"),maintenanceRows:mb,maintenanceSummary:mb.length+" records loaded",message:"Live data loaded • Updated "+new Date().toLocaleTimeString()});}.bind(this)).catch(function(e){this.getView().getModel("dash").setProperty("/message","Could not load live asset data. Check the Manager OData service and permissions.");MessageBox.error("Dashboard data failed to load: "+(e&&e.message||"Check the service."));}.bind(this)).finally(function(){v.setBusy(false);});},
+onRefresh:function(){this.loadDashboard().then(function(){MessageToast.show("Dashboard refreshed");});},onOpenExisting:function(){window.open("./index.html?sap-ui-xx-viewCache=false","_blank","noopener");}});});
