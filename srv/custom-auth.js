@@ -119,14 +119,18 @@ module.exports = function developmentSessionAuth(req, res, next) {
     if (!allowed) return res.redirect(302, LOGIN_PATH + '?error=role');
   }
 
-  if (req.assetAppUser) {
-    cds.context.user = new cds.User({
-      id: req.assetAppUser.id,
-      roles: req.assetAppUser.roles,
-      attr: req.assetAppUser.attr
-    });
-  } else {
-    cds.context.user = cds.User.anonymous;
+  // CAP calls this middleware inside a request context. The same middleware is also
+  // mounted globally to protect static dashboard entry pages, where no CDS context exists.
+  if (cds.context) {
+    if (req.assetAppUser) {
+      cds.context.user = new cds.User({
+        id: req.assetAppUser.id,
+        roles: req.assetAppUser.roles,
+        attr: req.assetAppUser.attr
+      });
+    } else {
+      cds.context.user = cds.User.anonymous;
+    }
   }
   next();
 };
