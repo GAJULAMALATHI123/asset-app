@@ -6,7 +6,7 @@ const path = require('path');
 // configuration explicitly selects it. Production continues to use XSUAA.
 cds.on('bootstrap', app => {
   const auth = cds.env.requires && cds.env.requires.auth;
-  if (!auth || auth.impl !== './srv/custom-auth.js') return;
+  if (!auth || !String(auth.impl || '').replace(/\\\\/g, '/').endsWith('srv/custom-auth.js')) return;
 
   app.use(require('./srv/custom-auth'));
   app.use('/login', express.static(path.join(__dirname, 'app', 'login', 'webapp'), {
