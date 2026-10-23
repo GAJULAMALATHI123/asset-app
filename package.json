@@ -26,22 +26,30 @@
     "requires": {
       "auth": {
         "[development]": {
-          "kind": "mocked",
+          "impl": "./srv/custom-auth.js",
           "users": {
             "alice": {
-              "roles": ["User"],
+              "roles": [
+                "User"
+              ],
               "attr": {
                 "email": "asha@corp.com"
               }
             },
             "admin": {
-              "roles": ["Admin"]
+              "roles": [
+                "Admin"
+              ]
             },
             "manager": {
-              "roles": ["Manager"]
+              "roles": [
+                "Manager"
+              ]
             },
             "user": {
-              "roles": ["User"],
+              "roles": [
+                "User"
+              ],
               "attr": {
                 "email": "asha@corp.com"
               }
@@ -59,7 +67,9 @@
       }
     }
   },
-  "workspaces": ["app/*"],
+  "workspaces": [
+    "app/*"
+  ],
   "sapux": [
     "app/adminasset",
     "app/manager-dashboard",
