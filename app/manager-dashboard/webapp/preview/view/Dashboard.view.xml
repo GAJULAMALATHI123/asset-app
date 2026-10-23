@@ -1,89 +1,22 @@
-<mvc:View
-  controllerName="managerdashboard.preview.controller.Dashboard"
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns="sap.m"
-  xmlns:core="sap.ui.core">
-  <Page showHeader="false" enableScrolling="true" class="managerPreviewPage">
-    <content>
-      <VBox class="managerPreviewContent" width="100%">
-        <HBox class="managerPreviewHeader" alignItems="Center" justifyContent="SpaceBetween" wrap="Wrap">
-          <VBox>
-            <Title text="Manager Dashboard" level="H1" class="managerPreviewTitle"/>
-            <Text text="Asset lifecycle, inventory health and maintenance overview" class="managerPreviewSubtitle"/>
-          </VBox>
-          <HBox alignItems="Center" wrap="Wrap">
-            <Button text="Refresh data" icon="sap-icon://refresh" press=".onRefresh" type="Emphasized"/>
-            <Button text="Open full Manager app" icon="sap-icon://open-in-new" press=".onOpenExisting" type="Transparent"/>
-          </HBox>
-        </HBox>
-
-        <Title text="Asset Overview" level="H2" class="sectionTitle"/>
-        <Text text="Live totals calculated from your Manager OData service" class="sectionSubtitle"/>
-        <HBox class="managerKpiGrid" wrap="Wrap" width="100%">
-          <VBox class="managerKpiCard"><HBox alignItems="Center" justifyContent="SpaceBetween"><Text text="Total Assets" class="managerKpiLabel"/><core:Icon src="sap-icon://laptop" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/total}" emphasized="true" class="managerKpiNumber"/><Text text="Registered inventory" class="managerKpiHint"/></VBox>
-          <VBox class="managerKpiCard"><HBox alignItems="Center" justifyContent="SpaceBetween"><Text text="Available" class="managerKpiLabel"/><core:Icon src="sap-icon://accept" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/available}" state="Success" emphasized="true" class="managerKpiNumber"/><Text text="Ready to assign" class="managerKpiHint"/></VBox>
-          <VBox class="managerKpiCard"><HBox alignItems="Center" justifyContent="SpaceBetween"><Text text="Assigned" class="managerKpiLabel"/><core:Icon src="sap-icon://employee" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/assigned}" state="Information" emphasized="true" class="managerKpiNumber"/><Text text="Currently in use" class="managerKpiHint"/></VBox>
-          <VBox class="managerKpiCard"><HBox alignItems="Center" justifyContent="SpaceBetween"><Text text="In Maintenance" class="managerKpiLabel"/><core:Icon src="sap-icon://wrench" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/maintenance}" state="Warning" emphasized="true" class="managerKpiNumber"/><Text text="Being serviced" class="managerKpiHint"/></VBox>
-          <VBox class="managerKpiCard"><HBox alignItems="Center" justifyContent="SpaceBetween"><Text text="Retired" class="managerKpiLabel"/><core:Icon src="sap-icon://decline" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/retired}" state="Error" emphasized="true" class="managerKpiNumber"/><Text text="Retired from use" class="managerKpiHint"/></VBox>
-          <VBox class="managerKpiCard"><HBox alignItems="Center" justifyContent="SpaceBetween"><Text text="Archived" class="managerKpiLabel"/><core:Icon src="sap-icon://archive" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/archived}" emphasized="true" class="managerKpiNumber"/><Text text="Archived records" class="managerKpiHint"/></VBox>
-        </HBox>
-
-        <Title text="Asset Analytics" level="H2" class="sectionTitle sectionGap"/>
-        <Text text="Distribution of assets by lifecycle status, category and department" class="sectionSubtitle"/>
-        <HBox class="analyticsGrid" wrap="Wrap" width="100%">
-          <VBox class="analyticsCard" width="32%">
-            <Title text="Lifecycle Status" level="H3" class="analyticsTitle"/>
-            <Text text="Inventory by current status" class="analyticsHint"/>
-            <VBox items="{dash>/statusBars}" class="barList">
-              <items><VBox class="barRow"><HBox justifyContent="SpaceBetween"><Text text="{dash>label}" class="barLabel"/><Text text="{dash>count}" class="barCount"/></HBox><ProgressIndicator percentValue="{dash>percent}" displayValue="" state="{dash>state}" height="0.6rem"/></VBox></items>
-            </VBox>
-          </VBox>
-          <VBox class="analyticsCard" width="32%">
-            <Title text="Asset Categories" level="H3" class="analyticsTitle"/>
-            <Text text="Most common asset types" class="analyticsHint"/>
-            <VBox items="{dash>/categoryBars}" class="barList">
-              <items><VBox class="barRow"><HBox justifyContent="SpaceBetween"><Text text="{dash>label}" class="barLabel"/><Text text="{dash>count}" class="barCount"/></HBox><ProgressIndicator percentValue="{dash>percent}" displayValue="" state="Information" height="0.6rem"/></VBox></items>
-            </VBox>
-          </VBox>
-          <VBox class="analyticsCard" width="32%">
-            <Title text="By Department" level="H3" class="analyticsTitle"/>
-            <Text text="Assigned inventory by department" class="analyticsHint"/>
-            <VBox items="{dash>/departmentBars}" class="barList">
-              <items><VBox class="barRow"><HBox justifyContent="SpaceBetween"><Text text="{dash>label}" class="barLabel"/><Text text="{dash>count}" class="barCount"/></HBox><ProgressIndicator percentValue="{dash>percent}" displayValue="" state="Success" height="0.6rem"/></VBox></items>
-            </VBox>
-          </VBox>
-        </HBox>
-
-        <Title text="Maintenance Tracking" level="H2" class="sectionTitle sectionGap"/>
-        <Text text="Recent maintenance records and their current status" class="sectionSubtitle"/>
-        <VBox class="maintenanceCard" width="100%">
-          <HBox class="maintenanceHeader" justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap">
-            <Title text="Maintenance Records" level="H3"/>
-            <ObjectStatus text="{dash>/maintenanceSummary}" state="Warning"/>
-          </HBox>
-          <Table items="{dash>/maintenanceRows}" noDataText="No maintenance records were returned by the service." growing="true" growingThreshold="8">
-            <columns>
-              <Column><Text text="Asset"/></Column>
-              <Column><Text text="Type"/></Column>
-              <Column><Text text="Status"/></Column>
-              <Column><Text text="Reported"/></Column>
-              <Column><Text text="Completed"/></Column>
-            </columns>
-            <items><ColumnListItem><cells>
-              <Text text="{dash>asset}"/>
-              <Text text="{dash>type}"/>
-              <ObjectStatus text="{dash>status}" state="{dash>state}"/>
-              <Text text="{dash>reported}"/>
-              <Text text="{dash>completed}"/>
-            </cells></ColumnListItem></items>
-          </Table>
-        </VBox>
-
-        <HBox class="managerPreviewInfo" alignItems="Center" wrap="Wrap">
-          <core:Icon src="sap-icon://information" class="infoIcon"/>
-          <Text text="{dash>/message}" class="infoText"/>
-        </HBox>
-      </VBox>
-    </content>
-  </Page>
-</mvc:View>
+<mvc:View controllerName="managerdashboard.preview.controller.Dashboard" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core">
+<Page showHeader="false" enableScrolling="true" class="managerPreviewPage"><content><VBox class="managerPreviewContent" width="100%">
+<HBox class="managerPreviewHeader" alignItems="Center" justifyContent="SpaceBetween" wrap="Wrap"><VBox><Title text="Manager Dashboard" level="H1" class="managerPreviewTitle"/><Text text="Asset lifecycle, inventory health and maintenance overview" class="managerPreviewSubtitle"/></VBox><HBox><Button text="Refresh data" icon="sap-icon://refresh" press=".onRefresh" type="Emphasized"/><Button text="Full Manager app" icon="sap-icon://open-in-new" press=".onOpenExisting" type="Transparent"/></HBox></HBox>
+<Title text="Asset Overview" level="H2" class="sectionTitle"/><Text text="Live totals from the Manager OData service" class="sectionSubtitle"/>
+<HBox class="managerKpiGrid" wrap="Wrap" width="100%">
+<VBox class="managerKpiCard"><HBox justifyContent="SpaceBetween"><Text text="Total Assets" class="managerKpiLabel"/><core:Icon src="sap-icon://laptop" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/total}" emphasized="true" class="managerKpiNumber"/><Text text="Registered inventory" class="managerKpiHint"/></VBox>
+<VBox class="managerKpiCard"><HBox justifyContent="SpaceBetween"><Text text="Available" class="managerKpiLabel"/><core:Icon src="sap-icon://accept" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/available}" state="Success" emphasized="true" class="managerKpiNumber"/><Text text="Ready to assign" class="managerKpiHint"/></VBox>
+<VBox class="managerKpiCard"><HBox justifyContent="SpaceBetween"><Text text="Assigned" class="managerKpiLabel"/><core:Icon src="sap-icon://employee" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/assigned}" state="Information" emphasized="true" class="managerKpiNumber"/><Text text="Currently in use" class="managerKpiHint"/></VBox>
+<VBox class="managerKpiCard"><HBox justifyContent="SpaceBetween"><Text text="In Maintenance" class="managerKpiLabel"/><core:Icon src="sap-icon://wrench" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/maintenance}" state="Warning" emphasized="true" class="managerKpiNumber"/><Text text="Being serviced" class="managerKpiHint"/></VBox>
+<VBox class="managerKpiCard"><HBox justifyContent="SpaceBetween"><Text text="Retired" class="managerKpiLabel"/><core:Icon src="sap-icon://decline" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/retired}" state="Error" emphasized="true" class="managerKpiNumber"/><Text text="Retired from use" class="managerKpiHint"/></VBox>
+<VBox class="managerKpiCard"><HBox justifyContent="SpaceBetween"><Text text="Archived" class="managerKpiLabel"/><core:Icon src="sap-icon://archive" class="managerKpiIcon"/></HBox><ObjectNumber number="{dash>/archived}" emphasized="true" class="managerKpiNumber"/><Text text="Archived records" class="managerKpiHint"/></VBox>
+</HBox>
+<Title text="Asset Analytics" level="H2" class="sectionTitle sectionGap"/><Text text="Compare lifecycle status, category and department" class="sectionSubtitle"/>
+<HBox class="analyticsGrid" wrap="Wrap" width="100%">
+<VBox class="analyticsCard" width="32%"><Title text="Lifecycle Status" level="H3"/><VBox items="{dash>/statusBars}" class="barList"><items><VBox class="barRow"><HBox justifyContent="SpaceBetween"><Text text="{dash>label}" class="barLabel"/><Text text="{dash>count}" class="barCount"/></HBox><ProgressIndicator percentValue="{dash>percent}" displayValue="" state="Information"/></VBox></items></VBox></VBox>
+<VBox class="analyticsCard" width="32%"><Title text="Asset Categories" level="H3"/><VBox items="{dash>/categoryBars}" class="barList"><items><VBox class="barRow"><HBox justifyContent="SpaceBetween"><Text text="{dash>label}" class="barLabel"/><Text text="{dash>count}" class="barCount"/></HBox><ProgressIndicator percentValue="{dash>percent}" displayValue="" state="Information"/></VBox></items></VBox></VBox>
+<VBox class="analyticsCard" width="32%"><Title text="By Department" level="H3"/><VBox items="{dash>/departmentBars}" class="barList"><items><VBox class="barRow"><HBox justifyContent="SpaceBetween"><Text text="{dash>label}" class="barLabel"/><Text text="{dash>count}" class="barCount"/></HBox><ProgressIndicator percentValue="{dash>percent}" displayValue="" state="Success"/></VBox></items></VBox></VBox>
+</HBox>
+<Title text="Maintenance Tracking" level="H2" class="sectionTitle sectionGap"/><VBox class="maintenanceCard"><HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap"><Title text="Maintenance Records" level="H3"/><ObjectStatus text="{dash>/maintenanceSummary}" state="Warning"/></HBox>
+<Table items="{dash>/maintenanceRows}" noDataText="No maintenance records returned by the service." growing="true" growingThreshold="8"><columns><Column><Text text="Asset"/></Column><Column><Text text="Type"/></Column><Column><Text text="Status"/></Column><Column><Text text="Reported"/></Column><Column><Text text="Completed"/></Column></columns><items><ColumnListItem><cells><Text text="{dash>asset}"/><Text text="{dash>type}"/><ObjectStatus text="{dash>status}" state="{dash>state}"/><Text text="{dash>reported}"/><Text text="{dash>completed}"/></cells></ColumnListItem></items></Table></VBox>
+<HBox class="managerPreviewInfo" alignItems="Center" wrap="Wrap"><core:Icon src="sap-icon://information" class="infoIcon"/><Text text="{dash>/message}" class="infoText"/></HBox>
+</VBox></content></Page></mvc:View>
