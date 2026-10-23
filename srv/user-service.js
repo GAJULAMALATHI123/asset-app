@@ -63,7 +63,7 @@ module.exports = class AssetUserService extends cds.ApplicationService {
         return req.reject(403, 'You can raise a maintenance request only for an asset assigned to you.');
       }
 
-      await openMaintenance(req, req.data.assetId, 'CORRECTIVE', req.data.description);
+      await openMaintenance(req, req.data.assetId, 'CORRECTIVE', req.data.description, employee.employee_id);
       return 'Maintenance request raised';
     });
 
