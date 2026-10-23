@@ -59,10 +59,11 @@ sap.ui.define([
     },
 
     onRefresh: async function () {
-      var oModel = this.getView().getModel();
-      if (oModel) {
-        oModel.refresh();
-      }
+      ["assetsTable", "maintenanceTable"].forEach(function (id) {
+        var table = this.byId(id);
+        var binding = table && table.getBinding("items");
+        if (binding) binding.refresh();
+      }, this);
       await this._loadDashboardData();
       MessageToast.show("Dashboard refresh completed.");
     },
