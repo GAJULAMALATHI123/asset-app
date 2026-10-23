@@ -49,7 +49,7 @@ function requiredRolesFor(path) {
   if (path === '/adminasset/index.html') return ['Admin'];
   if (path === '/manager-dashboard/index.html') return ['Manager', 'Admin'];
   if (path === '/user-dashboard/index.html' || path === '/user-dashboard/webapp/index.html') {
-    return ['User', 'Manager', 'Admin'];
+    return ['User'];
   }
   return null;
 }
