@@ -1,0 +1,68 @@
+{
+  "_version": "1.89.0",
+  "sap.app": {
+    "id": "userdashboard",
+    "type": "application",
+    "title": "My Asset Workspace",
+    "description": "Employee asset and maintenance workspace",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "dataSources": {
+      "userService": {
+        "uri": "/odata/v4/user/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "": {
+        "dataSource": "userService",
+        "preload": false,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "userdashboard.view.App",
+      "type": "XML",
+      "id": "app",
+      "async": true
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/user-dashboard.css"
+        }
+      ]
+    }
+  }
+}
