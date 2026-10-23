@@ -191,9 +191,7 @@ annotate AssetManagerService.AssetFacts with @(
   UI.PresentationVariant #ByLocation: {
     Text: 'By location',
     Visualizations: [ '@UI.Chart#Location', '@UI.LineItem' ]
-  }
-);
-
+  },
 
   // Additional Manager dashboard breakdowns
   UI.Chart #Category: {
@@ -218,6 +216,7 @@ annotate AssetManagerService.AssetFacts with @(
     Text: 'By department',
     Visualizations: [ '@UI.Chart#Department', '@UI.LineItem' ]
   }
+);
 
 extend service AssetManagerService with {
   @readonly entity ReportLogs as projection on db.ReportLog;
