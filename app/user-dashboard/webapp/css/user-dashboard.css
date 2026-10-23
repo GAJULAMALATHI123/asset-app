@@ -1,16 +1,49 @@
 .userDashboardPage {
   background: var(--sapBackgroundColor);
 }
+
 .userHeroCard {
+  border: 1px solid var(--sapGroup_ContentBorderColor);
   border-radius: 1rem;
   overflow: hidden;
+  box-shadow: var(--sapContent_Shadow0);
 }
+
 .userHeroContent {
   padding: 1.5rem;
-  gap: .5rem;
+  gap: .65rem;
 }
+
+.userHeroContent .sapMTitle {
+  color: var(--sapTitleColor);
+}
+
 .userKpiContent {
   padding: 1rem;
   min-height: 4rem;
   gap: .5rem;
+}
+
+.userKpiContent .sapMTitle {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.userDashboardPage .sapMListTbl {
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+.userDashboardPage .sapMListTblHeaderCell {
+  background: var(--sapList_HeaderBackground);
+}
+
+@media (max-width: 600px) {
+  .userHeroContent {
+    padding: 1rem;
+  }
+
+  .userHeroContent .sapMBtn {
+    margin: .25rem 0;
+  }
 }
