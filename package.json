@@ -29,7 +29,10 @@
           "kind": "mocked",
           "users": {
             "alice": {
-              "roles": ["Admin", "Manager", "User"]
+              "roles": ["User"],
+              "attr": {
+                "email": "asha@corp.com"
+              }
             },
             "admin": {
               "roles": ["Admin"]
