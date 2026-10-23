@@ -40,6 +40,18 @@ service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','A
   @readonly entity AssetAssignments   as projection on db.AssetAssignment;
   @readonly entity OwnershipLedgers   as projection on db.OwnershipLedger;
   @readonly entity MaintenanceRecords as projection on db.MaintenanceRecord;
+
+  // Computed by manager-service.js; no database table is required.
+  @readonly @cds.persistence.skip entity AttentionItems {
+    key ID            : String(80);
+        category      : String(120);
+        asset_tag     : String(80);
+        model         : String(120);
+        detail        : String(500);
+        relevant_date : Date;
+        owner         : String(120);
+  };
+
   //@readonly entity KPIs as select from db.Asset {
    // key status, count(*) as total : Integer, sum(purchase_cost) as value : Decimal(15,2) } group by status;
 }
@@ -76,5 +88,23 @@ annotate AssetAdminService.AssetRequests with @(
     { Value: status, Label: 'Request status' },
     { Value: fulfilled_asset.asset_tag, Label: 'Assigned asset' },
     { Value: review_notes, Label: 'Admin notes' }
+  ]
+);
+
+annotate AssetManagerService.AttentionItems with @(
+  UI.HeaderInfo: {
+    TypeName: 'Operational attention item',
+    TypeNamePlural: 'Operational attention',
+    Title: { Value: category },
+    Description: { Value: detail }
+  },
+  UI.SelectionFields: [],
+  UI.LineItem: [
+    { Value: category, Label: 'Attention' },
+    { Value: asset_tag, Label: 'Asset Tag' },
+    { Value: model, Label: 'Model' },
+    { Value: detail, Label: 'Details' },
+    { Value: relevant_date, Label: 'Relevant Date' },
+    { Value: owner, Label: 'Owner' }
   ]
 );
