@@ -2,48 +2,179 @@
   background: var(--sapBackgroundColor);
 }
 
+.userDashboardShell {
+  box-sizing: border-box;
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 1.5rem clamp(1rem, 2.5vw, 2.5rem) 1rem;
+  gap: 1.5rem;
+}
+
 .userHeroCard {
   border: 1px solid var(--sapGroup_ContentBorderColor);
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: var(--sapContent_Shadow0);
+  box-shadow: var(--sapContent_Shadow1);
+  background: var(--sapTile_Background);
 }
 
 .userHeroContent {
-  padding: 1.5rem;
-  gap: .65rem;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  min-height: 12rem;
+  justify-content: center;
+  background: linear-gradient(115deg, var(--sapTile_Background) 0%, var(--sapBackgroundColor) 100%);
 }
 
-.userHeroContent .sapMTitle {
+.userHeroCopy {
+  gap: .5rem;
+  max-width: 46rem;
+  padding-right: 1rem;
+}
+
+.userEyebrow .sapMObjStatusText {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.userHeroTitle.sapMTitle {
+  font-size: clamp(1.8rem, 3vw, 2.65rem);
+  line-height: 1.15;
+  white-space: normal;
   color: var(--sapTitleColor);
 }
 
+.userHeroDescription {
+  max-width: 42rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--sapContent_LabelColor);
+}
+
+.userHeroActions {
+  min-width: 13rem;
+  margin-top: .75rem;
+}
+
+.userSection {
+  gap: .75rem;
+}
+
+.userSectionHeading {
+  gap: .3rem;
+  margin-bottom: .25rem;
+}
+
+.userSectionHeading .sapMTitle {
+  font-size: 1.35rem;
+  color: var(--sapTitleColor);
+}
+
+.userSectionHeading .sapMText {
+  color: var(--sapContent_LabelColor);
+  line-height: 1.5;
+}
+
+.userMetricGrid {
+  width: 100%;
+}
+
+.userMetricCard {
+  border: 1px solid var(--sapGroup_ContentBorderColor);
+  border-radius: .85rem;
+  overflow: hidden;
+  box-shadow: var(--sapContent_Shadow0);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+
+.userMetricCard:hover {
+  box-shadow: var(--sapContent_Shadow1);
+}
+
+.userMetricAssets {
+  border-top: .2rem solid var(--sapInformativeColor);
+}
+
+.userMetricOpen {
+  border-top: .2rem solid var(--sapCriticalColor);
+}
+
+.userMetricProgress {
+  border-top: .2rem solid var(--sapHighlightColor);
+}
+
+.userMetricComplete {
+  border-top: .2rem solid var(--sapPositiveColor);
+}
+
 .userKpiContent {
-  padding: 1rem;
-  min-height: 4rem;
-  gap: .5rem;
+  padding: .8rem 1rem 1.1rem;
+  min-height: 4.5rem;
+  gap: .45rem;
 }
 
 .userKpiContent .sapMTitle {
-  font-size: 2rem;
-  line-height: 1.2;
+  font-size: 2.35rem;
+  line-height: 1.1;
+  font-weight: 700;
 }
 
-.userDashboardPage .sapMListTbl {
-  border-radius: .5rem;
+.userKpiContent .sapMObjStatusText {
+  font-size: .78rem;
+}
+
+.userDataTable {
+  border: 1px solid var(--sapGroup_ContentBorderColor);
+  border-radius: .8rem;
   overflow: hidden;
+  background: var(--sapList_Background);
+  box-shadow: var(--sapContent_Shadow0);
 }
 
-.userDashboardPage .sapMListTblHeaderCell {
+.userDataTable .sapMListTblHeaderCell {
   background: var(--sapList_HeaderBackground);
+  border-bottom: 1px solid var(--sapGroup_ContentBorderColor);
 }
 
-@media (max-width: 600px) {
+.userDataTable .sapMListTblHeaderCell .sapMText {
+  font-weight: 600;
+}
+
+.userDataTable .sapMListTblCell {
+  vertical-align: middle;
+}
+
+.userDashboardFooter {
+  padding: 1.25rem .25rem .5rem;
+  text-align: center;
+  color: var(--sapContent_LabelColor);
+  font-size: .75rem;
+}
+
+@media (max-width: 700px) {
+  .userDashboardShell {
+    padding: .75rem;
+    gap: 1rem;
+  }
+
   .userHeroContent {
     padding: 1rem;
   }
 
-  .userHeroContent .sapMBtn {
-    margin: .25rem 0;
+  .userHeroCopy {
+    padding-right: 0;
+  }
+
+  .userHeroActions {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .userHeroActions .sapMBtn {
+    width: 100%;
+  }
+
+  .userMetricGrid {
+    margin-bottom: .5rem;
   }
 }
