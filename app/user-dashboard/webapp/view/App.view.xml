@@ -8,87 +8,107 @@
   <App id="userApp">
     <Page showHeader="false" enableScrolling="true" class="userDashboardPage">
       <content>
-        <VBox class="sapUiResponsiveContentPadding" width="100%">
+        <VBox class="userDashboardShell" width="100%">
           <f:Card class="userHeroCard sapUiSmallMarginBottom">
-            <f:header>
-              <card:Header title="My Asset Workspace" subtitle="Your equipment, maintenance and service updates" />
-            </f:header>
             <f:content>
               <VBox class="userHeroContent" width="100%">
-                <Title text="Welcome to your workspace" level="H1"/>
-                <Text text="View your assigned assets, raise a maintenance request, and follow its progress."/>
-                <HBox wrap="Wrap" class="sapUiSmallMarginTop" alignItems="Center">
-                  <Button text="Raise Maintenance Request" type="Emphasized" icon="sap-icon://add-document" press=".onRaiseRequest"/>
-                  <Button text="Refresh" icon="sap-icon://refresh" class="sapUiTinyMarginBegin" press=".onRefresh"/>
+                <HBox alignItems="Center" justifyContent="SpaceBetween" wrap="Wrap">
+                  <VBox class="userHeroCopy">
+                    <ObjectStatus text="EMPLOYEE WORKSPACE" state="Information" class="userEyebrow"/>
+                    <Title text="Your assets. Your workspace." level="H1" class="userHeroTitle"/>
+                    <Text text="Manage your assigned equipment, raise service requests, and track maintenance progress in one place." class="userHeroDescription"/>
+                  </VBox>
+                  <VBox class="userHeroActions" alignItems="End">
+                    <Button text="Raise Maintenance Request" type="Emphasized" icon="sap-icon://add-document" press=".onRaiseRequest"/>
+                    <Button text="Refresh dashboard" type="Transparent" icon="sap-icon://refresh" press=".onRefresh" class="sapUiTinyMarginTop"/>
+                  </VBox>
                 </HBox>
               </VBox>
             </f:content>
           </f:Card>
 
-          <Title text="My Overview" level="H2" class="sapUiSmallMarginBottom"/>
-          <f:GridContainer class="sapUiSmallMarginBottom">
-            <f:layout>
-              <f:GridContainerSettings rowSize="6rem" columnSize="15rem" gap="1rem"/>
-            </f:layout>
-            <f:items>
-              <f:Card>
-                <f:header><card:Header title="My Assets" subtitle="Currently assigned"/></f:header>
-                <f:content><VBox class="userKpiContent"><Title id="assetsKpi" text="—" level="H1"/><ObjectStatus text="Assigned equipment" state="Information"/></VBox></f:content>
-              </f:Card>
-              <f:Card>
-                <f:header><card:Header title="Open Requests" subtitle="Awaiting resolution"/></f:header>
-                <f:content><VBox class="userKpiContent"><Title id="openKpi" text="—" level="H1"/><ObjectStatus text="Open or awaiting service" state="Warning"/></VBox></f:content>
-              </f:Card>
-              <f:Card>
-                <f:header><card:Header title="In Progress" subtitle="Being worked on"/></f:header>
-                <f:content><VBox class="userKpiContent"><Title id="progressKpi" text="—" level="H1"/><ObjectStatus text="Maintenance underway" state="Information"/></VBox></f:content>
-              </f:Card>
-              <f:Card>
-                <f:header><card:Header title="Completed" subtitle="Resolved requests"/></f:header>
-                <f:content><VBox class="userKpiContent"><Title id="completedKpi" text="—" level="H1"/><ObjectStatus text="Successfully resolved" state="Success"/></VBox></f:content>
-              </f:Card>
-            </f:items>
-          </f:GridContainer>
+          <VBox class="userSection" width="100%">
+            <VBox class="userSectionHeading">
+              <Title text="At a glance" level="H2"/>
+              <Text text="A quick summary of your assigned assets and maintenance activity."/>
+            </VBox>
+            <f:GridContainer class="userMetricGrid sapUiSmallMarginBottom">
+              <f:layout>
+                <f:GridContainerSettings rowSize="7rem" columnSize="15rem" gap="1rem"/>
+              </f:layout>
+              <f:items>
+                <f:Card class="userMetricCard userMetricAssets">
+                  <f:header><card:Header title="My Assets" subtitle="Currently assigned"/></f:header>
+                  <f:content><VBox class="userKpiContent"><Title id="assetsKpi" text="—" level="H1"/><ObjectStatus text="Equipment in your care" state="Information"/></VBox></f:content>
+                </f:Card>
+                <f:Card class="userMetricCard userMetricOpen">
+                  <f:header><card:Header title="Open Requests" subtitle="Awaiting resolution"/></f:header>
+                  <f:content><VBox class="userKpiContent"><Title id="openKpi" text="—" level="H1"/><ObjectStatus text="Needs attention" state="Warning"/></VBox></f:content>
+                </f:Card>
+                <f:Card class="userMetricCard userMetricProgress">
+                  <f:header><card:Header title="In Progress" subtitle="Service underway"/></f:header>
+                  <f:content><VBox class="userKpiContent"><Title id="progressKpi" text="—" level="H1"/><ObjectStatus text="Being worked on" state="Information"/></VBox></f:content>
+                </f:Card>
+                <f:Card class="userMetricCard userMetricComplete">
+                  <f:header><card:Header title="Completed" subtitle="Resolved requests"/></f:header>
+                  <f:content><VBox class="userKpiContent"><Title id="completedKpi" text="—" level="H1"/><ObjectStatus text="Service completed" state="Success"/></VBox></f:content>
+                </f:Card>
+              </f:items>
+            </f:GridContainer>
+          </VBox>
 
-          <Title text="My Assigned Assets" level="H2" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
-          <Table id="assetsTable" items="{/Assets}" growing="true" growingScrollToLoad="true" noDataText="No assigned assets found." >
-            <columns>
-              <Column><Text text="Asset Tag"/></Column>
-              <Column><Text text="Model"/></Column>
-              <Column><Text text="Location"/></Column>
-              <Column><Text text="Status"/></Column>
-            </columns>
-            <items>
-              <ColumnListItem type="Inactive">
-                <cells>
-                  <Text text="{asset_tag}"/>
-                  <Text text="{model}"/>
-                  <Text text="{location}"/>
-                  <ObjectStatus text="{status}"/>
-                </cells>
-              </ColumnListItem>
-            </items>
-          </Table>
+          <VBox class="userSection" width="100%">
+            <HBox class="userSectionHeading" alignItems="End" justifyContent="SpaceBetween" wrap="Wrap">
+              <VBox>
+                <Title text="My Assigned Assets" level="H2"/>
+                <Text text="Equipment currently assigned to your employee record."/>
+              </VBox>
+            </HBox>
+            <Table id="assetsTable" class="userDataTable" items="{/Assets}" growing="true" growingScrollToLoad="true" noDataText="No assigned assets found.">
+              <columns>
+                <Column><Text text="Asset Tag"/></Column>
+                <Column><Text text="Model"/></Column>
+                <Column minScreenWidth="Tablet" demandPopin="true"><Text text="Location"/></Column>
+                <Column><Text text="Status"/></Column>
+              </columns>
+              <items>
+                <ColumnListItem type="Inactive">
+                  <cells>
+                    <ObjectIdentifier title="{asset_tag}" text="{serial_number}"/>
+                    <Text text="{model}"/>
+                    <Text text="{location}"/>
+                    <ObjectStatus text="{status}"/>
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
+          </VBox>
 
-          <Title text="My Maintenance Requests" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
-          <Table id="maintenanceTable" items="{/MaintenanceRecords}" growing="true" growingScrollToLoad="true" noDataText="No maintenance requests found." >
-            <columns>
-              <Column><Text text="Reported Date"/></Column>
-              <Column><Text text="Asset ID"/></Column>
-              <Column><Text text="Description"/></Column>
-              <Column><Text text="Status"/></Column>
-            </columns>
-            <items>
-              <ColumnListItem type="Inactive">
-                <cells>
-                  <Text text="{reported_date}"/>
-                  <Text text="{asset_asset_id}"/>
-                  <Text text="{description}"/>
-                  <ObjectStatus text="{status}"/>
-                </cells>
-              </ColumnListItem>
-            </items>
-          </Table>
+          <VBox class="userSection sapUiLargeMarginTop" width="100%">
+            <VBox class="userSectionHeading">
+              <Title text="My Maintenance Requests" level="H2"/>
+              <Text text="Follow the status of issues you have reported."/>
+            </VBox>
+            <Table id="maintenanceTable" class="userDataTable" items="{/MaintenanceRecords}" growing="true" growingScrollToLoad="true" noDataText="You have no maintenance requests yet.">
+              <columns>
+                <Column><Text text="Reported Date"/></Column>
+                <Column><Text text="Asset"/></Column>
+                <Column minScreenWidth="Tablet" demandPopin="true"><Text text="Description"/></Column>
+                <Column><Text text="Status"/></Column>
+              </columns>
+              <items>
+                <ColumnListItem type="Inactive">
+                  <cells>
+                    <Text text="{reported_date}"/>
+                    <Text text="{asset_asset_id}"/>
+                    <Text text="{description}"/>
+                    <ObjectStatus text="{status}"/>
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
+          </VBox>
+          <Text text="Asset Lifecycle Management • Employee Self-Service" class="userDashboardFooter"/>
         </VBox>
       </content>
     </Page>
