@@ -1,0 +1,8 @@
+{
+  "name": "asset-app-login",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Development login page for the Asset Lifecycle application",
+  "main": "webapp/index.html",
+  "dependencies": {}
+}
