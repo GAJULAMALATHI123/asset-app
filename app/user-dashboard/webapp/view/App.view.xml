@@ -1,0 +1,95 @@
+<mvc:View
+  controllerName="userdashboard.controller.App"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:f="sap.f"
+  xmlns:card="sap.f.cards"
+  displayBlock="true">
+  <App id="userApp">
+    <Page showHeader="false" enableScrolling="true" class="userDashboardPage">
+      <content>
+        <VBox class="sapUiResponsiveContentPadding" width="100%">
+          <f:Card class="userHeroCard sapUiSmallMarginBottom">
+            <f:header>
+              <card:Header title="My Asset Workspace" subtitle="Your equipment, maintenance and service updates" />
+            </f:header>
+            <f:content>
+              <VBox class="userHeroContent" width="100%">
+                <Title text="Welcome to your workspace" level="H1"/>
+                <Text text="View your assigned assets, raise a maintenance request, and follow its progress."/>
+                <HBox wrap="Wrap" class="sapUiSmallMarginTop" alignItems="Center">
+                  <Button text="Raise Maintenance Request" type="Emphasized" icon="sap-icon://add-document" press=".onRaiseRequest"/>
+                  <Button text="Refresh" icon="sap-icon://refresh" class="sapUiTinyMarginBegin" press=".onRefresh"/>
+                </HBox>
+              </VBox>
+            </f:content>
+          </f:Card>
+          <Title text="My Overview" level="H2" class="sapUiSmallMarginBottom"/>
+          <f:GridContainer class="sapUiSmallMarginBottom">
+            <f:layout>
+              <f:GridContainerSettings rowSize="6rem" columnSize="15rem" gap="1rem"/>
+            </f:layout>
+            <f:items>
+              <f:Card>
+                <f:header><card:Header title="My Assets" subtitle="Currently assigned"/></f:header>
+                <f:content><VBox class="userKpiContent"><Title id="assetsKpi" text="—" level="H1"/><ObjectStatus text="Assigned equipment" state="Information"/></VBox></f:content>
+              </f:Card>
+              <f:Card>
+                <f:header><card:Header title="Open Requests" subtitle="Awaiting resolution"/></f:header>
+                <f:content><VBox class="userKpiContent"><Title id="openKpi" text="—" level="H1"/><ObjectStatus text="Open or in progress" state="Warning"/></VBox></f:content>
+              </f:Card>
+              <f:Card>
+                <f:header><card:Header title="In Progress" subtitle="Being worked on"/></f:header>
+                <f:content><VBox class="userKpiContent"><Title id="progressKpi" text="—" level="H1"/><ObjectStatus text="Maintenance underway" state="Information"/></VBox></f:content>
+              </f:Card>
+              <f:Card>
+                <f:header><card:Header title="Completed" subtitle="Resolved requests"/></f:header>
+                <f:content><VBox class="userKpiContent"><Title id="completedKpi" text="—" level="H1"/><ObjectStatus text="Successfully resolved" state="Success"/></VBox></f:content>
+              </f:Card>
+            </f:items>
+          </f:GridContainer>
+          <Title text="My Assigned Assets" level="H2" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
+          <MessageStrip text="Asset records will appear here after the User service is restricted to the signed-in employee. This prevents one user from seeing another employee's information." type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+          <Table id="assetsTable" growing="true" noDataText="No authorized asset data loaded yet." items="{/Assets}">
+            <columns>
+              <Column><Text text="Asset Tag"/></Column>
+              <Column><Text text="Model"/></Column>
+              <Column><Text text="Location"/></Column>
+              <Column><Text text="Status"/></Column>
+            </columns>
+            <items>
+              <ColumnListItem>
+                <cells>
+                  <Text text="{asset_tag}"/>
+                  <Text text="{model}"/>
+                  <Text text="{location}"/>
+                  <ObjectStatus text="{status}"/>
+                </cells>
+              </ColumnListItem>
+            </items>
+          </Table>
+          <Title text="My Maintenance Requests" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
+          <MessageStrip text="Request tracking will be connected after employee-specific backend filtering and the request submission flow are implemented." type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+          <Table id="maintenanceTable" growing="true" noDataText="No authorized maintenance data loaded yet." items="{/MaintenanceRecords}">
+            <columns>
+              <Column><Text text="Reported Date"/></Column>
+              <Column><Text text="Asset"/></Column>
+              <Column><Text text="Description"/></Column>
+              <Column><Text text="Status"/></Column>
+            </columns>
+            <items>
+              <ColumnListItem>
+                <cells>
+                  <Text text="{reported_date}"/>
+                  <Text text="{asset_asset_id}"/>
+                  <Text text="{description}"/>
+                  <ObjectStatus text="{status}"/>
+                </cells>
+              </ColumnListItem>
+            </items>
+          </Table>
+        </VBox>
+      </content>
+    </Page>
+  </App>
+</mvc:View>
