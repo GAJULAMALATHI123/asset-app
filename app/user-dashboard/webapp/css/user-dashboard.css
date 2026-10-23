@@ -1,0 +1,16 @@
+.userDashboardPage {
+  background: var(--sapBackgroundColor);
+}
+.userHeroCard {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.userHeroContent {
+  padding: 1.5rem;
+  gap: .5rem;
+}
+.userKpiContent {
+  padding: 1rem;
+  min-height: 4rem;
+  gap: .5rem;
+}
