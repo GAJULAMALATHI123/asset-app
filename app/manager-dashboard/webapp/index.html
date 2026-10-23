@@ -31,5 +31,27 @@
         data-settings='{"id" : "managerdashboard"}'
         data-handle-validation="true"
     ></div>
-</body>
+
+    <style>
+      #assetAppSignOut { position: fixed; top: 12px; right: 16px; z-index: 10000; padding: 9px 14px;
+        border: 1px solid #b8c9d9; border-radius: 8px; background: #fff; color: #173b57;
+        font: 600 13px Arial, sans-serif; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+      #assetAppSignOut:hover { background: #edf6fc; }
+    </style>
+    <button id="assetAppSignOut" type="button" aria-label="Sign out of Asset Lifecycle">Sign Out</button>
+    <script>
+      (function () {
+        var button = document.getElementById('assetAppSignOut');
+        if (!button) return;
+        button.addEventListener('click', async function () {
+          button.disabled = true;
+          button.textContent = 'Signing out…';
+          try {
+            await fetch('/auth/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' });
+          } catch (_) { /* Always leave the dashboard even if the network request fails. */ }
+          window.location.replace('/login/index.html');
+        });
+      })();
+    </script>
+  </body>
 </html>
