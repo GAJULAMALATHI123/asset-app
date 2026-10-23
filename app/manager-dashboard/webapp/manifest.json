@@ -215,6 +215,15 @@
                     "primary": [
                       {
                         "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant"
+                      },
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByLocation"
+                      },
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByCategory"
+                      },
+                      {
+                        "annotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#ByDepartment"
                       }
                     ],
                     "secondary": [
