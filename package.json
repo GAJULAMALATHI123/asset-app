@@ -73,7 +73,6 @@
   "sapux": [
     "app/adminasset",
     "app/manager-dashboard",
-    "app/user-dashboard",
-    "app/login"
+    "app/user-dashboard"
   ]
 }
