@@ -1,0 +1,30 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "asset.app.login",
+    "type": "application",
+    "title": "Asset Lifecycle Login",
+    "description": "Development sign-in page for the Asset Lifecycle application",
+    "applicationVersion": {
+      "version": "1.0.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {}
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    }
+  }
+}
