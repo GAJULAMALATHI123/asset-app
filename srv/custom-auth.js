@@ -114,6 +114,9 @@ module.exports = function developmentSessionAuth(req, res, next) {
 
   const protectedDashboardRoles = requiredRolesFor(path);
   if (protectedDashboardRoles) {
+    // Prevent browsers from restoring a protected dashboard from a stale HTTP cache after sign-out.
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
     if (!req.assetAppUser) return res.redirect(302, LOGIN_PATH);
     const allowed = protectedDashboardRoles.some(role => req.assetAppUser.roles.includes(role));
     if (!allowed) return res.redirect(302, LOGIN_PATH + '?error=role');
