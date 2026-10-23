@@ -194,6 +194,31 @@ annotate AssetManagerService.AssetFacts with @(
   }
 );
 
+
+  // Additional Manager dashboard breakdowns
+  UI.Chart #Category: {
+    Title: 'Assets by category', ChartType: #Bar,
+    Dimensions: [ category ],
+    DimensionAttributes: [ { Dimension: category, Role: #Category } ],
+    Measures: [ assetCount ],
+    MeasureAttributes: [ { Measure: assetCount, Role: #Axis1, DataPoint: '@UI.DataPoint#Count' } ]
+  },
+  UI.Chart #Department: {
+    Title: 'Assets by department', ChartType: #Bar,
+    Dimensions: [ department ],
+    DimensionAttributes: [ { Dimension: department, Role: #Category } ],
+    Measures: [ assetCount ],
+    MeasureAttributes: [ { Measure: assetCount, Role: #Axis1, DataPoint: '@UI.DataPoint#Count' } ]
+  },
+  UI.PresentationVariant #ByCategory: {
+    Text: 'By category',
+    Visualizations: [ '@UI.Chart#Category', '@UI.LineItem' ]
+  },
+  UI.PresentationVariant #ByDepartment: {
+    Text: 'By department',
+    Visualizations: [ '@UI.Chart#Department', '@UI.LineItem' ]
+  }
+
 extend service AssetManagerService with {
   @readonly entity ReportLogs as projection on db.ReportLog;
   function exportPdf(filter : String) returns LargeString;                     // base64 PDF (FR-022)
