@@ -102,11 +102,6 @@
           "target": "AssetFactsObjectPage"
         },
         {
-          "name": "AttentionList",
-          "pattern": "Attention:?query:",
-          "target": "AttentionList"
-        },
-        {
           "name": "AssetRequestsList",
           "pattern": "AssetRequests:?query:",
           "target": "AssetRequestsList"
@@ -173,11 +168,6 @@
                     "selectionMode": "None"
                   },
                   "actions": {
-                    "GoAttention": {
-                      "press": "managerdashboard.ext.Nav.goAttention",
-                      "text": "Operational attention",
-                      "enabled": true
-                    },
                     "DownloadPdf": {
                       "press": "managerdashboard.ext.Nav.downloadPdf",
                       "text": "Download PDF",
@@ -246,27 +236,6 @@
             "settings": {
               "editableHeaderContent": false,
               "contextPath": "/AssetFacts"
-            }
-          }
-        },
-        "AttentionList": {
-          "type": "Component",
-          "id": "AttentionList",
-          "name": "sap.fe.templates.ListReport",
-          "options": {
-            "settings": {
-              "contextPath": "/AttentionItems",
-              "initialLoad": "Enabled",
-              "variantManagement": "None",
-              "hideFilterBar": true,
-              "controlConfiguration": {
-                "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": {
-                    "type": "ResponsiveTable",
-                    "selectionMode": "None"
-                  }
-                }
-              }
             }
           }
         },
