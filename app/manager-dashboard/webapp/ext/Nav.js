@@ -95,10 +95,6 @@ function (Component, Element, Dialog, Button, Input, Label, MessageToast, Messag
       if (comp) { comp.getRouter().navTo("MaintenanceRecordsList"); }
       else { MessageBox.error("The Maintenance Tracking page is not available."); }
     },
-    goAttention: function () {
-      var comp = Component.registry.filter(function (c) { return c.getRouter && c.getRouter() && c.getRouter().getRoute("AttentionList"); })[0];
-      if (comp) { comp.getRouter().navTo("AttentionList"); }
-    },
     downloadPdf: function () {
       var filter = currentFilter();
       if (filter === null) {
