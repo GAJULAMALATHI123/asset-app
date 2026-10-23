@@ -50,7 +50,7 @@
           </f:GridContainer>
           <Title text="My Assigned Assets" level="H2" class="sapUiSmallMarginTop sapUiSmallMarginBottom"/>
           <MessageStrip text="Asset records will appear here after the User service is restricted to the signed-in employee. This prevents one user from seeing another employee's information." type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
-          <Table id="assetsTable" growing="true" noDataText="No authorized asset data loaded yet." items="{/Assets}">
+          <Table id="assetsTable" growing="true" noDataText="No authorized asset data loaded yet." >
             <columns>
               <Column><Text text="Asset Tag"/></Column>
               <Column><Text text="Model"/></Column>
@@ -70,7 +70,7 @@
           </Table>
           <Title text="My Maintenance Requests" level="H2" class="sapUiLargeMarginTop sapUiSmallMarginBottom"/>
           <MessageStrip text="Request tracking will be connected after employee-specific backend filtering and the request submission flow are implemented." type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
-          <Table id="maintenanceTable" growing="true" noDataText="No authorized maintenance data loaded yet." items="{/MaintenanceRecords}">
+          <Table id="maintenanceTable" growing="true" noDataText="No authorized maintenance data loaded yet." >
             <columns>
               <Column><Text text="Reported Date"/></Column>
               <Column><Text text="Asset"/></Column>
