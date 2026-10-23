@@ -2,7 +2,7 @@ const cds = require('@sap/cds');
 
 module.exports = class AssetManagerService extends cds.ApplicationService {
   init() {
-    const { Asset, MaintenanceRecord, AssetAssignment, Employee, AssetCategory, AssetRequest, ReportLog } = cds.entities('asset.lifecycle.db');
+    const { Employee, AssetCategory, AssetRequest, ReportLog } = cds.entities('asset.lifecycle.db');
     const day = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
 
     // Manager asset request workflow: Managers may submit requests and view only their own requests.
@@ -33,36 +33,6 @@ module.exports = class AssetManagerService extends cds.ApplicationService {
         category_asset_category_id: categoryId, reason: reason.trim(), status: 'PENDING'
       });
       return 'Asset request submitted to Admin for review.';
-    });
-
-    // ================= Operational attention (list of real items) =================
-    this.on('READ', 'AttentionItems', async () => {
-      const today = day(0);
-      const assets = await SELECT.from(Asset).columns('asset_id', 'asset_tag', 'model', 'status',
-        'warranty_expiry', 'retirement_date', 'current_holder_employee_id');
-      const emps = await SELECT.from(Employee).columns('employee_id', 'full_name');
-      const A = Object.fromEntries(assets.map(a => [a.asset_id, a]));
-      const E = Object.fromEntries(emps.map(e => [e.employee_id, e.full_name]));
-      const holder = a => (a && E[a.current_holder_employee_id]) || '';
-      const rows = [];
-      const maint = await SELECT.from(MaintenanceRecord)
-        .where({ status: { in: ['OPEN', 'IN_PROGRESS'] }, reported_date: { '<=': day(-7) } });
-      for (const m of maint) { const a = A[m.asset_asset_id];
-        rows.push({ ID: 'M-' + m.maintenance_id, category: 'Maintenance open longer than 7 days', asset_tag: a?.asset_tag,
-          model: a?.model, detail: `${m.type || 'Maintenance'}, reported ${m.reported_date}`, relevant_date: m.reported_date, owner: holder(a) }); }
-      for (const a of assets.filter(x => x.status === 'RETIRED'))
-        rows.push({ ID: 'R-' + a.asset_id, category: 'Retired, ready to archive', asset_tag: a.asset_tag, model: a.model,
-          detail: 'Retired, not yet archived', relevant_date: a.retirement_date, owner: '' });
-      for (const a of assets.filter(x => x.warranty_expiry && x.warranty_expiry >= today && x.warranty_expiry <= day(30)
-                                         && !['RETIRED', 'ARCHIVED'].includes(x.status)))
-        rows.push({ ID: 'W-' + a.asset_id, category: 'Warranty expiring within 30 days', asset_tag: a.asset_tag, model: a.model,
-          detail: `Warranty ends ${a.warranty_expiry}`, relevant_date: a.warranty_expiry, owner: holder(a) });
-      const late = await SELECT.from(AssetAssignment).where({ assignment_status: 'ACTIVE', expected_return_date: { '<': today } });
-      for (const s of late) { const a = A[s.asset_asset_id];
-        rows.push({ ID: 'O-' + s.assignment_id, category: 'Return overdue', asset_tag: a?.asset_tag, model: a?.model,
-          detail: `Expected back ${s.expected_return_date}`, relevant_date: s.expected_return_date, owner: E[s.employee_employee_id] || '' }); }
-      rows.$count = rows.length;
-      return rows;
     });
 
     // ================= Reports =================
