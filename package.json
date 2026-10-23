@@ -19,7 +19,8 @@
     "start": "cds-serve",
     "watch": "cds watch",
     "watch-adminasset": "cds watch --open adminasset/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-manager-dashboard": "cds watch --open manager-dashboard/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-manager-dashboard": "cds watch --open manager-dashboard/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-user-dashboard": "cds watch --open user-dashboard/webapp/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "cds": {
     "requires": {
@@ -28,16 +29,26 @@
           "kind": "mocked",
           "users": {
             "alice": {
-              "roles": ["Admin", "Manager", "User"]
+              "roles": [
+                "Admin",
+                "Manager",
+                "User"
+              ]
             },
             "admin": {
-              "roles": ["Admin"]
+              "roles": [
+                "Admin"
+              ]
             },
             "manager": {
-              "roles": ["Manager"]
+              "roles": [
+                "Manager"
+              ]
             },
             "user": {
-              "roles": ["User"]
+              "roles": [
+                "User"
+              ]
             }
           }
         },
@@ -52,6 +63,12 @@
       }
     }
   },
-  "workspaces": ["app/*"],
-  "sapux": ["app/adminasset", "app/manager-dashboard"]
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/adminasset",
+    "app/manager-dashboard",
+    "app/user-dashboard"
+  ]
 }
