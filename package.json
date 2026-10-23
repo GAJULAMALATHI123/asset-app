@@ -29,26 +29,19 @@
           "kind": "mocked",
           "users": {
             "alice": {
-              "roles": [
-                "Admin",
-                "Manager",
-                "User"
-              ]
+              "roles": ["Admin", "Manager", "User"]
             },
             "admin": {
-              "roles": [
-                "Admin"
-              ]
+              "roles": ["Admin"]
             },
             "manager": {
-              "roles": [
-                "Manager"
-              ]
+              "roles": ["Manager"]
             },
             "user": {
-              "roles": [
-                "User"
-              ]
+              "roles": ["User"],
+              "attr": {
+                "email": "asha@corp.com"
+              }
             }
           }
         },
@@ -63,9 +56,7 @@
       }
     }
   },
-  "workspaces": [
-    "app/*"
-  ],
+  "workspaces": ["app/*"],
   "sapux": [
     "app/adminasset",
     "app/manager-dashboard",
