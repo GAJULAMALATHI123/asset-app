@@ -368,17 +368,22 @@
               "variantManagement": "Page",
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": { "type": "ResponsiveTable", "selectionMode": "Single" },
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectionMode": "Single"
+                  },
                   "actions": {
                     "FulfillRequest": {
                       "press": "adminasset.ext.RequestActions.fulfill",
                       "text": "Approve & assign",
-                      "enabled": "adminasset.ext.RequestActions.enabledForSingleSelect"
+                      "enabled": "adminasset.ext.RequestActions.enabledForSingleSelect",
+                      "requiresSelection": true
                     },
                     "RejectRequest": {
                       "press": "adminasset.ext.RequestActions.reject",
                       "text": "Reject request",
-                      "enabled": "adminasset.ext.RequestActions.enabledForSingleSelect"
+                      "enabled": "adminasset.ext.RequestActions.enabledForSingleSelect",
+                      "requiresSelection": true
                     }
                   }
                 }
