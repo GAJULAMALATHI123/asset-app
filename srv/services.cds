@@ -19,7 +19,7 @@ service AssetAdminService @(path: '/odata/v4/admin', requires: 'Admin', impl: '.
   };
   @readonly entity AssetAssignments   as projection on db.AssetAssignment;
   @readonly entity OwnershipLedgers   as projection on db.OwnershipLedger;   // FR-007
-  entity MaintenanceRecords as projection on db.MaintenanceRecord actions {
+  @readonly entity MaintenanceRecords as projection on db.MaintenanceRecord actions {
     action approveMaintenance() returns String;
     action rejectMaintenance(reason : String) returns String;
   };
@@ -97,6 +97,35 @@ annotate AssetAdminService.AssetRequests with @(
   ]
 );
 
+
+annotate AssetAdminService.MaintenanceRecords with @(
+  UI.HeaderInfo: { TypeName: 'Maintenance request', TypeNamePlural: 'Maintenance requests',
+    Title: { Value: maintenance_id }, Description: { Value: description } },
+  UI.LineItem: [
+    { Value: asset.asset_tag, Label: 'Asset' },
+    { Value: reported_by.full_name, Label: 'Reported by' },
+    { Value: description, Label: 'Issue' },
+    { Value: reported_date, Label: 'Reported date' },
+    { Value: status, Label: 'Status' },
+    { $Type: 'UI.DataFieldForAction', Action: 'AssetAdminService.approveMaintenance', Label: 'Approve' },
+    { $Type: 'UI.DataFieldForAction', Action: 'AssetAdminService.rejectMaintenance', Label: 'Reject' }
+  ]
+);
+
+annotate AssetManagerService.MaintenanceRecords with @(
+  UI.HeaderInfo: { TypeName: 'Maintenance work', TypeNamePlural: 'Maintenance work',
+    Title: { Value: maintenance_id }, Description: { Value: description } },
+  UI.LineItem: [
+    { Value: asset.asset_tag, Label: 'Asset' },
+    { Value: service_vendor.name, Label: 'Vendor' },
+    { Value: description, Label: 'Issue' },
+    { Value: status, Label: 'Status' },
+    { Value: reported_date, Label: 'Reported date' },
+    { Value: vendor_assigned_at, Label: 'Vendor assigned' },
+    { $Type: 'UI.DataFieldForAction', Action: 'AssetManagerService.assignMaintenanceVendor', Label: 'Assign Vendor' },
+    { $Type: 'UI.DataFieldForAction', Action: 'AssetManagerService.completeMaintenanceWork', Label: 'Complete Repair' }
+  ]
+);
 
 annotate AssetManagerService.AttentionItems with @(
   UI.HeaderInfo: {
