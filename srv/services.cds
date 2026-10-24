@@ -19,7 +19,10 @@ service AssetAdminService @(path: '/odata/v4/admin', requires: 'Admin', impl: '.
   };
   @readonly entity AssetAssignments   as projection on db.AssetAssignment;
   @readonly entity OwnershipLedgers   as projection on db.OwnershipLedger;   // FR-007
-  @readonly entity MaintenanceRecords as projection on db.MaintenanceRecord;
+  entity MaintenanceRecords as projection on db.MaintenanceRecord actions {
+    action approveMaintenance() returns String;
+    action rejectMaintenance(reason : String) returns String;
+  };
   @readonly entity ArchiveRecords     as projection on db.ArchiveRecord;
   @readonly entity AssetRequests      as projection on db.AssetRequest;
   action fulfillAssetRequest(requestId : UUID, assetId : UUID, distributionDate : Date, remarks : String) returns String;
@@ -39,7 +42,10 @@ service AssetManagerService @(path: '/odata/v4/manager', requires: ['Manager','A
   @readonly entity Assets             as projection on db.Asset;
   @readonly entity AssetAssignments   as projection on db.AssetAssignment;
   @readonly entity OwnershipLedgers   as projection on db.OwnershipLedger;
-  @readonly entity MaintenanceRecords as projection on db.MaintenanceRecord;
+  entity MaintenanceRecords as projection on db.MaintenanceRecord actions {
+    action assignMaintenanceVendor(vendorId : UUID) returns String;
+    action completeMaintenanceWork(outcome : db.MaintenanceOutcome, cost : Decimal(10,2), coveredByWarranty : Boolean, nextDueDate : Date) returns String;
+  };
 
   // Computed by manager-service.js; no database table is required.
   @readonly @cds.persistence.skip entity AttentionItems {
