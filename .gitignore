@@ -1,0 +1,17 @@
+# Dependencies and generated output
+node_modules/
+**/node_modules/
+gen/
+dist/
+mta_archives/
+resources/
+
+# Local/private CAP configuration and credentials
+.cdsrc-private.json
+.env
+.env.*
+!.env.example
+
+# Local editor and operating-system files
+.DS_Store
+.vscode/
