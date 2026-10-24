@@ -21,7 +21,7 @@ async function openMaintenance(req, assetId, type, description, reportedByEmploy
   if (!['AVAILABLE', 'ASSIGNED'].includes(a.status))
     req.reject(400, `Maintenance not allowed for ${a.status} assets`);
   const open = await SELECT.one.from(MaintenanceRecord)
-    .where({ asset_asset_id: assetId, status: { in: ['OPEN', 'IN_PROGRESS'] } });
+    .where({ asset_asset_id: assetId, status: { in: ['OPEN', 'APPROVED', 'IN_PROGRESS'] } });
   if (open) req.reject(400, 'An open maintenance request already exists');
   await INSERT.into(MaintenanceRecord).entries({ asset_asset_id: assetId, type, description,
     reported_by_employee_id: reportedByEmployeeId, reported_date: today(), status: 'OPEN' });

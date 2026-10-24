@@ -89,6 +89,12 @@ entity MaintenanceRecord : managed {
   reported_date  : Date;
   completed_date : Date;
   status         : MaintenanceStatus;
+  approved_by    : String(100);
+  approved_at    : Timestamp;
+  rejected_by    : String(100);
+  rejected_at    : Timestamp;
+  rejection_reason : LargeString;
+  vendor_assigned_at : Timestamp;
   outcome        : MaintenanceOutcome;
   cost           : Decimal(10,2);
   covered_by_warranty : Boolean;

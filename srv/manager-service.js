@@ -2,7 +2,7 @@ const cds = require('@sap/cds');
 
 module.exports = class AssetManagerService extends cds.ApplicationService {
   init() {
-    const { Asset, MaintenanceRecord, AssetAssignment, Employee, AssetCategory, AssetRequest, ReportLog } = cds.entities('asset.lifecycle.db');
+    const { Asset, MaintenanceRecord, AssetAssignment, Employee, AssetCategory, AssetRequest, ReportLog, Vendor } = cds.entities('asset.lifecycle.db');
     const day = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
 
     // Manager asset request workflow: Managers may submit requests and view only their own requests.
@@ -33,6 +33,49 @@ module.exports = class AssetManagerService extends cds.ApplicationService {
         category_asset_category_id: categoryId, reason: reason.trim(), status: 'PENDING'
       });
       return 'Asset request submitted to Admin for review.';
+    });
+
+    // Manager assigns an approved request to an active vendor. Assignment starts the repair.
+    const maintenanceIdOf = req => {
+      const p = req.params && req.params[0];
+      return (p && (p.maintenance_id || p.maintenanceId)) || (req.data && req.data.maintenance_id);
+    };
+    this.on('assignMaintenanceVendor', 'MaintenanceRecords', async req => {
+      const id = maintenanceIdOf(req);
+      const vendorId = req.data.vendorId;
+      if (!id || !vendorId) req.reject(400, 'Maintenance request and vendor are required');
+      const m = await SELECT.one.from(MaintenanceRecord).where({ maintenance_id: id });
+      if (!m) req.reject(404, 'Maintenance request not found');
+      if (m.status !== 'APPROVED') req.reject(400, 'Only approved maintenance requests can be assigned to a vendor');
+      const vendor = await SELECT.one.from(Vendor).where({ vendor_id: vendorId });
+      if (!vendor) req.reject(404, 'Vendor not found');
+      if (vendor.is_active === false) req.reject(400, 'Selected vendor is inactive');
+      await UPDATE(MaintenanceRecord).set({
+        service_vendor_vendor_id: vendorId, vendor_assigned_at: new Date(), status: 'IN_PROGRESS'
+      }).where({ maintenance_id: id });
+      return 'Vendor assigned. Maintenance status changed to IN_PROGRESS.';
+    });
+
+    // Manager records completion after confirming the vendor has finished the repair.
+    this.on('completeMaintenanceWork', 'MaintenanceRecords', async req => {
+      const id = maintenanceIdOf(req);
+      const { outcome, cost, coveredByWarranty, nextDueDate } = req.data;
+      if (!id) req.reject(400, 'Maintenance request ID is required');
+      const m = await SELECT.one.from(MaintenanceRecord).where({ maintenance_id: id });
+      if (!m) req.reject(404, 'Maintenance request not found');
+      if (m.status !== 'IN_PROGRESS') req.reject(400, 'Only IN_PROGRESS maintenance work can be completed');
+      if (!outcome) req.reject(400, 'Repair outcome is required');
+      if (cost != null && Number(cost) < 0) req.reject(400, 'Repair cost cannot be negative');
+      await UPDATE(MaintenanceRecord).set({
+        status: 'COMPLETED', completed_date: new Date().toISOString().slice(0, 10),
+        outcome, cost: cost == null ? 0 : cost, covered_by_warranty: Boolean(coveredByWarranty),
+        next_due_date: nextDueDate || null
+      }).where({ maintenance_id: id });
+      const asset = await SELECT.one.from(Asset).where({ asset_id: m.asset_asset_id });
+      if (asset) await UPDATE(Asset).set({
+        status: asset.current_holder_employee_id ? 'ASSIGNED' : 'AVAILABLE'
+      }).where({ asset_id: m.asset_asset_id });
+      return 'Repair completed and maintenance record updated.';
     });
 
     // ================= Operational attention (list of real items) =================

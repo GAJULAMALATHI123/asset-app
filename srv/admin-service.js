@@ -126,6 +126,39 @@ module.exports = class AssetAdminService extends cds.ApplicationService {
       return reload(id);
     });
 
+    // Maintenance request review: Admin is the only role that can approve or reject.
+    const maintenanceIdOf = req => {
+      const p = req.params && req.params[0];
+      return (p && (p.maintenance_id || p.maintenanceId)) || (req.data && req.data.maintenance_id);
+    };
+    this.on('approveMaintenance', 'MaintenanceRecords', async req => {
+      const id = maintenanceIdOf(req);
+      need(req, id, 'Maintenance request ID is required');
+      const m = await SELECT.one.from(MaintenanceRecord).where({ maintenance_id: id });
+      if (!m) req.reject(404, 'Maintenance request not found');
+      need(req, m.status === 'OPEN', 'Only OPEN maintenance requests can be approved');
+      await UPDATE(MaintenanceRecord).set({
+        status: 'APPROVED', approved_by: req.user.id, approved_at: new Date()
+      }).where({ maintenance_id: id });
+      return 'Maintenance request approved. The Manager can now coordinate the repair.';
+    });
+    this.on('rejectMaintenance', 'MaintenanceRecords', async req => {
+      const id = maintenanceIdOf(req);
+      const reason = String(req.data.reason || '').trim();
+      need(req, id, 'Maintenance request ID is required');
+      need(req, reason, 'Please provide a rejection reason');
+      const m = await SELECT.one.from(MaintenanceRecord).where({ maintenance_id: id });
+      if (!m) req.reject(404, 'Maintenance request not found');
+      need(req, m.status === 'OPEN', 'Only OPEN maintenance requests can be rejected');
+      await UPDATE(MaintenanceRecord).set({
+        status: 'REJECTED', rejected_by: req.user.id, rejected_at: new Date(), rejection_reason: reason
+      }).where({ maintenance_id: id });
+      const a = await SELECT.one.from(Asset).where({ asset_id: m.asset_asset_id });
+      if (a) await UPDATE(Asset).set({ status: a.current_holder_employee_id ? 'ASSIGNED' : 'AVAILABLE' })
+        .where({ asset_id: m.asset_asset_id });
+      return 'Maintenance request rejected.';
+    });
+
     // ---- FR-010 ----
     this.on('retire', Assets, async req => {
       const id = idOf(req.params[0]); const { reason, retirementDate } = req.data;
